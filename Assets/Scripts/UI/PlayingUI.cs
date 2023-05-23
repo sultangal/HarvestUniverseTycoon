@@ -22,6 +22,12 @@ public class PlayingUI : MonoBehaviour
             score_UI.gameObject.SetActive(false);  
         }
 
+        if (GameManager.Instance.IsGameEnd())
+        {
+            joystick_UI.gameObject.SetActive(false);
+            score_UI.gameObject.SetActive(false);
+        }
+
         if (GameManager.Instance.IsGamePlaying())
         {
             joystick_UI.gameObject.SetActive(true);

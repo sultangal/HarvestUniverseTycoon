@@ -7,13 +7,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private Transform meshForPointsSource;
+
     public event EventHandler OnScoreChanged;
     public event EventHandler OnGameStateChanged;
 
     public enum GameState
     {
         WaitingToStart,
-        GamePlaying
+        GamePlaying,
+        GameEnd
     }
     private GameState state;
     public static GameManager Instance {  get; private set; }
@@ -41,7 +44,9 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        state = GameState.WaitingToStart;
+        playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
+        Debug.Log("points quantity: " + playerData.pointsQuantity);
+        SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
@@ -55,6 +60,9 @@ public class GameManager : MonoBehaviour
         playerData.score++;
         OnScoreChanged?.Invoke(this, EventArgs.Empty);
         //WriteScoreToFile();
+
+        if (IsScoreAchieved())
+            SetGameState(GameState.GameEnd);
     }
 
     private void WriteScoreToFile()
@@ -76,6 +84,11 @@ public class GameManager : MonoBehaviour
         return state == GameState.WaitingToStart;       
     }
 
+    public bool IsGameEnd()
+    {
+        return state == GameState.GameEnd;
+    }
+
     public void SetGameState(GameState state)
     {
         this.state = state;
@@ -83,8 +96,14 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private bool IsScoreAchieved()
+    {
+        return playerData.score == playerData.pointsQuantity;
+    }
+
     private class PlayerData
     {
         public int score = 0;
+        public int pointsQuantity = 0;
     }
 }

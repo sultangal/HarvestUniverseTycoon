@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4a37ac1b9877447bbd36aec3b4ddb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshForPointsSource: {fileID: 270958341}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
