@@ -15,7 +15,7 @@ public class MainMenuUI : MonoBehaviour
 
         btnPlay.GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameManager.Instance.SetGameState(GameManager.GameState.GamePlaying);
+            GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
             btnPlay.gameObject.SetActive(false);
         });
 

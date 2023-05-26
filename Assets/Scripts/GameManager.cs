@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         WaitingToStart,
-        GamePlaying,
-        GameEnd
+        GameSessionPlaying,
+        GameSessionEnd
     }
     private GameState state;
     public static GameManager Instance { get; private set; }
@@ -62,7 +62,10 @@ public class GameManager : MonoBehaviour
         //WriteScoreToFile();
 
         if (IsScoreAchieved())
-            SetGameState(GameState.GameEnd);
+        {
+            SetGameState(GameState.GameSessionEnd);
+            playerData.score = 0;
+        }
     }
 
     private void WriteScoreToFile()
@@ -77,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsGamePlaying()
     {
-        return state == GameState.GamePlaying;
+        return state == GameState.GameSessionPlaying;
     }
     public bool IsGameWaitingToStart()
     {
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameEnd()
     {
-        return state == GameState.GameEnd;
+        return state == GameState.GameSessionEnd;
     }
 
     public void SetGameState(GameState state)
