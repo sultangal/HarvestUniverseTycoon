@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         GameEnd
     }
     private GameState state;
-    public static GameManager Instance {  get; private set; }
+    public static GameManager Instance { get; private set; }
     private PlayerData playerData;
 #if UNITY_EDITOR
     private readonly static string appPath = Application.dataPath;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         playerData = new PlayerData();
         //ReadScoreFromFile();
-        
+
     }
     private void Start()
     {
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     }
     public bool IsGameWaitingToStart()
     {
-        return state == GameState.WaitingToStart;       
+        return state == GameState.WaitingToStart;
     }
 
     public bool IsGameEnd()

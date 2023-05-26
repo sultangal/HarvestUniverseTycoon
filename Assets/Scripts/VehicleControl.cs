@@ -11,9 +11,15 @@ public class VehicleControl : MonoBehaviour
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
     [SerializeField] private Joystick joystick;
+
+    private void Start()
+    {
+        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+    }
     private void Update()
     {
-        if (GameManager.Instance.IsGamePlaying()) {
+        if (GameManager.Instance.IsGamePlaying())
+        {
             inputDirection.y = joystick.Horizontal;
             inputDirection.x = joystick.Vertical;
             inputDirection.Normalize();
@@ -40,7 +46,7 @@ public class VehicleControl : MonoBehaviour
     }
 
     private void Direction()
-    {           
+    {
         if (inputDirection != Vector2.zero)
         {
             vehicleAngles.x = vehicleRef.transform.localEulerAngles.x;
@@ -48,6 +54,21 @@ public class VehicleControl : MonoBehaviour
             vehicleAngles.z = vehicleRef.transform.localEulerAngles.z;
 
             vehicleRef.transform.localEulerAngles = vehicleAngles;
+
+        }
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    {
+        if (GameManager.Instance.IsGameEnd())
+        {
+            inputDirection.y = 0.0f;
+            inputDirection.x = 0.0f;
+            joystick.CancelInvoke();
+        }
+
+        if (GameManager.Instance.IsGamePlaying())
+        {
 
         }
     }

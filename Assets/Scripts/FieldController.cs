@@ -6,11 +6,26 @@ public class FieldController : MonoBehaviour
 {
     [SerializeField] private FieldItemSO fieldItemSO;
     [SerializeField] private Transform meshForPointsSource;
-    
+
+
 
     private System.Random random = new System.Random();
     private float randomMultiplier = 1f;
     void Start()
+    {
+        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        InstantiateFieldItems();
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    {
+        if (GameManager.Instance.IsGameEnd())
+        {
+            InstantiateFieldItems();
+        }
+    }
+
+    private void InstantiateFieldItems()
     {
         Mesh mesh = meshForPointsSource.GetComponent<MeshFilter>().mesh;
         foreach (var vertex in mesh.vertices)
@@ -24,7 +39,7 @@ public class FieldController : MonoBehaviour
             Transform item = Instantiate(fieldItemSO.itemPrefab, rndBias, Quaternion.LookRotation(rndBias));
             Vector3 turnPlease = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnPlease;
-            item.Rotate(new(0.0f, (float)random.NextDouble()*100, 0.0f));
-        }        
+            item.Rotate(new(0.0f, (float)random.NextDouble() * 100, 0.0f));
+        }
     }
 }

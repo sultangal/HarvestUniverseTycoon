@@ -8,7 +8,7 @@ public class AppSettings : MonoBehaviour
     void Start()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Debug.Log("target FPS before "+Application.targetFrameRate);
+        Debug.Log("target FPS before " + Application.targetFrameRate);
         Application.targetFrameRate = 60;
         Debug.Log("Screen refresh rate " + Screen.currentResolution.refreshRateRatio.value);
         Debug.Log("target FPS after " + Application.targetFrameRate);
