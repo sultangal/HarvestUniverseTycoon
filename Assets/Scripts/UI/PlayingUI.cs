@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayingUI : MonoBehaviour
 {
-    [SerializeField] Transform joystick_UI;
+    [SerializeField] FloatingJoystick joystick_UI;
     [SerializeField] Transform score_UI;
     [SerializeField] Transform countdown_UI;
 
@@ -22,6 +22,7 @@ public class PlayingUI : MonoBehaviour
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGameWaitingToStart()) {
+            //joystick_UI.CancelInvoke();
             joystick_UI.gameObject.SetActive(false);
             score_UI.gameObject.SetActive(false);
             countdown_UI.gameObject.SetActive(false);  
@@ -29,6 +30,7 @@ public class PlayingUI : MonoBehaviour
 
         if (GameManager.Instance.IsGameSessionEnded())
         {
+            //joystick_UI.CancelInvoke();
             joystick_UI.gameObject.SetActive(false);
             score_UI.gameObject.SetActive(false);
             countdown_UI.gameObject.SetActive(false);
@@ -39,8 +41,7 @@ public class PlayingUI : MonoBehaviour
             joystick_UI.gameObject.SetActive(true);
             score_UI.gameObject.SetActive(true);
             countdown_UI.gameObject.SetActive(true);
-        }
-       
+        }      
     }
 
     private void Update()

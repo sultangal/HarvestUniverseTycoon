@@ -20,6 +20,7 @@ public class VehicleControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
+            Debug.Log("Input" + joystick.Horizontal);
             inputDirection.y = joystick.Horizontal;
             inputDirection.x = joystick.Vertical;
             inputDirection.Normalize();
