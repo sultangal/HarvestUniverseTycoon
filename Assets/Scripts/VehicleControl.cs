@@ -60,7 +60,7 @@ public class VehicleControl : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameEnd())
+        if (GameManager.Instance.IsGameSessionEnded())
         {
             inputDirection.y = 0.0f;
             inputDirection.x = 0.0f;

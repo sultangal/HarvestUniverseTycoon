@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class VehicleCollideLogic : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private new ParticleSystem particleSystem;
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.gameObject.name);

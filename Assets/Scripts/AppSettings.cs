@@ -12,6 +12,7 @@ public class AppSettings : MonoBehaviour
         Application.targetFrameRate = 60;
         Debug.Log("Screen refresh rate " + Screen.currentResolution.refreshRateRatio.value);
         Debug.Log("target FPS after " + Application.targetFrameRate);
+        Debug.Log(Screen.currentResolution);
 
     }
 }

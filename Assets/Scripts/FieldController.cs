@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class FieldController : MonoBehaviour
 {
     [SerializeField] private FieldItemSO fieldItemSO;
     [SerializeField] private Transform meshForPointsSource;
 
+    private List<Transform> items;
 
-
-    private System.Random random = new System.Random();
+    private readonly System.Random random = new();
     private float randomMultiplier = 1f;
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        items = new();
         InstantiateFieldItems();
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameEnd())
+        if (GameManager.Instance.IsGameSessionEnded())
         {
+            DestroyFieldItems();
             InstantiateFieldItems();
         }
     }
@@ -40,6 +43,17 @@ public class FieldController : MonoBehaviour
             Vector3 turnPlease = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnPlease;
             item.Rotate(new(0.0f, (float)random.NextDouble() * 100, 0.0f));
+            items.Add(item);
         }
     }
+
+    private void DestroyFieldItems()
+    {
+        foreach (var item in items)
+        {
+            if (item == null) continue; 
+            Destroy(item.gameObject);
+        }
+        items.Clear();
+    }   
 }

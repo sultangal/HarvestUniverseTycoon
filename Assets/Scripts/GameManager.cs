@@ -8,6 +8,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform meshForPointsSource;
+    [SerializeField] private Countdown countdown;
 
     public event EventHandler OnScoreChanged;
     public event EventHandler OnGameStateChanged;
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     private GameState state;
     public static GameManager Instance { get; private set; }
     private PlayerData playerData;
+
 #if UNITY_EDITOR
     private readonly static string appPath = Application.dataPath;
 #else
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
 #endif
 
     private readonly string scoreFilePath = appPath + "/score.json";
+
+
 
     private void Awake()
     {
@@ -44,10 +48,16 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
         Debug.Log("points quantity: " + playerData.pointsQuantity);
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Countdown_OnTimeIsUp(object sender, EventArgs e)
+    {
+        GameSessionEnded();
     }
 
     public int GetScore()
@@ -63,8 +73,7 @@ public class GameManager : MonoBehaviour
 
         if (IsScoreAchieved())
         {
-            SetGameState(GameState.GameSessionEnd);
-            playerData.score = 0;
+            GameSessionEnded();
         }
     }
 
@@ -87,7 +96,7 @@ public class GameManager : MonoBehaviour
         return state == GameState.WaitingToStart;
     }
 
-    public bool IsGameEnd()
+    public bool IsGameSessionEnded()
     {
         return state == GameState.GameSessionEnd;
     }
@@ -98,6 +107,11 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private void GameSessionEnded()
+    {
+        playerData.score = 0;
+        SetGameState(GameState.GameSessionEnd);       
+    }
 
     private bool IsScoreAchieved()
     {
