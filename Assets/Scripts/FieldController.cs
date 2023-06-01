@@ -11,7 +11,7 @@ public class FieldController : MonoBehaviour
     private List<Transform> items;
 
     private readonly System.Random random = new();
-    private float randomMultiplier = 1f;
+    private float randomMultiplier = 0.2f;
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -34,12 +34,12 @@ public class FieldController : MonoBehaviour
         foreach (var vertex in mesh.vertices)
         {
             // Instantiate(fieldUnit, vertex, Quaternion.LookRotation(vertex));
-            Vector3 position = vertex;
-            //Vector3 position = new((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
-            //position *= randomMultiplier;
-            //position += vertex;
-            //position.Normalize();
-            position.Scale(new(10f, 10f, 10f));
+            //Vector3 position = vertex;
+            Vector3 position = new((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
+            position *= randomMultiplier;
+            position += vertex;
+            position.Normalize();
+            position.Scale(new(5f, 5f, 5f));
 
 
             Transform item = Instantiate(fieldItemSO.itemPrefab, position, Quaternion.LookRotation(position));

@@ -46,11 +46,11 @@ public class PlayingUI : MonoBehaviour
 
     private void Update()
     {
-        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(countdown.GetCountdownTime()).ToString();
+        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(countdown.GetCountdownTime()).ToString() + "sec";
     }
 
     private void GameManager_OnScoreChanged(object sender, System.EventArgs e)
     {
-        score_UI.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.GetScore().ToString();
+        score_UI.GetComponent<TextMeshProUGUI>().text = "$" + GameManager.Instance.GetScore().ToString();
     }
 }

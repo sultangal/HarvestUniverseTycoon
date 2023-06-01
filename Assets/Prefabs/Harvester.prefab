@@ -55,8 +55,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.15, y: 0.1, z: 0.23}
-  m_Center: {x: 0, y: 0, z: -0.07}
+  m_Size: {x: 0.15, y: 0.1, z: 0.08}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-3974385927271759204
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5008,6 +5008,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8574120244550949717, guid: 5348f48af51760b4f9f119b905529f09,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -6516126627314317563, guid: 5348f48af51760b4f9f119b905529f09,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5017,6 +5022,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Harvester2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8835409689826365435, guid: 5348f48af51760b4f9f119b905529f09,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
