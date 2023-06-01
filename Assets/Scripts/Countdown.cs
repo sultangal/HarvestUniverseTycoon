@@ -7,7 +7,7 @@ public class Countdown: MonoBehaviour
 {
     public event EventHandler OnTimeIsUp;
 
-    private const float COUNTDOWN_TIME = 3.0f;
+    private const float COUNTDOWN_TIME = 59.0f;
     private float countdownTime = COUNTDOWN_TIME;
     private bool countdownRunning = false;
 

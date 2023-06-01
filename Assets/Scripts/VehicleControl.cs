@@ -10,7 +10,7 @@ public class VehicleControl : MonoBehaviour
     [SerializeField] Vector3 halfExtends;
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
-    [SerializeField] private Joystick joystick;
+    [SerializeField] private FloatingJoystick joystick;
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public class VehicleControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            Debug.Log("Input" + joystick.Horizontal);
+            //Debug.Log("Input" + joystick.Horizontal);
             inputDirection.y = joystick.Horizontal;
             inputDirection.x = joystick.Vertical;
             inputDirection.Normalize();

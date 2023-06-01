@@ -24,12 +24,12 @@ public class GameManager : MonoBehaviour
     private PlayerData playerData;
 
 #if UNITY_EDITOR
-    private readonly static string appPath = Application.dataPath;
+    //private readonly static string appPath = Application.dataPath;
 #else
-    private readonly static string appPath = Application.persistentDataPath;
+   // private readonly static string appPath = Application.persistentDataPath;
 #endif
 
-    private readonly string scoreFilePath = appPath + "/score.json";
+    //private readonly string scoreFilePath = appPath + "/score.json";
 
 
 
@@ -79,12 +79,12 @@ public class GameManager : MonoBehaviour
 
     private void WriteScoreToFile()
     {
-        File.WriteAllText(scoreFilePath, JsonUtility.ToJson(playerData));
+        //File.WriteAllText(scoreFilePath, JsonUtility.ToJson(playerData));
     }
 
     private void ReadScoreFromFile()
     {
-        playerData = JsonUtility.FromJson<PlayerData>(File.ReadAllText(scoreFilePath));
+        //playerData = JsonUtility.FromJson<PlayerData>(File.ReadAllText(scoreFilePath));
     }
 
     public bool IsGamePlaying()
