@@ -37,7 +37,7 @@ public class Countdown: MonoBehaviour
             {
                 OnTimeIsUp?.Invoke(this, EventArgs.Empty);
                 countdownRunning = false;
-                Debug.Log("TIME IS UP!");
+                //Debug.Log("TIME IS UP!");
             }
         }
     }

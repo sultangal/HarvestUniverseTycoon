@@ -19,7 +19,6 @@ public class MainMenuUI : MonoBehaviour
             countdown.StartCountdown();
             btnPlay.gameObject.SetActive(false);
         });
-
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)

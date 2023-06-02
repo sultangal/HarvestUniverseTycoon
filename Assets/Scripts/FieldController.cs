@@ -12,6 +12,7 @@ public class FieldController : MonoBehaviour
 
     private readonly System.Random random = new();
     private float randomMultiplier = 0.2f;
+    private bool firstInstantiation = true;
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -21,10 +22,14 @@ public class FieldController : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameSessionEnded())
-        {
-            DestroyFieldItems();
-            InstantiateFieldItems();
+        if (GameManager.Instance.IsGamePlaying())
+        {         
+            if (!firstInstantiation)
+            {
+                DestroyFieldItems();
+                InstantiateFieldItems();
+            }
+            firstInstantiation = false;
         }
     }
 
