@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class VehicleControl : MonoBehaviour
 {
@@ -81,8 +82,9 @@ public class VehicleControl : MonoBehaviour
         if (GameManager.Instance.IsGameSessionEnded())
         {
             inputDirection.y = 0.0f;
-            inputDirection.x = 0.0f;            
-            //joystick.CancelInvoke();
+            inputDirection.x = 0.0f;
+            //Reset joystick position
+            joystick.OnPointerUp(null);
         }
 
         if (GameManager.Instance.IsGamePlaying())
