@@ -64,13 +64,14 @@ public class VehicleControl : MonoBehaviour
         if (GameManager.Instance.IsGameSessionEnded())
         {
             inputDirection.y = 0.0f;
-            inputDirection.x = 0.0f;
-            joystick.CancelInvoke();
+            inputDirection.x = 0.0f;            
+            //joystick.CancelInvoke();
         }
 
         if (GameManager.Instance.IsGamePlaying())
         {
-
+            transform.localEulerAngles = Vector3.zero;
+            vehicleRef.transform.localEulerAngles = Vector3.zero;
         }
     }
 }
