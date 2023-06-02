@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.09021936, g: 0.073421344, b: 0.07809572, a: 1}
+  m_IndirectSpecularColor: {r: 0.090596095, g: 0.07366808, b: 0.078385785, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1deb4ad43b6a27448db4975077fc998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 45
+  maxSpeed: 50
   vehicleRef: {fileID: 1995172792}
   halfExtends: {x: 1, y: 0.5, z: -1}
   joystick: {fileID: 504293519}
