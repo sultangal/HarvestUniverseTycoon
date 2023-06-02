@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class VehicleControl : MonoBehaviour
@@ -7,6 +5,7 @@ public class VehicleControl : MonoBehaviour
 
     [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
     [SerializeField] private Transform vehicleRef;
+    [SerializeField] private Transform vehicleBodyRef;
     [SerializeField] Vector3 halfExtends;
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
@@ -18,6 +17,9 @@ public class VehicleControl : MonoBehaviour
     private float decelRatePerSec;
     private float forwardVelocity = 0.0f;
 
+    private float wiggleFrequency = 5.0f;
+    private float wiggleAmount = 10.0f;
+
     private void Start()
     {
         accelRatePerSec = maxSpeed / timeZeroToMax;
@@ -28,14 +30,6 @@ public class VehicleControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            //Debug.Log("Input" + joystick.Horizontal);
-            //inputDirection.y = joystick.Horizontal;
-            //inputDirection.x = joystick.Vertical;
-            //inputDirection.Normalize();
-
-            //Debug.Log("joystick.Horizontal " + joystick.Horizontal);
-            //Debug.Log("joystick.Vertical " + joystick.Vertical);            
-            //Debug.Log("inputDirection " + inputDirection);
             MoveVehicle();
         }
     }
@@ -45,6 +39,7 @@ public class VehicleControl : MonoBehaviour
 
         if (joystick.Horizontal != 0.0f && joystick.Vertical != 0.0f)
         {
+            Wiggle();
             //calculation of acceleration
             forwardVelocity += accelRatePerSec * Time.deltaTime;
             forwardVelocity = Mathf.Min(forwardVelocity, maxSpeed);
@@ -66,9 +61,7 @@ public class VehicleControl : MonoBehaviour
             inputDirection.x * forwardVelocity * Time.deltaTime,
             0f,
             -(inputDirection.y * forwardVelocity * Time.deltaTime));
-
-        Direction();
-
+        Direction();       
     }
 
     private void Direction()
@@ -97,5 +90,13 @@ public class VehicleControl : MonoBehaviour
             transform.localEulerAngles = Vector3.zero;
             vehicleRef.transform.localEulerAngles = Vector3.zero;
         }
+    }
+
+    private void Wiggle()
+    {
+        float wiggle = Mathf.PerlinNoise1D(Time.time * wiggleFrequency);
+        vehicleBodyRef.localRotation = Quaternion.Euler(0.0f,
+            vehicleBodyRef.localRotation.y,
+            wiggle * wiggleAmount);
     }
 }
