@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    private Camera cam;
+    [SerializeField] private Camera cameraRef;
     private const float MIN_ASPECT_RATIO = 0.5625f;
     private void Start()
     {
-        cam = GetComponent<Camera>();
+        //cameraRef = GetComponent<Camera>();
 #if !UNITY_EDITOR
         float aspectRatio = (float)Screen.currentResolution.width / (float)Screen.currentResolution.height;
         Debug.Log("Game View Aspect Ratio: " + aspectRatio);
@@ -35,11 +35,11 @@ public class CameraControl : MonoBehaviour
             /*this formula was calculated with mathway, to find correlation
             between aspectRatio and fieldOfView to keep planet in screen borders 
             for different screens*/
-            cam.fieldOfView = -100.79892481f * aspectRatio + 112.1993952f;
+            cameraRef.fieldOfView = -100.79892481f * aspectRatio + 112.1993952f;
         }
         else
         {
-            cam.fieldOfView = 55.5f;
+            cameraRef.fieldOfView = 55.5f;
         }
     }
 
