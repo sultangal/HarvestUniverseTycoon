@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.090596095, g: 0.07366808, b: 0.078385785, a: 1}
+  m_IndirectSpecularColor: {r: 0.108340114, g: 0.11713417, b: 0.070451185, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -652,7 +652,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0ea0d396ce8395149b9b3a38cd39fede, type: 2}
+  - {fileID: 2100000, guid: e4fead029bb0adb498823072f0227370, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -929,7 +929,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 86889641f4efeef498d62b62ab465c08, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b42da1df5f5ba214f9d0f19dc43fbb02, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1349,7 +1349,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bbd9ca6d89067a443a5f3e687ea96ff0, type: 3}
-  m_Color: {r: 1, g: 0.7081719, b: 0.09411764, a: 1}
+  m_Color: {r: 1, g: 0.61447656, b: 0.09411764, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1754,6 +1754,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Harvester
       objectReference: {fileID: 0}
+    - target: {fileID: 2230504634767015760, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3859392368682607689, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1783,6 +1788,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.z
       value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6014343655849872329, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6014343655849872329, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
@@ -1818,6 +1828,16 @@ PrefabInstance:
         type: 3}
       propertyPath: ShapeModule.m_Texture
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709643772055339101, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0316
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709643772055339101, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.042
       objectReference: {fileID: 0}
     - target: {fileID: 7886498911938334279, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
@@ -1879,7 +1899,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7309701374491903284, guid: 12513b2c405edde4ba635f28e68a7b2e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

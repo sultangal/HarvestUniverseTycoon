@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1080118773027070553}
   - component: {fileID: 1978271857316935245}
+  - component: {fileID: 3330198040063457588}
   m_Layer: 0
   m_Name: Corn 2
   m_TagString: Untagged
@@ -54,6 +55,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.7, z: 0.1}
   m_Center: {x: 0, y: 0.35, z: 0}
+--- !u!114 &3330198040063457588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4089353986712068284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79e19bfef7e43748919c6ca115bc411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBend: 0
+  bendAngle: 50
 --- !u!1001 &3072945095025523257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -146,7 +161,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: bda398c1e5247a843b06f47d42254889, type: 2}
+      objectReference: {fileID: 2100000, guid: c2c9c15c87af79b46aec3c3341adbb8a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
