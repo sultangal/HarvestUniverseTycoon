@@ -26,11 +26,11 @@ public class CameraControl : MonoBehaviour
             /*this formula was calculated with mathway, to find correlation
             between aspectRatio and fieldOfView to keep planet in screen borders 
             for different screens*/
-            cam.fieldOfView = -100.79892481f * aspectRatio + 112.1993952f;
+            cameraRef.fieldOfView = -100.79892481f * aspectRatio + 112.1993952f;
         }
         else
         {
-            cam.fieldOfView = 55.5f;
+            cameraRef.fieldOfView = 55.5f;
         }
 
         CameraMotion();
