@@ -4,14 +4,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform meshForPointsSource;
     [SerializeField] private Countdown countdown;
 
+    [SerializeField] private PlanetSO[] planets;
+
+    [SerializeField] public PlanetMeshSO planetMeshSO;
+
     public event EventHandler OnScoreChanged;
     public event EventHandler OnGameStateChanged;
+    public event EventHandler OnPlanetShift;
+
 
     public enum GameState
     {
@@ -42,17 +49,26 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
 
-        playerData = new PlayerData();
+        playerData = new PlayerData
+        {
+            planets = planets
+        };
+
         //ReadScoreFromFile();
 
     }
     private void Start()
     {
+        PlanetController planetControl = this.AddComponent<PlanetController>();
+        planetControl.CreatePlanets(ref playerData.planets, ref planetMeshSO);
+
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
         Debug.Log("points quantity: " + playerData.pointsQuantity);
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+        //OnPlanetShift?.Invoke(this, EventArgs.Empty);
+
     }
 
     private void Countdown_OnTimeIsUp(object sender, EventArgs e)
@@ -107,6 +123,29 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void ShiftPlanetLeft()
+    {
+        if (playerData.currentPlanetIndex > 0)
+        {
+            playerData.currentPlanetIndex--;
+            OnPlanetShift?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public void ShiftPlanetRight()
+    {
+        if (playerData.currentPlanetIndex < playerData.planets.Length)
+        {
+            playerData.currentPlanetIndex++;
+            OnPlanetShift?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public int GetCurrentPlanetIndex()
+    {       
+        return playerData.currentPlanetIndex;
+    }
+
     private void GameSessionEnded()
     {
         playerData.score = 0;
@@ -118,9 +157,5 @@ public class GameManager : MonoBehaviour
         return playerData.score == playerData.pointsQuantity;
     }
 
-    private class PlayerData
-    {
-        public int score = 0;
-        public int pointsQuantity = 0;
-    }
+
 }

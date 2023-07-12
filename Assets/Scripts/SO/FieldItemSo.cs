@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu()]
+[CreateAssetMenu(menuName = "ScriptebaleObjects/FieldItemSO")]
 public class FieldItemSO : ScriptableObject
 {
     public Transform itemPrefab;
