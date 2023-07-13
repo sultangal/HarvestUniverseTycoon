@@ -70,20 +70,20 @@ public class PlanetsController : MonoBehaviour
 
     private void SetPlanetsVisibility()
     {
-        //TODO: FIX visibility error
         for (int i = 0; i < planets.Length; i++)
         {
-            if (CurrentPlanetIndex == i || CurrentPlanetIndex == i-- || CurrentPlanetIndex == i++)
-            {
-                planets[i].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
-                
-            }
-            else
-                planets[i].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = false;
-
-            //Debug.Log("Bitch" + i);
+            planets[i].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = false;
+         
         }
 
+        if (CurrentPlanetIndex > 0)
+            planets[CurrentPlanetIndex - 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
+        planets[CurrentPlanetIndex].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
+
+        if (CurrentPlanetIndex < planets.Length - 1)
+        {
+            planets[CurrentPlanetIndex + 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
     }
 }
