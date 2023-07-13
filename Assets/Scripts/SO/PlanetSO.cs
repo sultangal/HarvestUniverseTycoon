@@ -8,5 +8,5 @@ public class PlanetSO : ScriptableObject
     public string planetName;
     public FieldItemSO fieldItemSO;
     public Color planetColor;
-    public Transform planetRef = null;
+    public Transform planetRef;
 }

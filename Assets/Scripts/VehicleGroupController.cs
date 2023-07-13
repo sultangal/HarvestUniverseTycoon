@@ -1,7 +1,7 @@
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class VehicleControl : MonoBehaviour
+public class VehicleGroupController : MonoBehaviour
 {
 
     [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
@@ -12,21 +12,30 @@ public class VehicleControl : MonoBehaviour
     private Vector3 vehicleAngles;
     [SerializeField] private FloatingJoystick joystick;
 
-    private float timeZeroToMax = 0.5f;
-    private float timeMaxToZero = 0.5f;
+    private readonly float timeZeroToMax = 0.5f;
+    private readonly float timeMaxToZero = 0.5f;
     private float accelRatePerSec;
     private float decelRatePerSec;
     private float forwardVelocity = 0.0f;
 
-    private float wiggleFrequency = 5.0f;
-    private float wiggleAmount = 10.0f;
+    private readonly float wiggleFrequency = 5.0f;
+    private readonly float wiggleAmount = 10.0f;
+
+   
 
     private void Start()
     {
         accelRatePerSec = maxSpeed / timeZeroToMax;
         decelRatePerSec = -maxSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        PlanetsController.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
     }
+
+    private void PlanetsController_OnPlanetShift(object sender, PlanetsController.OnPlanetShiftEventArgs e)
+    {
+        transform.DOMove((e.currPlanetTransform.position), 1);
+    }
+
     private void Update()
     {
         if (GameManager.Instance.IsGamePlaying())

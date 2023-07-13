@@ -8,17 +8,13 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     [SerializeField] private Transform meshForPointsSource;
-    [SerializeField] private Countdown countdown;
-
-    [SerializeField] private PlanetSO[] planets;
-
-    [SerializeField] public PlanetMeshSO planetMeshSO;
+    [SerializeField] private Countdown countdown;   
 
     public event EventHandler OnScoreChanged;
-    public event EventHandler OnGameStateChanged;
-    public event EventHandler OnPlanetShift;
-
+    public event EventHandler OnGameStateChanged;   
 
     public enum GameState
     {
@@ -26,8 +22,7 @@ public class GameManager : MonoBehaviour
         GameSessionPlaying,
         GameSessionEnd
     }
-    private GameState state;
-    public static GameManager Instance { get; private set; }
+    private GameState state;    
     private PlayerData playerData;
 
 #if UNITY_EDITOR
@@ -38,8 +33,6 @@ public class GameManager : MonoBehaviour
 
     //private readonly string scoreFilePath = appPath + "/score.json";
 
-
-
     private void Awake()
     {
         if (Instance != null)
@@ -49,26 +42,18 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
 
-        playerData = new PlayerData
-        {
-            planets = planets
-        };
+        playerData = new PlayerData();
 
         //ReadScoreFromFile();
 
     }
     private void Start()
-    {
-        PlanetController planetControl = this.AddComponent<PlanetController>();
-        planetControl.CreatePlanets(ref playerData.planets, ref planetMeshSO);
-
+    {       
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
         Debug.Log("points quantity: " + playerData.pointsQuantity);
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
-        //OnPlanetShift?.Invoke(this, EventArgs.Empty);
-
     }
 
     private void Countdown_OnTimeIsUp(object sender, EventArgs e)
@@ -121,29 +106,6 @@ public class GameManager : MonoBehaviour
     {
         this.state = state;
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    public void ShiftPlanetLeft()
-    {
-        if (playerData.currentPlanetIndex > 0)
-        {
-            playerData.currentPlanetIndex--;
-            OnPlanetShift?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
-    public void ShiftPlanetRight()
-    {
-        if (playerData.currentPlanetIndex < playerData.planets.Length)
-        {
-            playerData.currentPlanetIndex++;
-            OnPlanetShift?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
-    public int GetCurrentPlanetIndex()
-    {       
-        return playerData.currentPlanetIndex;
     }
 
     private void GameSessionEnded()

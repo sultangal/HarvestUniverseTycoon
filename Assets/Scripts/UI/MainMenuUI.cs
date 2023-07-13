@@ -26,12 +26,12 @@ public class MainMenuUI : MonoBehaviour
 
         btnShiftLeft.GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameManager.Instance.ShiftPlanetLeft();            
+            PlanetsController.Instance.ShiftPlanetLeft();            
         });
 
         btnShiftRight.GetComponent<Button>().onClick.AddListener(() =>
         {
-            GameManager.Instance.ShiftPlanetRight();           
+            PlanetsController.Instance.ShiftPlanetRight();           
         });
     }
 
