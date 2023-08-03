@@ -15,7 +15,7 @@ public class PlanetsController : MonoBehaviour
         public Transform currPlanetTransform;
     }
 
-    public int CurrentPlanetIndex { get; private set; } = 0;
+    private int CurrentPlanetIndex = 0;
 
     private void Awake()
     {

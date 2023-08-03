@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
     {       
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
-        Debug.Log("points quantity: " + playerData.pointsQuantity);
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
