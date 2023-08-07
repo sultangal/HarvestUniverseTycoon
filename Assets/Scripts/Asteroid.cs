@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public class AsteroidController : MonoBehaviour
+public class Asteroid : MonoBehaviour
 {
     [SerializeField] Transform AsteroidPrefab;
     private List<GameObject> cubes;

@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-public class PlanetsController : MonoBehaviour
+public class Planets : MonoBehaviour
 {
-    public static PlanetsController Instance { get; private set; }
+    public static Planets Instance { get; private set; }
 
     [SerializeField] private PlanetSO[] planets;
     [SerializeField] private PlanetMeshSO planetMeshSO;

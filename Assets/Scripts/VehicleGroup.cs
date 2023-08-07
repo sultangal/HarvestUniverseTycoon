@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class VehicleGroupController : MonoBehaviour
+public class VehicleGroup : MonoBehaviour
 {
 
     [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
@@ -28,10 +28,10 @@ public class VehicleGroupController : MonoBehaviour
         accelRatePerSec = maxSpeed / timeZeroToMax;
         decelRatePerSec = -maxSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        PlanetsController.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
+        Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
     }
 
-    private void PlanetsController_OnPlanetShift(object sender, PlanetsController.OnPlanetShiftEventArgs e)
+    private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
     {
         transform.DOMove((e.currPlanetTransform.position), 1);
     }

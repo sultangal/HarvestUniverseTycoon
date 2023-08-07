@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class FieldController : MonoBehaviour
+public class Field : MonoBehaviour
 {
     [SerializeField] private FieldItemSO fieldItemSO;
     [SerializeField] private Transform meshForPointsSource;
