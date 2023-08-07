@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 534743014}
   - component: {fileID: 534743015}
   - component: {fileID: 534743016}
+  - component: {fileID: 534743017}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -253,6 +254,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72d3a90af15224c42b62c89f98e7f494, type: 2}
   - {fileID: 11400000, guid: 210492b739ace8741a02bbe7b350933a, type: 2}
   planetMeshSO: {fileID: 11400000, guid: 23f49e5b8b2b57a498c08295e1441d29, type: 2}
+--- !u!114 &534743017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534743012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6693d80d36d1c234ab2f835457292352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AsteroidPrefab: {fileID: 7380763038720469829, guid: 4166ee8d2e1274f48a84638ae03aef2c,
+    type: 3}
 --- !u!1 &544802525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,9 +1650,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1801818441}
   - component: {fileID: 1801818440}
-  - component: {fileID: 1801818442}
   m_Layer: 0
-  m_Name: FieldAndAsteroidController
+  m_Name: FieldController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1672,20 +1686,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1801818442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801818439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6693d80d36d1c234ab2f835457292352, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AsteroidPrefab: {fileID: 7380763038720469829, guid: 4166ee8d2e1274f48a84638ae03aef2c,
-    type: 3}
 --- !u!1 &1825356966
 GameObject:
   m_ObjectHideFlags: 0

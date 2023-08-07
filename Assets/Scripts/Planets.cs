@@ -15,7 +15,7 @@ public class Planets : MonoBehaviour
         public Transform currPlanetTransform;
     }
 
-    private int CurrentPlanetIndex = 0;
+    private int currentPlanetIndex = 0;
 
     private void Awake()
     {
@@ -50,22 +50,27 @@ public class Planets : MonoBehaviour
 
     public void ShiftPlanetLeft()
     {
-        if (CurrentPlanetIndex > 0)
+        if (currentPlanetIndex > 0)
         {
-            CurrentPlanetIndex--;
+            currentPlanetIndex--;
             SetPlanetsVisibility();
-            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planets[CurrentPlanetIndex].planetRef });
+            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planets[currentPlanetIndex].planetRef });
         }
     }
 
     public void ShiftPlanetRight()
     {
-        if (CurrentPlanetIndex < planets.Length-1)
+        if (currentPlanetIndex < planets.Length-1)
         {
-            CurrentPlanetIndex++;
+            currentPlanetIndex++;
             SetPlanetsVisibility();
-            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planets[CurrentPlanetIndex].planetRef });
+            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planets[currentPlanetIndex].planetRef });
         }
+    }
+
+    public Transform GetCurrentPlanet()
+    {
+        return planets[currentPlanetIndex].planetRef;
     }
 
     private void SetPlanetsVisibility()
@@ -76,14 +81,14 @@ public class Planets : MonoBehaviour
          
         }
 
-        if (CurrentPlanetIndex > 0)
-            planets[CurrentPlanetIndex - 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        if (currentPlanetIndex > 0)
+            planets[currentPlanetIndex - 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-        planets[CurrentPlanetIndex].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        planets[currentPlanetIndex].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-        if (CurrentPlanetIndex < planets.Length - 1)
+        if (currentPlanetIndex < planets.Length - 1)
         {
-            planets[CurrentPlanetIndex + 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            planets[currentPlanetIndex + 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
     }
 }

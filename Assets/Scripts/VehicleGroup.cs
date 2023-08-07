@@ -7,7 +7,7 @@ public class VehicleGroup : MonoBehaviour
     [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
     [SerializeField] private Transform vehicleRef;
     [SerializeField] private Transform vehicleBodyRef;
-    [SerializeField] Vector3 halfExtends;
+    //[SerializeField] Vector3 halfExtends;
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
     [SerializeField] private FloatingJoystick joystick;
