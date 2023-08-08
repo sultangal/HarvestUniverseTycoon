@@ -5,8 +5,7 @@ using UnityEngine;
 public class Asteroids : MonoBehaviour
 {
     [SerializeField] private Transform AsteroidPrefab;
-    [SerializeField] private float respawnPointRemoteness = 30f;  
-    private Planets planet;
+    [SerializeField] private float respawnPointRemoteness = 30f;   
 
     private void Start()
     {
@@ -15,7 +14,7 @@ public class Asteroids : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (!TryGetComponent(out planet))
+        if (!TryGetComponent(out Planets planet))
         {
             Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
             return;

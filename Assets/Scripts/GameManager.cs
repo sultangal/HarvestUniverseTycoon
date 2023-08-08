@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private Transform meshForPointsSource;
     [SerializeField] private Countdown countdown;   
 
     public event EventHandler OnScoreChanged;
@@ -42,7 +41,7 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
 
-        playerData = new PlayerData();
+        playerData = new PlayerData();  
 
         //ReadScoreFromFile();
 
@@ -50,7 +49,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {       
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
-        playerData.pointsQuantity = meshForPointsSource.GetComponent<MeshFilter>().mesh.vertices.Length;
+        if (!TryGetComponent(out Field field))
+        {
+            Debug.LogError("No Fileds script attached!");
+            return; 
+        }
+        
+        playerData.pointsQuantity = field.meshForPointsSource.vertices.Length;
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }

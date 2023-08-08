@@ -161,7 +161,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &504293518 stripped
 RectTransform:
@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 534743015}
   - component: {fileID: 534743016}
   - component: {fileID: 534743017}
+  - component: {fileID: 534743018}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -213,7 +214,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &534743015
 MonoBehaviour:
@@ -227,8 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4a37ac1b9877447bbd36aec3b4ddb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource: {fileID: 270958341}
-  countdown: {fileID: 1702357232}
+  countdown: {fileID: 1166215370}
 --- !u!114 &534743016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8264694a30532840bde765127b8c719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planets:
+  planetsArr:
   - {fileID: 11400000, guid: 608cffede9df7c344b5f315fd841955c, type: 2}
   - {fileID: 11400000, guid: 2d18d6b0fd7bab941bce4c34eea91928, type: 2}
   - {fileID: 11400000, guid: c4a2f9bc6ac416540bdff4ad54060e55, type: 2}
@@ -267,6 +267,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AsteroidPrefab: {fileID: 7380763038720469829, guid: 4166ee8d2e1274f48a84638ae03aef2c,
+    type: 3}
+  respawnPointRemoteness: 30
+--- !u!114 &534743018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534743012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldItemSO: {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
+  meshForPointsSource: {fileID: -5008381810204397873, guid: 2b3f5c512bd62af4188636609f991dba,
     type: 3}
 --- !u!1 &544802525
 GameObject:
@@ -1023,7 +1039,7 @@ MonoBehaviour:
   joystick_UI: {fileID: 504293519}
   score_UI: {fileID: 1332504117}
   countdown_UI: {fileID: 1213641953}
-  countdown: {fileID: 1702357232}
+  countdown: {fileID: 1166215370}
 --- !u!1 &1136085574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1176,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 1
+--- !u!1 &1166215369
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1166215371}
+  - component: {fileID: 1166215370}
+  m_Layer: 0
+  m_Name: Countdown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1166215370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166215369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bea40599d5692842a5e4419425bd679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1166215371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1166215369}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1213641952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,94 +1490,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332504116}
   m_CullTransparentMesh: 1
---- !u!1 &1449894088
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1449894090}
-  - component: {fileID: 1449894089}
-  m_Layer: 0
-  m_Name: LogOnScreen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1449894089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449894088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 151b3ff586378ae4d9e0946180dc93bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1449894090
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1449894088}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46796918, y: 2.413717, z: 1.6520536}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1702357231
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1702357233}
-  - component: {fileID: 1702357232}
-  m_Layer: 0
-  m_Name: Countdown
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1702357232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702357231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2bea40599d5692842a5e4419425bd679, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1702357233
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702357231}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 455.23413, y: 1368.8347, z: 29.011993}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1725804088
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1589,7 @@ RectTransform:
   - {fileID: 859660668}
   - {fileID: 544802529}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1639,53 +1611,7 @@ MonoBehaviour:
   btnPlay: {fileID: 1136085576}
   btnShiftLeft: {fileID: 859660665}
   btnShiftRight: {fileID: 544802526}
-  countdown: {fileID: 1702357232}
---- !u!1 &1801818439
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1801818441}
-  - component: {fileID: 1801818440}
-  m_Layer: 0
-  m_Name: FieldController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1801818440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801818439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fieldItemSO: {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
-  meshForPointsSource: {fileID: 270958341}
---- !u!4 &1801818441
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801818439}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  countdown: {fileID: 1166215370}
 --- !u!1 &1825356966
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,7 +1644,6 @@ MonoBehaviour:
   maxSpeed: 50
   vehicleRef: {fileID: 1995172792}
   vehicleBodyRef: {fileID: 6526922856365879837}
-  halfExtends: {x: 1, y: 0.5, z: -1}
   joystick: {fileID: 504293519}
 --- !u!4 &1825356968
 Transform:
@@ -1821,6 +1746,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133778925}
   - component: {fileID: 2133778926}
+  - component: {fileID: 2133778927}
   m_Layer: 0
   m_Name: AppSettings
   m_TagString: Untagged
@@ -1841,7 +1767,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2133778926
 MonoBehaviour:
@@ -1853,6 +1779,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6101f8fe0b02b4c4da65a272055955f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2133778927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133778924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 151b3ff586378ae4d9e0946180dc93bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6526922856365879836
