@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6014343655849872329}
   - component: {fileID: -3974385927271759204}
   - component: {fileID: -5218628932492510852}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Harvester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5087,6 +5087,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Body
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9141816029861474070, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8144394004440419581, guid: 59a496b3de077ff4c8f4e7446605ea85, type: 3}
@@ -5178,10 +5188,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2422315340263230684, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 59a496b3de077ff4c8f4e7446605ea85,
         type: 3}
       propertyPath: m_Name
       value: BladesHolder
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -5288,6 +5308,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Harvester3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8144394004440419581, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8835409689826365435, guid: 59a496b3de077ff4c8f4e7446605ea85,
         type: 3}

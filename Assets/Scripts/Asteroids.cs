@@ -7,6 +7,7 @@ public class Asteroids : MonoBehaviour
     [SerializeField] private Transform AsteroidPrefab;
     [SerializeField] private float respawnPointRemoteness = 30f;  
     private Planets planet;
+
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -38,20 +39,18 @@ public class Asteroids : MonoBehaviour
             Vector3 respawnPoint = vecOnUnitSphere * respawnPointRemoteness;
             respawnPoint += target;
             Transform asteriod = Instantiate(AsteroidPrefab, respawnPoint, Quaternion.LookRotation(vecOnUnitSphere));
-            //asteriod.transform.SetPositionAndRotation(respawnPoint, Quaternion.LookRotation(respawnPoint));
-            StartCoroutine(MoveToTarget(asteriod, target));
+
+            if (asteriod.TryGetComponent(out AsteroidCollideLogic asteroidCL))
+                asteroidCL.StartMoving(target);            
+            else 
+                Debug.LogError("AsteroidCollideLogic script not founded.");
+
             yield return new WaitForSeconds((float)random.Next(0, 5));
         }
 
     }
 
-    private IEnumerator MoveToTarget(Transform obj, Vector3 target)
-    {
-        while (obj.position != target)
-        {
-            obj.position = Vector3.MoveTowards(obj.position, target, Time.deltaTime*10f);
-            yield return null;
-        }
-    }
 
+
+    
 }

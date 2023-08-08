@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3194313625858948208}
   - component: {fileID: 4215787857912473656}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Corn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,6 +142,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bda398c1e5247a843b06f47d42254889, type: 2}
+    - target: {fileID: -7636963557827597600, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6424696975218040852, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5547542145952523856, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4046327384636492856, guid: 0f28d70e4340e2e4484d1e3bc873a393,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -156,6 +171,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Corn_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444558461230370346, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742780737561719692, guid: 0f28d70e4340e2e4484d1e3bc873a393,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8006958694806783865, guid: 0f28d70e4340e2e4484d1e3bc873a393,
         type: 3}
