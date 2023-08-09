@@ -4,35 +4,46 @@ using static UnityEditor.Progress;
 
 public class Field : MonoBehaviour
 {
-    [SerializeField] private FieldItemSO fieldItemSO;
     public Mesh meshForPointsSource;
 
     public List<Transform> Items { get; private set; }
 
     private readonly System.Random random = new();
     private readonly float randomMultiplier = 0.2f;
-    private bool firstInstantiation = true;
+    //private bool firstInstantiation = true;
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Items = new();
-        InstantiateFieldItems();
+        //InstantiateFieldItems();
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            if (!firstInstantiation)
+            DestroyFieldItems();
+            if (!TryGetComponent(out Planets currPlanet))
             {
-                DestroyFieldItems();
-                InstantiateFieldItems();
+                Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
             }
-            firstInstantiation = false;
+            InstantiateFieldItems(currPlanet.planetsArr[currPlanet.currentPlanetIndex].fieldItemSO.itemPrefab,
+                currPlanet.planetsArr[currPlanet.currentPlanetIndex].planetRef.position);
         }
+    
+
+        //if (GameManager.Instance.IsGamePlaying())
+        //{
+        //    if (!firstInstantiation)
+        //    {
+        //        DestroyFieldItems();
+        //        InstantiateFieldItems();
+        //    }
+        //    firstInstantiation = false;
+        //}
     }
 
-    public void InstantiateFieldItems()
+    public void InstantiateFieldItems(Transform itemRef, Vector3 planetPosition)
     {
         foreach (var vertex in meshForPointsSource.vertices)
         {
@@ -41,10 +52,11 @@ public class Field : MonoBehaviour
             position += vertex;
             position.Normalize();
             position.Scale(new(5f, 5f, 5f));          
-            Transform item = Instantiate(fieldItemSO.itemPrefab, position, Quaternion.LookRotation(position));
+            Transform item = Instantiate(itemRef, position, Quaternion.LookRotation(position));
             Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnItem;
             item.Rotate(new(0.0f, (float)random.NextDouble() * 100, 0.0f));
+            item.position += planetPosition;
             Items.Add(item);
         }
     }

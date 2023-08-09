@@ -12,6 +12,7 @@ public class AsteroidCollideLogic : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         StopAllCoroutines();
+        GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.SetPositionAndRotation(transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

@@ -7,9 +7,10 @@ public class Planets : MonoBehaviour
 {
     public static Planets Instance { get; private set; }
 
-    [SerializeField] private PlanetSO[] planetsArr;
+    public PlanetSO[] planetsArr;
     [SerializeField] private PlanetMeshSO planetMeshSO;
-    public Vector3 CurrPlanetPosition { get; private set; }
+    //public Vector3 CurrPlanetPosition { get; private set; };
+    //public FieldItemSO CurrfieldItemSO { get; private set; } 
 
     public event EventHandler<OnPlanetShiftEventArgs> OnPlanetShift;
 
@@ -18,7 +19,7 @@ public class Planets : MonoBehaviour
         public Transform currPlanetTransform;
     }
 
-    private int currentPlanetIndex = 0;
+    public int currentPlanetIndex = 0;
     private const float SPACE_BETWEEN_PLANETS = 15f;
 
     private void Awake()
@@ -58,6 +59,8 @@ public class Planets : MonoBehaviour
         {
             currentPlanetIndex--;
             SetPlanetsVisibility();
+            //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
+            //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
         }
     }
@@ -67,7 +70,9 @@ public class Planets : MonoBehaviour
         if (currentPlanetIndex < planetsArr.Length-1)
         {
             currentPlanetIndex++;
-            SetPlanetsVisibility();            
+            SetPlanetsVisibility();
+            //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
+            //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
         }
     }

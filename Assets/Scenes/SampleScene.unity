@@ -254,6 +254,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72d3a90af15224c42b62c89f98e7f494, type: 2}
   - {fileID: 11400000, guid: 210492b739ace8741a02bbe7b350933a, type: 2}
   planetMeshSO: {fileID: 11400000, guid: 23f49e5b8b2b57a498c08295e1441d29, type: 2}
+  currentPlanetIndex: 0
 --- !u!114 &534743017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldItemSO: {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
   meshForPointsSource: {fileID: -5008381810204397873, guid: 2b3f5c512bd62af4188636609f991dba,
     type: 3}
 --- !u!1 &544802525
