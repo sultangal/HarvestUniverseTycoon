@@ -5,7 +5,7 @@ public class Field : MonoBehaviour
 {
     public Mesh meshForPointsSource;
 
-    public List<Transform> Items { get; private set; }
+    public List<Transform> Items { get; private set; } = new();
 
     private readonly System.Random random = new();
     private readonly float randomMultiplier = 0.2f;
@@ -19,7 +19,6 @@ public class Field : MonoBehaviour
             return;
         }
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        Items = new();
         //InstantiateFieldItems();
     }
 
@@ -28,8 +27,8 @@ public class Field : MonoBehaviour
         if (GameManager.Instance.IsGamePlaying())
         {
             DestroyFieldItems();          
-            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO.itemPrefab,
-                planets.GetCurrentPlanetSO().planetRef.position);
+            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO.fieldItemPrefab,
+                planets.GetCurrentPlanetSO().planetPrefab.position);
         }
     
 

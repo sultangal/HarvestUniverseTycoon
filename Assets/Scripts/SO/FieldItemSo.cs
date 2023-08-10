@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptebaleObjects/FieldItemSO")]
 public class FieldItemSO : ScriptableObject
 {
-    public Transform itemPrefab;
+    public Transform fieldItemPrefab;
 }

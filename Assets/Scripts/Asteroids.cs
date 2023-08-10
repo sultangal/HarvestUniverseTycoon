@@ -21,7 +21,7 @@ public class Asteroids : MonoBehaviour
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGamePlaying())        
-            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetRef.position));            
+            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));            
         else        
             StopAllCoroutines();       
     }

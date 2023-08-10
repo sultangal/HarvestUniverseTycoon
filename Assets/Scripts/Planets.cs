@@ -9,8 +9,6 @@ public class Planets : MonoBehaviour
 
     [SerializeField] private PlanetSO[] planetsArr;
     [SerializeField] private PlanetMeshSO planetMeshSO;
-    //public Vector3 CurrPlanetPosition { get; private set; };
-    //public FieldItemSO CurrfieldItemSO { get; private set; } 
 
     public event EventHandler<OnPlanetShiftEventArgs> OnPlanetShift;
 
@@ -19,7 +17,7 @@ public class Planets : MonoBehaviour
         public Transform currPlanetTransform;
     }
 
-    public int currentPlanetIndex = 0;
+    private int currentPlanetIndex = 0;
     private const float SPACE_BETWEEN_PLANETS = 15f;
 
     private void Awake()
@@ -51,14 +49,14 @@ public class Planets : MonoBehaviour
     {
         for (int i = 0; i < planetsArr.Length; i++)
         {
-            planetsArr[i].planetRef = Instantiate(
+            planetsArr[i].planetPrefab = Instantiate(
                 planetMeshSO.planetMesh,
                 planetMeshSO.planetMesh.position,
                 planetMeshSO.planetMesh.rotation);
             
             Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
-            planetsArr[i].planetRef.position += newPos;
-            planetsArr[i].planetRef.GetComponent<PlanetVisual>().SetPlanetColor(planetsArr[i].planetColor);
+            planetsArr[i].planetPrefab.position += newPos;
+            planetsArr[i].planetPrefab.GetComponent<PlanetVisual>().SetPlanetColor(planetsArr[i].planetColor);
         }
     }
 
@@ -81,7 +79,7 @@ public class Planets : MonoBehaviour
     private void SetVisibilityOfPlanet(int index, bool visible)
     {
         //planetsArr[index + 1].planetRef.gameObject.SetActive(gameObject.activeSelf);
-        planetsArr[index].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = visible;
+        planetsArr[index].planetPrefab.gameObject.GetComponent<MeshRenderer>().enabled = visible;
     }
 
     public void ShiftPlanetLeft()
@@ -90,9 +88,8 @@ public class Planets : MonoBehaviour
         {
             currentPlanetIndex--;
             MakeCurrAndAdjasentPlanetsVisible();
-            //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
-            //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
-            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
+            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
+            { currPlanetTransform = planetsArr[currentPlanetIndex].planetPrefab });
         }
     }
 
@@ -102,9 +99,8 @@ public class Planets : MonoBehaviour
         {
             currentPlanetIndex++;
             MakeCurrAndAdjasentPlanetsVisible();
-            //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
-            //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
-            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
+            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
+            { currPlanetTransform = planetsArr[currentPlanetIndex].planetPrefab });
         }
     }
 
