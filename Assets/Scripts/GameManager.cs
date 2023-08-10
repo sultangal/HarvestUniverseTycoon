@@ -83,17 +83,6 @@ public class GameManager : MonoBehaviour
         return playerData.score == playerData.pointsQuantity;
     }
 
-    //private void Update()
-    //{
-    //    Debug.Log("GameState: " + state);
-    //}
-
-    private IEnumerator CheckState()
-    {
-        Debug.Log("GameState: " + state);
-        yield return new WaitForSeconds(1);
-    }
-
     public void SetGameState(GameState state)
     {
         this.state = state;
@@ -135,5 +124,10 @@ public class GameManager : MonoBehaviour
         {
             TimeIsUp();
         }
+    }
+
+    public GameState GetState()
+    {
+        return state;
     }
 }

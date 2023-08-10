@@ -5,9 +5,26 @@ public class Countdown: MonoBehaviour
 {
     public event EventHandler OnTimeIsUp;
 
-    private const float COUNTDOWN_TIME = 10.0f;
+    private const float COUNTDOWN_TIME = 59.0f;
     private float countdownTime = COUNTDOWN_TIME;
     private bool countdownRunning = false;
+
+    private void Start()
+    {
+        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, EventArgs e)
+    {
+        Debug.Log("Game State is: " + GameManager.Instance.GetState());
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            StartCountdown();
+        } else
+        {
+            StopCountdown();
+        }
+    }
 
     public bool SetCountdownTime(float time)
     {
@@ -20,10 +37,14 @@ public class Countdown: MonoBehaviour
     {
         return countdownTime;
     }
-    public void StartCountdown()
+    private void StartCountdown()
     {
         countdownTime = COUNTDOWN_TIME;
         countdownRunning = true;
+    }
+    private void StopCountdown()
+    {
+        countdownRunning = false;
     }
 
     private void Update()

@@ -15,7 +15,7 @@ public class MainMenuUI : MonoBehaviour
         btnPlay.GetComponent<Button>().onClick.AddListener(() =>
         {
             GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
-            countdown.StartCountdown();
+            //countdown.StartCountdown();
             btnPlay.gameObject.SetActive(false);
             btnShiftLeft.gameObject.SetActive(false);
             btnShiftRight.gameObject.SetActive(false);

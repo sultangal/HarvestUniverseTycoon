@@ -85,7 +85,7 @@ public class VehicleGroup : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsTimeIsUp())
+        if (GameManager.Instance.IsTimeIsUp() || GameManager.Instance.IsGameOver())
         {
             inputDirection.y = 0.0f;
             inputDirection.x = 0.0f;

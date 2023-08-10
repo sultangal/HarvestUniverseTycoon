@@ -62,7 +62,7 @@ public class Asteroids : MonoBehaviour
             else 
                 Debug.LogError("AsteroidCollideLogic script not founded.");
 
-            yield return new WaitForSeconds((float)random.Next(0, 5));
+            yield return new WaitForSeconds((float)random.Next(0, 2));
         }
 
     }

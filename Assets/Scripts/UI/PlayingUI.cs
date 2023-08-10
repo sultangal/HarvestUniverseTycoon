@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayingUI : MonoBehaviour
 {
     [SerializeField] FloatingJoystick joystick_UI;
-    [SerializeField] Transform score_UI;
-    [SerializeField] Transform countdown_UI;
+    [SerializeField] TextMeshProUGUI score_UI;
+    [SerializeField] TextMeshProUGUI countdown_UI;
     [SerializeField] private Countdown countdown;
 
     private void Start()
@@ -16,26 +16,16 @@ public class PlayingUI : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameWaitingToStart()) {
-            //joystick_UI.CancelInvoke();
-            joystick_UI.gameObject.SetActive(false);
-            score_UI.gameObject.SetActive(false);
-            countdown_UI.gameObject.SetActive(false);  
-        }
-
-        if (GameManager.Instance.IsTimeIsUp())
-        {
-            //joystick_UI.CancelInvoke();
-            joystick_UI.gameObject.SetActive(false);
-            score_UI.gameObject.SetActive(false);
-            countdown_UI.gameObject.SetActive(false);
-        }
-
         if (GameManager.Instance.IsGamePlaying())
         {
             joystick_UI.gameObject.SetActive(true);
             score_UI.gameObject.SetActive(true);
             countdown_UI.gameObject.SetActive(true);
+        } else
+        {
+            joystick_UI.gameObject.SetActive(false);
+            score_UI.gameObject.SetActive(false);
+            countdown_UI.gameObject.SetActive(false);
         }      
     }
 
