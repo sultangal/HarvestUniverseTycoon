@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Field : MonoBehaviour
 {
@@ -10,9 +9,15 @@ public class Field : MonoBehaviour
 
     private readonly System.Random random = new();
     private readonly float randomMultiplier = 0.2f;
+    private Planets planets;
     //private bool firstInstantiation = true;
     private void Start()
     {
+        if (!TryGetComponent(out planets))
+        {
+            Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
+            return;
+        }
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Items = new();
         //InstantiateFieldItems();
@@ -22,13 +27,9 @@ public class Field : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            DestroyFieldItems();
-            if (!TryGetComponent(out Planets currPlanet))
-            {
-                Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
-            }
-            InstantiateFieldItems(currPlanet.planetsArr[currPlanet.currentPlanetIndex].fieldItemSO.itemPrefab,
-                currPlanet.planetsArr[currPlanet.currentPlanetIndex].planetRef.position);
+            DestroyFieldItems();          
+            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO.itemPrefab,
+                planets.GetCurrentPlanetSO().planetRef.position);
         }
     
 

@@ -5,28 +5,25 @@ using UnityEngine;
 public class Asteroids : MonoBehaviour
 {
     [SerializeField] private Transform AsteroidPrefab;
-    [SerializeField] private float respawnPointRemoteness = 30f;   
+    [SerializeField] private float respawnPointRemoteness = 30f;
+    private Planets planets;
 
     private void Start()
     {
+        if (!TryGetComponent(out planets))
+        {
+            Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
+            return;
+        }
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (!TryGetComponent(out Planets planet))
-        {
-            Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
-            return;
-        }
-        if (GameManager.Instance.IsGamePlaying())
-        {
-            StartCoroutine(AsteroidsFallCoroutine(planet.GetCurrentPlanet().position));
-        }       
-        else
-        {
-            StopAllCoroutines();
-        }
+        if (GameManager.Instance.IsGamePlaying())        
+            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetRef.position));            
+        else        
+            StopAllCoroutines();       
     }
 
     private IEnumerator AsteroidsFallCoroutine(Vector3 target)

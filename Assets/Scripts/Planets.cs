@@ -7,7 +7,7 @@ public class Planets : MonoBehaviour
 {
     public static Planets Instance { get; private set; }
 
-    public PlanetSO[] planetsArr;
+    [SerializeField] private PlanetSO[] planetsArr;
     [SerializeField] private PlanetMeshSO planetMeshSO;
     //public Vector3 CurrPlanetPosition { get; private set; };
     //public FieldItemSO CurrfieldItemSO { get; private set; } 
@@ -34,8 +34,17 @@ public class Planets : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         CreatePlanets();
-        SetPlanetsVisibility();
+        MakeCurrAndAdjasentPlanetsVisible();
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, EventArgs e)
+    {
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            MakeOnlyCurrPlanetVisible();
+        }
     }
 
     private void CreatePlanets()
@@ -53,12 +62,34 @@ public class Planets : MonoBehaviour
         }
     }
 
+    private void MakeCurrAndAdjasentPlanetsVisible()
+    {
+        MakeOnlyCurrPlanetVisible();
+        if (currentPlanetIndex > 0)
+            SetVisibilityOfPlanet(currentPlanetIndex - 1, true);
+        if (currentPlanetIndex < planetsArr.Length - 1)
+            SetVisibilityOfPlanet(currentPlanetIndex + 1, true);
+    }
+
+    private void MakeOnlyCurrPlanetVisible()
+    {
+        for (int i = 0; i < planetsArr.Length; i++)
+            SetVisibilityOfPlanet(i, false);
+        SetVisibilityOfPlanet(currentPlanetIndex, true);
+    }
+
+    private void SetVisibilityOfPlanet(int index, bool visible)
+    {
+        //planetsArr[index + 1].planetRef.gameObject.SetActive(gameObject.activeSelf);
+        planetsArr[index].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = visible;
+    }
+
     public void ShiftPlanetLeft()
     {
         if (currentPlanetIndex > 0)
         {
             currentPlanetIndex--;
-            SetPlanetsVisibility();
+            MakeCurrAndAdjasentPlanetsVisible();
             //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
             //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
@@ -67,58 +98,18 @@ public class Planets : MonoBehaviour
 
     public void ShiftPlanetRight()
     {
-        if (currentPlanetIndex < planetsArr.Length-1)
+        if (currentPlanetIndex < planetsArr.Length - 1)
         {
             currentPlanetIndex++;
-            SetPlanetsVisibility();
+            MakeCurrAndAdjasentPlanetsVisible();
             //CurrPlanetPosition = planetsArr[currentPlanetIndex].planetRef.position;
             //CurrfieldItemSO = planetsArr[currentPlanetIndex].fieldItemSO;
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs { currPlanetTransform = planetsArr[currentPlanetIndex].planetRef });
         }
     }
 
-    public Transform GetCurrentPlanet()
+    public PlanetSO GetCurrentPlanetSO()
     {
-        return planetsArr[currentPlanetIndex].planetRef;
+        return planetsArr[currentPlanetIndex];
     }
-
-    private void SetPlanetsVisibility()
-    {
-        for (int i = 0; i < planetsArr.Length; i++)
-        {
-            planetsArr[i].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        }
-
-        if (currentPlanetIndex > 0)
-        {
-            planetsArr[currentPlanetIndex - 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
-        }
-
-        planetsArr[currentPlanetIndex].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
-
-        if (currentPlanetIndex < planetsArr.Length - 1)
-        {
-            planetsArr[currentPlanetIndex + 1].planetRef.gameObject.GetComponent<MeshRenderer>().enabled = true;
-        }
-    }
-
-    //private List<Transform> InstantiateFieldItems(FieldItemSO fieldItemSO, Vector3 planetPosition)
-    //{
-        //List<Transform> fieldItems = new();
-        //foreach (var vertex in meshForPointsSource.vertices)
-        //{
-            //Vector3 position = new((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
-            //position *= randomMultiplier;
-            //position += vertex;
-            //position.Normalize();
-            //position.Scale(new(5f, 5f, 5f));
-            //Transform item = Instantiate(fieldItemSO.itemPrefab, position, Quaternion.LookRotation(position));
-            //Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
-            //item.eulerAngles += turnItem;
-            //item.Rotate(new(0.0f, (float)random.NextDouble() * 100, 0.0f));
-            //item.position += planetPosition;
-            //fieldItems.Add(item);
-        //}
-        //return fieldItems;
-    //}
 }
