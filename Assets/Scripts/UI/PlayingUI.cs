@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +6,9 @@ public class PlayingUI : MonoBehaviour
     [SerializeField] FloatingJoystick joystick_UI;
     [SerializeField] Transform score_UI;
     [SerializeField] Transform countdown_UI;
-
     [SerializeField] private Countdown countdown;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -28,7 +23,7 @@ public class PlayingUI : MonoBehaviour
             countdown_UI.gameObject.SetActive(false);  
         }
 
-        if (GameManager.Instance.IsGameSessionEnded())
+        if (GameManager.Instance.IsTimeIsUp())
         {
             //joystick_UI.CancelInvoke();
             joystick_UI.gameObject.SetActive(false);
@@ -44,13 +39,13 @@ public class PlayingUI : MonoBehaviour
         }      
     }
 
-    private void Update()
-    {
-        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(countdown.GetCountdownTime()).ToString() + "sec";
-    }
-
     private void GameManager_OnScoreChanged(object sender, System.EventArgs e)
     {
         score_UI.GetComponent<TextMeshProUGUI>().text = "$" + GameManager.Instance.GetScore().ToString();
+    }
+
+    private void Update()
+    {
+        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(countdown.GetCountdownTime()).ToString() + "sec";
     }
 }

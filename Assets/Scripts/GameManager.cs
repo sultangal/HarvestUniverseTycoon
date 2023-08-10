@@ -1,10 +1,7 @@
 using System;
-using System.IO;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using UnityEngine;
-using Unity.VisualScripting;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -19,7 +16,8 @@ public class GameManager : MonoBehaviour
     {
         WaitingToStart,
         GameSessionPlaying,
-        GameSessionEnd
+        TimeIsUp,
+        GameOver
     }
     private GameState state;    
     private PlayerData playerData;
@@ -40,14 +38,13 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-
         playerData = new PlayerData();  
-
         //ReadScoreFromFile();
 
     }
     private void Start()
-    {       
+    {
+        //StartCoroutine(CheckState());
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         if (!TryGetComponent(out Field field))
         {
@@ -62,7 +59,65 @@ public class GameManager : MonoBehaviour
 
     private void Countdown_OnTimeIsUp(object sender, EventArgs e)
     {
-        GameSessionEnded();
+        TimeIsUp();
+    }
+
+    private void WriteScoreToFile()
+    {
+        //File.WriteAllText(scoreFilePath, JsonUtility.ToJson(playerData));
+    }
+
+    private void ReadScoreFromFile()
+    {
+        //playerData = JsonUtility.FromJson<PlayerData>(File.ReadAllText(scoreFilePath));
+    }
+
+    private void TimeIsUp()
+    {
+        playerData.score = 0;
+        SetGameState(GameState.TimeIsUp);       
+    }
+
+    private bool IsScoreAchieved()
+    {
+        return playerData.score == playerData.pointsQuantity;
+    }
+
+    //private void Update()
+    //{
+    //    Debug.Log("GameState: " + state);
+    //}
+
+    private IEnumerator CheckState()
+    {
+        Debug.Log("GameState: " + state);
+        yield return new WaitForSeconds(1);
+    }
+
+    public void SetGameState(GameState state)
+    {
+        this.state = state;
+        OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool IsGamePlaying()
+    {
+        return state == GameState.GameSessionPlaying;
+    }
+
+    public bool IsGameWaitingToStart()
+    {
+        return state == GameState.WaitingToStart;
+    }
+
+    public bool IsTimeIsUp()
+    {
+        return state == GameState.TimeIsUp;
+    }
+
+    public bool IsGameOver()
+    {
+        return state == GameState.GameOver;
     }
 
     public int GetScore()
@@ -78,50 +133,7 @@ public class GameManager : MonoBehaviour
 
         if (IsScoreAchieved())
         {
-            GameSessionEnded();
+            TimeIsUp();
         }
     }
-
-    private void WriteScoreToFile()
-    {
-        //File.WriteAllText(scoreFilePath, JsonUtility.ToJson(playerData));
-    }
-
-    private void ReadScoreFromFile()
-    {
-        //playerData = JsonUtility.FromJson<PlayerData>(File.ReadAllText(scoreFilePath));
-    }
-
-    public bool IsGamePlaying()
-    {
-        return state == GameState.GameSessionPlaying;
-    }
-    public bool IsGameWaitingToStart()
-    {
-        return state == GameState.WaitingToStart;
-    }
-
-    public bool IsGameSessionEnded()
-    {
-        return state == GameState.GameSessionEnd;
-    }
-
-    public void SetGameState(GameState state)
-    {
-        this.state = state;
-        OnGameStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void GameSessionEnded()
-    {
-        playerData.score = 0;
-        SetGameState(GameState.GameSessionEnd);       
-    }
-
-    private bool IsScoreAchieved()
-    {
-        return playerData.score == playerData.pointsQuantity;
-    }
-
-
 }

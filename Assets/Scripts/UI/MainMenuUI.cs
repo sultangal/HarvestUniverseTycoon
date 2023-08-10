@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +7,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button btnShiftLeft;
     [SerializeField] private Button btnShiftRight;
     [SerializeField] private Countdown countdown;
-    // Start is called before the first frame update
+
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -37,7 +34,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameSessionEnded())
+        if (GameManager.Instance.IsGameWaitingToStart())
         {
             btnPlay.gameObject.SetActive(true);
             btnShiftLeft.gameObject.SetActive(true);

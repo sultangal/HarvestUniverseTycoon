@@ -1,12 +1,26 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Asteroids : MonoBehaviour
 {
+    public static Asteroids Instance { get; private set; }
+
     [SerializeField] private Transform AsteroidPrefab;
     [SerializeField] private float respawnPointRemoteness = 30f;
+    private List<GameObject> craters = new(); 
     private Planets planets;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one Asteroids!");
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -20,10 +34,17 @@ public class Asteroids : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGamePlaying())        
-            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));            
-        else        
-            StopAllCoroutines();       
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));
+        }
+        else
+            StopAllCoroutines();
+
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            DestroyCraters();
+        }
     }
 
     private IEnumerator AsteroidsFallCoroutine(Vector3 target)
@@ -46,7 +67,21 @@ public class Asteroids : MonoBehaviour
 
     }
 
+    private void DestroyCraters()
+    {
+        foreach (var crater in craters)
+        {
+            Destroy(crater);
+        }
+        craters.Clear();
+    }
+
+    public void CreateCrater(Vector3 position, Quaternion rotation)
+    {
+        GameObject crater = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        crater.transform.SetPositionAndRotation(position, rotation);
+        craters.Add(crater);
+    }
 
 
-    
 }

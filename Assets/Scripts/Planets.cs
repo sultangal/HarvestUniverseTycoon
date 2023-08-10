@@ -24,7 +24,7 @@ public class Planets : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There is more than one PlanetsController!");
+            Debug.LogError("There is more than one Planets!");
             return;
         }
         Instance = this;

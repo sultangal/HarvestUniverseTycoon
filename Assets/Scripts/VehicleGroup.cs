@@ -7,7 +7,6 @@ public class VehicleGroup : MonoBehaviour
     [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
     [SerializeField] private Transform vehicleRef;
     [SerializeField] private Transform vehicleBodyRef;
-    //[SerializeField] Vector3 halfExtends;
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
     [SerializeField] private FloatingJoystick joystick;
@@ -19,9 +18,7 @@ public class VehicleGroup : MonoBehaviour
     private float forwardVelocity = 0.0f;
 
     private readonly float wiggleFrequency = 5.0f;
-    private readonly float wiggleAmount = 10.0f;
-
-   
+    private readonly float wiggleAmount = 10.0f;  
 
     private void Start()
     {
@@ -88,7 +85,7 @@ public class VehicleGroup : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGameSessionEnded())
+        if (GameManager.Instance.IsTimeIsUp())
         {
             inputDirection.y = 0.0f;
             inputDirection.x = 0.0f;
@@ -96,7 +93,7 @@ public class VehicleGroup : MonoBehaviour
             joystick.OnPointerUp(null);
         }
 
-        if (GameManager.Instance.IsGamePlaying())
+        if (GameManager.Instance.IsGameWaitingToStart())
         {
             transform.localEulerAngles = Vector3.zero;
             vehicleRef.transform.localEulerAngles = Vector3.zero;

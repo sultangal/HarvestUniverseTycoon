@@ -30,7 +30,12 @@ public class Field : MonoBehaviour
             InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO.fieldItemPrefab,
                 planets.GetCurrentPlanetSO().planetPrefab.position);
         }
-    
+
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            DestroyFieldItems();
+        }
+
 
         //if (GameManager.Instance.IsGamePlaying())
         //{
@@ -75,7 +80,6 @@ public class Field : MonoBehaviour
     {
         Items.ForEach(e => e.gameObject.SetActive(gameObject.activeSelf));
     }
-
 
     private void DestroyFieldItems()
     {
