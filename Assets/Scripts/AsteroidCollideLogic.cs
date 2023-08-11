@@ -1,26 +1,44 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class AsteroidCollideLogic : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem partSystem;
+    [SerializeField] private Transform asteriod;
+    public float moveSpeed;
+
+    private IEnumerator moveToTarget;
+
     public void StartMoving(Vector3 target)
     {
-        StartCoroutine(MoveToTarget(target));
+        moveToTarget = MoveToTarget(target);
+        StartCoroutine(moveToTarget);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        StopAllCoroutines();
+        StopCoroutine(moveToTarget);           
+        StartCoroutine(StartDestroying());
         Asteroids.Instance.CreateCrater(transform.position, transform.rotation);
-        Destroy(gameObject);
+
     }
 
     private IEnumerator MoveToTarget(Vector3 target)
     {
         while (transform.position != target)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 10f);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
             yield return null;
         }
+    }
+
+    private IEnumerator StartDestroying()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+        asteriod.gameObject.SetActive(false);
+        partSystem.Stop();
+        yield return new WaitForSeconds(partSystem.main.duration);
+        Destroy(gameObject);
     }
 }

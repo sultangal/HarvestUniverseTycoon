@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Asteroids : MonoBehaviour
 {
     public static Asteroids Instance { get; private set; }
 
-    [SerializeField] private Transform AsteroidPrefab;
+    [SerializeField] private Transform asteroidPrefab;
+    [SerializeField] private Transform cratorPrefab;
     [SerializeField] private float respawnPointRemoteness = 30f;
-    private List<GameObject> craters = new(); 
+    [SerializeField] private float asteroidMoveSpeed = 9f;
+    [SerializeField] private int minSecBetweenRespawn = 0;
+    [SerializeField] private int maxSecBetweenRespawn = 2;
+    
+    private readonly List<GameObject> craters = new(); 
+    private readonly List<GameObject> asteroids = new(); 
     private Planets planets;
 
     private void Awake()
@@ -43,6 +48,7 @@ public class Asteroids : MonoBehaviour
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
+            DestroyAsteroids();
             DestroyCraters();
         }
     }
@@ -55,14 +61,17 @@ public class Asteroids : MonoBehaviour
             Vector3 vecOnUnitSphere = Random.onUnitSphere;
             Vector3 respawnPoint = vecOnUnitSphere * respawnPointRemoteness;
             respawnPoint += target;
-            Transform asteriod = Instantiate(AsteroidPrefab, respawnPoint, Quaternion.LookRotation(vecOnUnitSphere));
-
+            Transform asteriod = Instantiate(asteroidPrefab, respawnPoint, Quaternion.LookRotation(vecOnUnitSphere));
+            asteroids.Add(asteriod.gameObject);
             if (asteriod.TryGetComponent(out AsteroidCollideLogic asteroidCL))
-                asteroidCL.StartMoving(target);            
-            else 
+            {
+                asteroidCL.moveSpeed = asteroidMoveSpeed;
+                asteroidCL.StartMoving(target);
+            }
+            else
                 Debug.LogError("AsteroidCollideLogic script not founded.");
 
-            yield return new WaitForSeconds((float)random.Next(0, 2));
+            yield return new WaitForSeconds((float)random.Next(minSecBetweenRespawn, maxSecBetweenRespawn));
         }
 
     }
@@ -76,11 +85,20 @@ public class Asteroids : MonoBehaviour
         craters.Clear();
     }
 
+    private void DestroyAsteroids()
+    {
+        foreach (var asteroid in asteroids)
+        {
+            if (asteroid != null)
+            Destroy(asteroid);
+        }
+        asteroids.Clear();
+    }
+
     public void CreateCrater(Vector3 position, Quaternion rotation)
     {
-        GameObject crater = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        crater.transform.SetPositionAndRotation(position, rotation);
-        craters.Add(crater);
+        Transform crater = Instantiate(cratorPrefab, position, rotation);
+        craters.Add(crater.gameObject);
     }
 
 

@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        //StartCoroutine(CheckState());
         countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         if (!TryGetComponent(out Field field))
         {
