@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private Countdown countdown;   
+    public float CountdownTime { get; private set; }
 
     public event EventHandler OnScoreChanged;
     public event EventHandler OnGameStateChanged;   
@@ -20,7 +20,11 @@ public class GameManager : MonoBehaviour
         GameOver
     }
     private GameState state;    
-    private PlayerData playerData;
+    private readonly GameSessionData sesssionData = new ();
+    private readonly GlobalData globalData = new ();
+    private readonly float COUNTDOWN_TIME = 59f;
+    
+    private bool countdownRunning = false;
 
 #if UNITY_EDITOR
     //private readonly static string appPath = Application.dataPath;
@@ -38,27 +42,20 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        playerData = new PlayerData();  
         //ReadScoreFromFile();
 
     }
     private void Start()
     {
-        countdown.OnTimeIsUp += Countdown_OnTimeIsUp;
         if (!TryGetComponent(out Field field))
         {
             Debug.LogError("No Fileds script attached!");
             return; 
         }
-        
-        playerData.pointsQuantity = field.meshForPointsSource.vertices.Length;
+
+        globalData.pointsQuantity = field.meshForPointsSource.vertices.Length;
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void Countdown_OnTimeIsUp(object sender, EventArgs e)
-    {
-        TimeIsUp();
     }
 
     private void WriteScoreToFile()
@@ -73,19 +70,60 @@ public class GameManager : MonoBehaviour
 
     private void TimeIsUp()
     {
-        playerData.score = 0;
+        sesssionData.collectedItems = 0;
         SetGameState(GameState.TimeIsUp);       
     }
 
     private bool IsScoreAchieved()
     {
-        return playerData.score == playerData.pointsQuantity;
+        return sesssionData.collectedItems == globalData.pointsQuantity;
+    }
+
+    private void IterateCountdown()
+    {
+        if (countdownRunning)
+        {
+            CountdownTime -= Time.deltaTime;
+            if (CountdownTime < 0)
+            {
+                CountdownTime = COUNTDOWN_TIME;
+                TimeIsUp();
+                countdownRunning = false;
+            }
+        }
+    }
+    private void StartCountdown()
+    {
+        CountdownTime = COUNTDOWN_TIME;
+        countdownRunning = true;
+    }
+    private void StopCountdown()
+    {
+        countdownRunning = false;
+    }
+
+    private void Update()
+    {
+        IterateCountdown();
     }
 
     public void SetGameState(GameState state)
     {
-        this.state = state;
-        OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+        switch (state)
+        {
+            case GameState.GameSessionPlaying:
+                sesssionData.ResetAllData();
+                StartCountdown();
+                this.state = state;
+                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                return;
+            default:
+                StopCountdown();
+                this.state = state;
+                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                return;
+        }
+
     }
 
     public bool IsGamePlaying()
@@ -110,23 +148,25 @@ public class GameManager : MonoBehaviour
 
     public int GetScore()
     {
-        return playerData.score;
+        return sesssionData.collectedItems;
     }
 
     public void AddScore()
     {
-        playerData.score++;
+        sesssionData.collectedItems++;
         OnScoreChanged?.Invoke(this, EventArgs.Empty);
         //WriteScoreToFile();
 
-        if (IsScoreAchieved())
-        {
-            TimeIsUp();
-        }
+        //sif (IsScoreAchieved())
+        //s{
+        //s    TimeIsUp();
+        //s}
     }
 
     public GameState GetState()
     {
         return state;
     }
+
+
 }

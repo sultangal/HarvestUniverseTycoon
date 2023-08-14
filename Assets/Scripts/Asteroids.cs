@@ -11,7 +11,7 @@ public class Asteroids : MonoBehaviour
     [SerializeField] private float respawnPointRemoteness = 30f;
     [SerializeField] private float asteroidMoveSpeed = 9f;
     [SerializeField] private int minSecBetweenRespawn = 0;
-    [SerializeField] private int maxSecBetweenRespawn = 2;
+    [SerializeField] private int maxSecBetweenRespawn = 1;
     
     private readonly List<GameObject> craters = new(); 
     private readonly List<GameObject> asteroids = new(); 

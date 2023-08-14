@@ -6,7 +6,6 @@ public class PlayingUI : MonoBehaviour
     [SerializeField] FloatingJoystick joystick_UI;
     [SerializeField] TextMeshProUGUI score_UI;
     [SerializeField] TextMeshProUGUI countdown_UI;
-    [SerializeField] private Countdown countdown;
 
     private void Start()
     {
@@ -36,6 +35,7 @@ public class PlayingUI : MonoBehaviour
 
     private void Update()
     {
-        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(countdown.GetCountdownTime()).ToString() + "sec";
+        countdown_UI.GetComponent<TextMeshProUGUI>().text = Mathf.Ceil(GameManager.Instance.CountdownTime).ToString() + "sec";
     }
+
 }
