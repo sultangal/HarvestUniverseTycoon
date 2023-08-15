@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 596ed91b5522e734c956d1f25c9ef65d, type: 3}
-  m_Name: CornSO
+  m_Name: Corn4SO
   m_EditorClassIdentifier: 
-  fieldItemPrefab: {fileID: 2963871370287024525, guid: 7624e478e08c82446b50c1b2fedfff88,
+  fieldItemPrefab: {fileID: 2963871370287024525, guid: e2a8a81c2eb48cb47b256749d421a18b,
     type: 3}

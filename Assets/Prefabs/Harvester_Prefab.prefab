@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -3974385927271759204}
   - component: {fileID: -5218628932492510852}
   m_Layer: 7
-  m_Name: Harvester
+  m_Name: Harvester_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

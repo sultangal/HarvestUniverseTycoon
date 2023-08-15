@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2963871370287024525}
   - component: {fileID: 8371003301943458905}
   m_Layer: 8
-  m_Name: Corn 3
+  m_Name: Corn3_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

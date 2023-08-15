@@ -8,9 +8,8 @@ public class Field : MonoBehaviour
     public List<Transform> Items { get; private set; } = new();
 
     private readonly System.Random random = new();
-    private readonly float randomMultiplier = 0.2f;
+    private readonly float randomMultiplier = 0.02f;
     private Planets planets;
-    //private bool firstInstantiation = true;
     private void Start()
     {
         if (!TryGetComponent(out planets))
@@ -18,16 +17,17 @@ public class Field : MonoBehaviour
             Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
             return;
         }
+
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        //InstantiateFieldItems();
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            DestroyFieldItems();          
-            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO.fieldItemPrefab,
+            DestroyFieldItems();
+            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO[0].fieldItemPrefab,
+                planets.GetCurrentPlanetSO().fieldItemSO[1].fieldItemPrefab,
                 planets.GetCurrentPlanetSO().planetPrefab.position);
         }
 
@@ -35,32 +35,35 @@ public class Field : MonoBehaviour
         {
             DestroyFieldItems();
         }
-
-
-        //if (GameManager.Instance.IsGamePlaying())
-        //{
-        //    if (!firstInstantiation)
-        //    {
-        //        DestroyFieldItems();
-        //        InstantiateFieldItems();
-        //    }
-        //    firstInstantiation = false;
-        //}
     }
 
-    public void InstantiateFieldItems(Transform itemRef, Vector3 planetPosition)
+    public void InstantiateFieldItems(Transform itemRef1, Transform itemRef2, Vector3 planetPosition)
     {
-        foreach (var vertex in meshForPointsSource.vertices)
+        for (int i = 0; i < meshForPointsSource.vertices.Length; i++)
         {
             Vector3 position = new((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
             position *= randomMultiplier;
-            position += vertex;
+            position += meshForPointsSource.vertices[i];
             position.Normalize();
-            position.Scale(new(5f, 5f, 5f));          
-            Transform item = Instantiate(itemRef, position, Quaternion.LookRotation(position));
+            position.Scale(new(5f, 5f, 5f));
+
+            //ditributing items according to mesh vertex color
+            Transform item;
+            if (!meshForPointsSource.HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.Color))
+            {
+                Debug.LogError("Mesh for point source dont have vertex color attribute");
+                return;
+            } else
+            {
+                if (meshForPointsSource.colors[i].r > 0.5f)
+                    item = Instantiate(itemRef1, position, Quaternion.LookRotation(position));
+                else
+                    item = Instantiate(itemRef2, position, Quaternion.LookRotation(position));
+            }
+
             Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnItem;
-            item.Rotate(new(0.0f, (float)random.NextDouble() * 100, 0.0f));
+            item.Rotate(new(0.0f, (float)random.NextDouble() * 360f, 0.0f));
             item.position += planetPosition;
             Items.Add(item);
         }

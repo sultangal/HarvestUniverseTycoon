@@ -258,46 +258,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 37980606}
   m_CullTransparentMesh: 1
---- !u!1 &270958337
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 270958341}
-  - component: {fileID: 270958340}
-  m_Layer: 0
-  m_Name: FieldSpherePointSource
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!33 &270958340
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270958337}
-  m_Mesh: {fileID: -5008381810204397873, guid: 2b3f5c512bd62af4188636609f991dba, type: 3}
---- !u!4 &270958341
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270958337}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &420762335
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,7 +445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &534743015
 MonoBehaviour:
@@ -542,8 +502,8 @@ MonoBehaviour:
     type: 3}
   respawnPointRemoteness: 20
   asteroidMoveSpeed: 3
-  minSecBetweenRespawn: 0
-  maxSecBetweenRespawn: 2
+  minSecBetweenRespawn: 3
+  maxSecBetweenRespawn: 5
 --- !u!114 &534743018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource: {fileID: -5008381810204397873, guid: 2b3f5c512bd62af4188636609f991dba,
+  meshForPointsSource: {fileID: -5008381810204397873, guid: 08a51fee3a6d6304ba5b1a657aeb17fa,
     type: 3}
 --- !u!1 &544802525
 GameObject:
@@ -1456,7 +1416,7 @@ RectTransform:
   - {fileID: 1213641953}
   - {fileID: 504293518}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2132,7 +2092,7 @@ RectTransform:
   - {fileID: 1219172281}
   - {fileID: 814981546}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2238,7 +2198,7 @@ RectTransform:
   - {fileID: 859660668}
   - {fileID: 544802529}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2422,7 +2382,7 @@ RectTransform:
   - {fileID: 420762340}
   - {fileID: 37980607}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
