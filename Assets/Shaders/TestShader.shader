@@ -6,7 +6,7 @@ Shader "Unlit/TestShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "Rende  rType"="Opaque" }
         LOD 100
 
         Pass

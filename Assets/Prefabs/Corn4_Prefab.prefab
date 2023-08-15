@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2963871370287024525}
   - component: {fileID: 8371003301943458905}
+  - component: {fileID: -9128687674729465681}
   m_Layer: 8
   m_Name: Corn4_Prefab
   m_TagString: Untagged
@@ -141,6 +142,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.7, z: 0.1}
   m_Center: {x: 0, y: 0.35, z: 0}
+--- !u!114 &-9128687674729465681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2517622023196851591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a16fb81688e41346aa3977d6fe50c5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColorForVehicleParticles: {r: 0.03203987, g: 0.1262969, b: 0.4528302, a: 0}
 --- !u!1 &2852477646836923784
 GameObject:
   m_ObjectHideFlags: 0
