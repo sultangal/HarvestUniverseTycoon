@@ -1,4 +1,1 @@
-1. Modify Harvester particle system throw particle color according to item collected 
-2. Make progress bar that shows precentage of collected and remained items.
-3. Make asteroid spawn once in a while cristalls(or/and enhanced abilities/bonuses?).
-4. Add in Player Data amount of cristall and currency, and make logic.
+2. Make asteroid spawn once in a while cristalls(or/and enhanced abilities/bonuses?).

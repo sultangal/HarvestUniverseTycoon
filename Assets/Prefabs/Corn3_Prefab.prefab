@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a16fb81688e41346aa3977d6fe50c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColorForVehicleParticles: {r: 0.3086976, g: 0.4433962, b: 0.1986917, a: 0}
+  ColorForVehicleParticles: {r: 0, g: 0.6886792, b: 0.057298426, a: 0}
 --- !u!1 &2852477646836923784
 GameObject:
   m_ObjectHideFlags: 0

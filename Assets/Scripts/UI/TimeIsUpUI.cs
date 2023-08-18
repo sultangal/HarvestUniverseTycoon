@@ -13,11 +13,7 @@ public class TimeIsUpUI : MonoBehaviour
         btnCollect.GetComponent<Button>().onClick.AddListener(() =>
         {
             GameManager.Instance.SetGameState(GameManager.GameState.WaitingToStart);
-            btnCollect.gameObject.SetActive(false);
-            timeIsUp_UI.gameObject.SetActive(false);
         });
-        btnCollect.gameObject.SetActive(false);
-        timeIsUp_UI.gameObject.SetActive(false);
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
@@ -26,6 +22,11 @@ public class TimeIsUpUI : MonoBehaviour
         {
             btnCollect.gameObject.SetActive(true);
             timeIsUp_UI.gameObject.SetActive(true);
+        }
+        else
+        {
+            btnCollect.gameObject.SetActive(false);
+            timeIsUp_UI.gameObject.SetActive(false);
         }
     }
 }

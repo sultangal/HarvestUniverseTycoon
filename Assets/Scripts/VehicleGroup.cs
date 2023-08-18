@@ -3,14 +3,23 @@ using UnityEngine;
 
 public class VehicleGroup : MonoBehaviour
 {
+    [Header("Settings")]
+    [Range(1.0f, 1.5f)]
+    [SerializeField] private float speedMult = 1f;    
+    [Range(1.0f, 1.5f)]
+    [SerializeField] private float bladesWidthMult = 1f;
 
-    [SerializeField] private float maxSpeed = 50f;  // Rotation speed in degrees per second
-    [SerializeField] private Transform vehicleRef;
-    [SerializeField] private Transform vehicleBodyRef;
+    [Header("References")]
+    [SerializeField] private Transform harvesterRef;
+    [SerializeField] private Transform harvesterBodyRef;
+    [SerializeField] private Transform harvesterBladesGroupRef;
+   
+    [SerializeField] private FloatingJoystick joystick;
+    
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;
-    [SerializeField] private FloatingJoystick joystick;
-
+    private readonly float HARVESTER_SPEED_CONST = 32f;
+    private float harvesterSpeed;  // Rotation speed in degrees per second
     private readonly float timeZeroToMax = 0.5f;
     private readonly float timeMaxToZero = 0.5f;
     private float accelRatePerSec;
@@ -22,8 +31,9 @@ public class VehicleGroup : MonoBehaviour
 
     private void Start()
     {
-        accelRatePerSec = maxSpeed / timeZeroToMax;
-        decelRatePerSec = -maxSpeed / timeMaxToZero;
+        SetHarvesterSettings();
+        accelRatePerSec = harvesterSpeed / timeZeroToMax;
+        decelRatePerSec = -harvesterSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
     }
@@ -41,6 +51,20 @@ public class VehicleGroup : MonoBehaviour
         }
     }
 
+    private void SetHarvesterSettings()
+    {
+        harvesterSpeed = HARVESTER_SPEED_CONST * speedMult;
+        BoxCollider vehicleBoxCollider = harvesterRef.GetComponent<BoxCollider>();
+        vehicleBoxCollider.size = new(
+            vehicleBoxCollider.size.x * bladesWidthMult, 
+            vehicleBoxCollider.size.y, 
+            vehicleBoxCollider.size.z);
+        harvesterBladesGroupRef.transform.localScale = new(
+            harvesterBladesGroupRef.transform.localScale.x * bladesWidthMult,
+            harvesterBladesGroupRef.transform.localScale.y,
+            harvesterBladesGroupRef.transform.localScale.z);
+    }
+
     private void MoveVehicle()
     {
 
@@ -49,7 +73,7 @@ public class VehicleGroup : MonoBehaviour
             Wiggle();
             //calculation of acceleration
             forwardVelocity += accelRatePerSec * Time.deltaTime;
-            forwardVelocity = Mathf.Min(forwardVelocity, maxSpeed);
+            forwardVelocity = Mathf.Min(forwardVelocity, harvesterSpeed);
 
             //saving last entered direction
             inputDirection.y = joystick.Horizontal;
@@ -75,11 +99,11 @@ public class VehicleGroup : MonoBehaviour
     {
         if (inputDirection != Vector2.zero)
         {
-            vehicleAngles.x = vehicleRef.transform.localEulerAngles.x;
+            vehicleAngles.x = harvesterRef.transform.localEulerAngles.x;
             vehicleAngles.y = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg;
-            vehicleAngles.z = vehicleRef.transform.localEulerAngles.z;
+            vehicleAngles.z = harvesterRef.transform.localEulerAngles.z;
 
-            vehicleRef.transform.localEulerAngles = vehicleAngles;
+            harvesterRef.transform.localEulerAngles = vehicleAngles;
         }
     }
 
@@ -96,15 +120,20 @@ public class VehicleGroup : MonoBehaviour
         if (GameManager.Instance.IsGameWaitingToStart())
         {
             transform.localEulerAngles = Vector3.zero;
-            vehicleRef.transform.localEulerAngles = Vector3.zero;
+            harvesterRef.transform.localEulerAngles = Vector3.zero;
+        }
+
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            SetHarvesterSettings();
         }
     }
 
     private void Wiggle()
     {
         float wiggle = Mathf.PerlinNoise1D(Time.time * wiggleFrequency);
-        vehicleBodyRef.localRotation = Quaternion.Euler(0.0f,
-            vehicleBodyRef.localRotation.y,
+        harvesterBodyRef.localRotation = Quaternion.Euler(0.0f,
+            harvesterBodyRef.localRotation.y,
             wiggle * wiggleAmount);
     }
 }

@@ -14,9 +14,6 @@ public class MainMenuUI : MonoBehaviour
         btnPlay.GetComponent<Button>().onClick.AddListener(() =>
         {
             GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
-            btnPlay.gameObject.SetActive(false);
-            btnShiftLeft.gameObject.SetActive(false);
-            btnShiftRight.gameObject.SetActive(false);
         });
 
         btnShiftLeft.GetComponent<Button>().onClick.AddListener(() =>
@@ -37,6 +34,12 @@ public class MainMenuUI : MonoBehaviour
             btnPlay.gameObject.SetActive(true);
             btnShiftLeft.gameObject.SetActive(true);
             btnShiftRight.gameObject.SetActive(true);
+        }
+        else
+        {
+            btnPlay.gameObject.SetActive(false);
+            btnShiftLeft.gameObject.SetActive(false);
+            btnShiftRight.gameObject.SetActive(false);
         }
     }
 }

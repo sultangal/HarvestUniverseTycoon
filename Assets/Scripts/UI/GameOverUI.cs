@@ -14,11 +14,8 @@ public class GameOverUI : MonoBehaviour
         btnCollect.GetComponent<Button>().onClick.AddListener(() =>
         {
             GameManager.Instance.SetGameState(GameManager.GameState.WaitingToStart);
-            btnCollect.gameObject.SetActive(false);
-            gameOver_UI.gameObject.SetActive(false);
         });
-        btnCollect.gameObject.SetActive(false);
-        gameOver_UI.gameObject.SetActive(false);
+
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
@@ -27,6 +24,11 @@ public class GameOverUI : MonoBehaviour
         {
             btnCollect.gameObject.SetActive(true);
             gameOver_UI.gameObject.SetActive(true);
+        }
+        else
+        {
+            btnCollect.gameObject.SetActive(false);
+            gameOver_UI.gameObject.SetActive(false);
         }
     }
 }

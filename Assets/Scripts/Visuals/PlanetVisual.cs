@@ -6,7 +6,7 @@ public class PlanetVisual : MonoBehaviour
     {
         Material mat = GetComponent<Renderer>().material;
         mat.SetColor("_Color", color);
-        mat.SetColor("_FresnelColor", color);      
+        mat.SetColor("_FresnelColor", color*2.0f);      
     }
 
 }
