@@ -8,9 +8,8 @@ public class HarvesterCollideLogic : MonoBehaviour
         var main = partSystem.main;
         if (other.gameObject.TryGetComponent(out FieldItemVisuals fieldItemVisuals))
             main.startColor = fieldItemVisuals.ColorForVehicleParticles;
-
-        Destroy(other.gameObject);
-        GameManager.Instance.AddScore();        
+        GameManager.Instance.AddCash(other.gameObject);
+        Destroy(other.gameObject);             
         partSystem.Play();
     }
 }

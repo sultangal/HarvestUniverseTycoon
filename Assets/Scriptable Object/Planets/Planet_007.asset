@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b0ecb4ae7c87b2643a3c48d83f72d42b, type: 3}
-  m_Name: Planet_004 3
+  m_Name: Planet_007
   m_EditorClassIdentifier: 
   planetName: Venus
-  fieldItemSO:
+  fieldItemSOs:
   - {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
   - {fileID: 11400000, guid: 07666804496b4c54496fdd6b59eb1847, type: 2}
   planetColor: {r: 0.6698113, g: 0, b: 0, a: 0}

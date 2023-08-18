@@ -1,11 +1,17 @@
+using UnityEngine;
+
 public class GameSessionData
 {
-    public int collectedItems = 0;
-    public int collectedCrystalls = 0;
+    public int collectedCash = 0;
+    public int collectedGold = 0;
+    public FieldItemSO[] fieldItemSOs = null;
+    public Vector3 curentPlanetPosition = Vector3.zero;
 
     public void ResetAllData()
     {
-        collectedItems = 0;
-        collectedCrystalls = 0;
-    }
+        collectedCash = 0;
+        collectedGold = 0;
+        FieldItemSO[] fieldItemSOs = null;
+        Vector3 curentPlanetPosition = Vector3.zero;
+}
 }

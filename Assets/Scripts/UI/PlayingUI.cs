@@ -9,7 +9,7 @@ public class PlayingUI : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnScoreChanged += GameManager_OnScoreChanged;
+        GameManager.Instance.OnCashAmountChanged += GameManager_OnScoreChanged;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
     }
 
@@ -30,7 +30,7 @@ public class PlayingUI : MonoBehaviour
 
     private void GameManager_OnScoreChanged(object sender, System.EventArgs e)
     {
-        score_UI.GetComponent<TextMeshProUGUI>().text = "$" + GameManager.Instance.GetScore().ToString();
+        score_UI.GetComponent<TextMeshProUGUI>().text = "$" + GameManager.Instance.GetCashAmount().ToString();
     }
 
     private void Update()

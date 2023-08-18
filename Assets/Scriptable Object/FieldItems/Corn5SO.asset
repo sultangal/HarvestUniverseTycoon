@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596ed91b5522e734c956d1f25c9ef65d, type: 3}
+  m_Name: Corn5SO
+  m_EditorClassIdentifier: 
+  fieldItemPrefab: {fileID: 2963871370287024525, guid: 3c9f4d9a069bd464f82e08fdbb1a861b,
+    type: 3}
+  collectedInGameSession: 0
+  itemSprite: {fileID: 0}

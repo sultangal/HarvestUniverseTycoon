@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Planet_001
   m_EditorClassIdentifier: 
   planetName: Mars
-  fieldItemSO:
+  fieldItemSOs:
   - {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
   - {fileID: 11400000, guid: 07666804496b4c54496fdd6b59eb1847, type: 2}
   planetColor: {r: 0.5660378, g: 0.23762906, b: 0.23762906, a: 0}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Field : MonoBehaviour
@@ -9,14 +10,13 @@ public class Field : MonoBehaviour
 
     private readonly System.Random random = new();
     private readonly float randomMultiplier = 0.02f;
-    private Planets planets;
     private void Start()
     {
-        if (!TryGetComponent(out planets))
-        {
-            Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
-            return;
-        }
+        //if (!TryGetComponent(out planets))
+        //{
+        //    Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
+        //    return;
+        //}
 
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
     }
@@ -26,9 +26,10 @@ public class Field : MonoBehaviour
         if (GameManager.Instance.IsGamePlaying())
         {
             DestroyFieldItems();
-            InstantiateFieldItems(planets.GetCurrentPlanetSO().fieldItemSO[0].fieldItemPrefab,
-                planets.GetCurrentPlanetSO().fieldItemSO[1].fieldItemPrefab,
-                planets.GetCurrentPlanetSO().planetPrefab.position);
+            //TODO: make inst depend on item quantity. Modify vertex color logic for that
+            
+            InstantiateFieldItems(GameManager.Instance.GameSessionData.fieldItemSOs,
+                GameManager.Instance.GameSessionData.curentPlanetPosition);
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
@@ -37,7 +38,7 @@ public class Field : MonoBehaviour
         }
     }
 
-    public void InstantiateFieldItems(Transform itemRef1, Transform itemRef2, Vector3 planetPosition)
+    public void InstantiateFieldItems(FieldItemSO[] fieldItemSOsArr, Vector3 planetPosition)
     {
         for (int i = 0; i < meshForPointsSource.vertices.Length; i++)
         {
@@ -49,17 +50,19 @@ public class Field : MonoBehaviour
 
             //ditributing items according to mesh vertex color
             Transform item;
-            if (!meshForPointsSource.HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.Color))
-            {
-                Debug.LogError("Mesh for point source dont have vertex color attribute");
-                return;
-            } else
-            {
-                if (meshForPointsSource.colors[i].r > 0.5f)
-                    item = Instantiate(itemRef1, position, Quaternion.LookRotation(position));
-                else
-                    item = Instantiate(itemRef2, position, Quaternion.LookRotation(position));
-            }
+            //if (!meshForPointsSource.HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.Color))
+            //{
+            //    Debug.LogError("Mesh for point source dont have vertex color attribute");
+            //    return;
+            //} else
+            //{
+                int rndIndex = random.Next(GameManager.Instance.GameSessionData.fieldItemSOs.Length);
+                //if (meshForPointsSource.colors[i].r > 0.5f)
+                item = Instantiate(fieldItemSOsArr[rndIndex].fieldItemPrefab, position, Quaternion.LookRotation(position));
+            item.GetComponent<GameObjectReference>().GO = fieldItemSOsArr[rndIndex].fieldItemPrefab.gameObject;
+            //else
+            //item = Instantiate(itemRef2, position, Quaternion.LookRotation(position));
+            //}
 
             Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnItem;

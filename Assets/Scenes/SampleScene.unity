@@ -506,10 +506,10 @@ MonoBehaviour:
     type: 3}
   cratorPrefab: {fileID: 4431278788162487191, guid: ac7b2ab022a6ef54484146e6cc98b237,
     type: 3}
-  respawnPointRemoteness: 20
-  asteroidMoveSpeed: 3
-  minSecBetweenRespawn: 3
-  maxSecBetweenRespawn: 5
+  respawnPointRemoteness: 30
+  asteroidMoveSpeed: 9
+  minSecBetweenRespawn: 0
+  maxSecBetweenRespawn: 3
 --- !u!114 &534743018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource: {fileID: -5008381810204397873, guid: 08a51fee3a6d6304ba5b1a657aeb17fa,
+  meshForPointsSource: {fileID: 6461297695846733525, guid: f2adbededf477bb49b87fe442fec3290,
     type: 3}
 --- !u!1 &544802525
 GameObject:

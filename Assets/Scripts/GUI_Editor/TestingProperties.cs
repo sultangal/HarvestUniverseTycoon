@@ -6,10 +6,19 @@ using static UnityEngine.GraphicsBuffer;
 
 public class TestingProperties : EditorWindow
 {
+    private GameState testState;
+
     private float speedMult = 1f;
     private float bladesWidthMult = 1f;
-    private GameObject harvesterGroupRef;
-    private GameState testState;
+    private HarvesterGroup harvesterGroupRef;
+
+    public float respawnPointRemoteness = 30f;
+    public float asteroidMoveSpeed = 9f;
+    public int minSecBetweenRespawn = 0;
+    public int maxSecBetweenRespawn = 1;
+    private Asteroids asteroidsRef;
+
+    
     [MenuItem("Testing/Test Window")]
     static void Init()
     {
@@ -33,17 +42,33 @@ public class TestingProperties : EditorWindow
         EditorGUILayout.Space(20);
 
         EditorGUILayout.LabelField("Harvester settings: ", EditorStyles.boldLabel);
-
-        harvesterGroupRef = (GameObject)EditorGUILayout.ObjectField("Harvester group ref: ",
-            harvesterGroupRef, typeof(GameObject), true);
+        harvesterGroupRef = FindFirstObjectByType<HarvesterGroup>();
         speedMult = EditorGUILayout.Slider("Speed mult:", speedMult, 1f, 1.5f);
-        bladesWidthMult = EditorGUILayout.Slider("Blades mult:", bladesWidthMult, 1f, 4.5f);
+        harvesterGroupRef.harvesterSpeedMult = speedMult;
+        bladesWidthMult = EditorGUILayout.Slider("Blades mult:", bladesWidthMult, 1f, 4.5f);       
+        harvesterGroupRef.bladesWidthMult = bladesWidthMult;
 
-        if (GUILayout.Button("SET"))
-        {
-            harvesterGroupRef.GetComponent<HarvesterGroup>().harvesterSpeedMult = speedMult;
-            harvesterGroupRef.GetComponent<HarvesterGroup>().bladesWidthMult = bladesWidthMult;
-        }
+        EditorGUILayout.Space(20);
+
+        EditorGUILayout.LabelField("Asteroid settings: ", EditorStyles.boldLabel);
+        asteroidsRef = FindFirstObjectByType<Asteroids>();
+        respawnPointRemoteness = EditorGUILayout.FloatField("Respawn point remoteness:", respawnPointRemoteness);
+        asteroidsRef.respawnPointRemoteness = respawnPointRemoteness;
+
+        asteroidMoveSpeed = EditorGUILayout.FloatField("Move speed:", asteroidMoveSpeed);
+        asteroidsRef.asteroidMoveSpeed = asteroidMoveSpeed;
+
+        EditorGUILayout.BeginHorizontal();
+        minSecBetweenRespawn = EditorGUILayout.IntField("Min sec between respawn:", minSecBetweenRespawn);
+        asteroidsRef.minSecBetweenRespawn = minSecBetweenRespawn;
+        EditorGUILayout.Space(5);
+        maxSecBetweenRespawn = EditorGUILayout.IntField("Max sec between respawn:", maxSecBetweenRespawn);
+        asteroidsRef.maxSecBetweenRespawn = maxSecBetweenRespawn;
+        EditorGUILayout.EndHorizontal();
     }
 
+    private void Update()
+    {
+        //TODO: Make GameSessionData showing on window
+    }
 }

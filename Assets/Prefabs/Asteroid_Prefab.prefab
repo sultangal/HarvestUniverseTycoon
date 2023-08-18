@@ -4980,5 +4980,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partSystem: {fileID: 6904784151486361261}
-  asteriod: {fileID: 1369681874687402107}
   moveSpeed: 0

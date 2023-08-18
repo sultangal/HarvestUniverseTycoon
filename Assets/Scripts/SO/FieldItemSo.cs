@@ -6,4 +6,6 @@ using UnityEngine;
 public class FieldItemSO : ScriptableObject
 {
     public Transform fieldItemPrefab;
+    public int collectedInGameSession;
+    public Sprite itemSprite;
 }

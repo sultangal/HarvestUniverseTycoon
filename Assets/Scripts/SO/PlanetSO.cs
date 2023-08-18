@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlanetSO : ScriptableObject
 {
     public string planetName;
-    public FieldItemSO[] fieldItemSO;
+    public FieldItemSO[] fieldItemSOs;
     public Color planetColor;
     public Transform planetPrefab;
 }
