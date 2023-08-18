@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class VehicleCollideLogic : MonoBehaviour
+public class HarvesterCollideLogic : MonoBehaviour
 {
     [SerializeField] private ParticleSystem partSystem;
     private void OnTriggerEnter(Collider other)

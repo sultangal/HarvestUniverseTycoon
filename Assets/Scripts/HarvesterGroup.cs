@@ -1,25 +1,25 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class VehicleGroup : MonoBehaviour
-{
-    [Header("Settings")]
-    [Range(1.0f, 1.5f)]
-    [SerializeField] private float speedMult = 1f;    
-    [Range(1.0f, 1.5f)]
-    [SerializeField] private float bladesWidthMult = 1f;
-
-    [Header("References")]
+public class HarvesterGroup : MonoBehaviour
+{       
     [SerializeField] private Transform harvesterRef;
     [SerializeField] private Transform harvesterBodyRef;
     [SerializeField] private Transform harvesterBladesGroupRef;
    
     [SerializeField] private FloatingJoystick joystick;
-    
+
+    [SerializeField] private ParticleSystem partSystem;
+
     private Vector2 inputDirection;
-    private Vector3 vehicleAngles;
-    private readonly float HARVESTER_SPEED_CONST = 32f;
+    private Vector3 vehicleAngles;   
     private float harvesterSpeed;  // Rotation speed in degrees per second
+    private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
+    public float harvesterSpeedMult = 1f;
+    private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
+    private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
+    public float bladesWidthMult = 1f;
+    private readonly float PARTICLE_MIN_EMITTER_WIDTH = 8f;
     private readonly float timeZeroToMax = 0.5f;
     private readonly float timeMaxToZero = 0.5f;
     private float accelRatePerSec;
@@ -53,16 +53,21 @@ public class VehicleGroup : MonoBehaviour
 
     private void SetHarvesterSettings()
     {
-        harvesterSpeed = HARVESTER_SPEED_CONST * speedMult;
-        BoxCollider vehicleBoxCollider = harvesterRef.GetComponent<BoxCollider>();
-        vehicleBoxCollider.size = new(
-            vehicleBoxCollider.size.x * bladesWidthMult, 
-            vehicleBoxCollider.size.y, 
-            vehicleBoxCollider.size.z);
+        harvesterSpeed = HARVESTER_MIN_SPEED_CONST * harvesterSpeedMult;
+        BoxCollider bladesCollider = harvesterRef.GetComponent<BoxCollider>();
+        bladesCollider.size = new(
+            BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidthMult, 
+            bladesCollider.size.y, 
+            bladesCollider.size.z);
         harvesterBladesGroupRef.transform.localScale = new(
-            harvesterBladesGroupRef.transform.localScale.x * bladesWidthMult,
+            BLADES_MIN_WIDTH_CONST * bladesWidthMult,
             harvesterBladesGroupRef.transform.localScale.y,
             harvesterBladesGroupRef.transform.localScale.z);
+        var shape = partSystem.shape;
+        shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidthMult,
+            partSystem.shape.scale.y,
+            partSystem.shape.scale.z);
+
     }
 
     private void MoveVehicle()

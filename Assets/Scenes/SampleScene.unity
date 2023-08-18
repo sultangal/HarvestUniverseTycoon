@@ -895,6 +895,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Harvester_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7672513010279168787, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 7886498911938334279, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
       propertyPath: m_RootOrder
@@ -1393,6 +1398,12 @@ Transform:
 --- !u!4 &972174035 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4211523319502962153, guid: 12513b2c405edde4ba635f28e68a7b2e,
+    type: 3}
+  m_PrefabInstance: {fileID: 810067803}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1105347783 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7672513010279168787, guid: 12513b2c405edde4ba635f28e68a7b2e,
     type: 3}
   m_PrefabInstance: {fileID: 810067803}
   m_PrefabAsset: {fileID: 0}
@@ -2316,7 +2327,7 @@ GameObject:
   - component: {fileID: 1825356968}
   - component: {fileID: 1825356967}
   m_Layer: 0
-  m_Name: VehicleGroup
+  m_Name: HarvesterGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2334,12 +2345,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1deb4ad43b6a27448db4975077fc998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMult: 1
-  bladesWidthMult: 1
   harvesterRef: {fileID: 1188670071}
   harvesterBodyRef: {fileID: 404185332}
   harvesterBladesGroupRef: {fileID: 972174035}
   joystick: {fileID: 504293519}
+  partSystem: {fileID: 1105347783}
+  harvesterSpeedMult: 1
+  bladesWidthMult: 1
 --- !u!4 &1825356968
 Transform:
   m_ObjectHideFlags: 0
