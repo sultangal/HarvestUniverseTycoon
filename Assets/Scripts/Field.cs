@@ -28,8 +28,8 @@ public class Field : MonoBehaviour
             DestroyFieldItems();
             //TODO: make inst depend on item quantity. Modify vertex color logic for that
             
-            InstantiateFieldItems(GameManager.Instance.GameSessionData.fieldItemSOs,
-                GameManager.Instance.GameSessionData.curentPlanetPosition);
+            InstantiateFieldItems(GameManager.Instance.GameSessionData.FieldItemSOs,
+                GameManager.Instance.GameSessionData.CurentPlanetPosition);
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
@@ -56,10 +56,11 @@ public class Field : MonoBehaviour
             //    return;
             //} else
             //{
-                int rndIndex = random.Next(GameManager.Instance.GameSessionData.fieldItemSOs.Length);
+                int rndIndex = random.Next(GameManager.Instance.GameSessionData.FieldItemSOs.Length);
                 //if (meshForPointsSource.colors[i].r > 0.5f)
                 item = Instantiate(fieldItemSOsArr[rndIndex].fieldItemPrefab, position, Quaternion.LookRotation(position));
-            item.GetComponent<GameObjectReference>().GO = fieldItemSOsArr[rndIndex].fieldItemPrefab.gameObject;
+            //save reference to original prefab to identify this clone later
+            item.GetComponent<GameObjectReference>().gameObjRef = fieldItemSOsArr[rndIndex].fieldItemPrefab.gameObject;
             //else
             //item = Instantiate(itemRef2, position, Quaternion.LookRotation(position));
             //}

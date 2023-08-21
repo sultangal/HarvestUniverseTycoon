@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptebaleObjects/FieldItemSO")]
 public class FieldItemSO : ScriptableObject
 {
-    public Transform fieldItemPrefab;
-    public int collectedInGameSession;
+    public Transform fieldItemPrefab;   
     public Sprite itemSprite;
 }

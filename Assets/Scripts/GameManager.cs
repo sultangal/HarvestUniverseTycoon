@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Numerics;
 using UnityEngine;
 
 
@@ -122,14 +121,13 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameSessionPlaying:
-                GameSessionData.ResetAllData();
-                GameSessionData.fieldItemSOs = planets.GetCurrentPlanetSO().fieldItemSOs;
-                GameSessionData.curentPlanetPosition = planets.GetCurrentPlanetSO().planetPrefab.position;
+                GameSessionData.ResetAllData(planets.GetCurrentPlanetSO().fieldItemSOs, planets.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             default:
+                GameSessionData.ResetAllData(null, Vector3.zero);
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
@@ -166,12 +164,12 @@ public class GameManager : MonoBehaviour
     public void AddCash(GameObject gameObject)
     {
         GameSessionData.collectedCash++;
-        foreach (var fieldItemSO in GameSessionData.fieldItemSOs)
+        for (int i = 0; i < GameSessionData.FieldItemSOs.Length; i++)
         {
-            if (ReferenceEquals(fieldItemSO.fieldItemPrefab.gameObject, gameObject.GetComponent<GameObjectReference>().GO))
+            if (ReferenceEquals(GameSessionData.FieldItemSOs[i].fieldItemPrefab.gameObject,
+                gameObject.GetComponent<GameObjectReference>().gameObjRef))
             {
-                fieldItemSO.collectedInGameSession++;
-                Debug.Log(fieldItemSO.collectedInGameSession);
+                GameSessionData.CollectedFieldItemSOs[i]++;
             }
         }
         OnCashAmountChanged?.Invoke(this, EventArgs.Empty);

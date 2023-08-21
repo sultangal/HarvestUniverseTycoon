@@ -2,5 +2,5 @@ using UnityEngine;
 
 public class GameObjectReference : MonoBehaviour
 {
-public GameObject GO;
+public GameObject gameObjRef;
 }
