@@ -8,6 +8,7 @@ public class Asteroids : MonoBehaviour
 
     [SerializeField] private Transform asteroidPrefab;
     [SerializeField] private Transform cratorPrefab;
+    [SerializeField] private Transform goldPrefab;
     public float respawnPointRemoteness = 30f;
     public float asteroidMoveSpeed = 9f;
     public int minSecBetweenRespawn = 0;
@@ -15,6 +16,7 @@ public class Asteroids : MonoBehaviour
     
     private readonly List<GameObject> craters = new(); 
     private readonly List<GameObject> asteroids = new(); 
+    private readonly List<GameObject> golds = new(); 
     private Planets planets;
 
     private void Awake()
@@ -50,6 +52,7 @@ public class Asteroids : MonoBehaviour
         {
             DestroyAsteroids();
             DestroyCraters();
+            DestroyGolds();
         }
     }
 
@@ -95,10 +98,26 @@ public class Asteroids : MonoBehaviour
         asteroids.Clear();
     }
 
+    private void DestroyGolds()
+    {
+        foreach (var gold in golds)
+        {
+            if (gold != null)
+                Destroy(gold);
+        }
+        golds.Clear();
+    }
+
     public void CreateCrater(Vector3 position, Quaternion rotation)
     {
         Transform crater = Instantiate(cratorPrefab, position, rotation);
         craters.Add(crater.gameObject);
+    }
+
+    public void CreateGold(Vector3 position, Quaternion rotation)
+    {
+        Transform glod = Instantiate(goldPrefab, position, rotation);
+        golds.Add(glod.gameObject);
     }
 
 

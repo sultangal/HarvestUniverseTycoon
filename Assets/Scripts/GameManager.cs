@@ -181,6 +181,10 @@ public class GameManager : MonoBehaviour
         //s}
     }
 
+    public void AddGold(GameObject gameObject)
+    {
+        GameSessionData.collectedGold++;
+    }
     public GameState GetState()
     {
         return state;

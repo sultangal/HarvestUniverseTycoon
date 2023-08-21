@@ -506,6 +506,8 @@ MonoBehaviour:
     type: 3}
   cratorPrefab: {fileID: 4431278788162487191, guid: ac7b2ab022a6ef54484146e6cc98b237,
     type: 3}
+  goldPrefab: {fileID: 3629528209349865902, guid: a90add40e703dbe4d9dff7546bf3c6ad,
+    type: 3}
   respawnPointRemoteness: 30
   asteroidMoveSpeed: 9
   minSecBetweenRespawn: 0
@@ -2351,7 +2353,7 @@ MonoBehaviour:
   joystick: {fileID: 504293519}
   partSystem: {fileID: 1105347783}
   harvesterSpeedMult: 1
-  bladesWidthMult: 1
+  bladesWidthMult: 1.8
 --- !u!4 &1825356968
 Transform:
   m_ObjectHideFlags: 0

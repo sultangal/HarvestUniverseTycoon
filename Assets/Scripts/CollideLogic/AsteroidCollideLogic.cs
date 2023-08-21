@@ -19,7 +19,9 @@ public class AsteroidCollideLogic : MonoBehaviour
     {
         StopCoroutine(moveToTarget);           
         StartCoroutine(StartDestroying());
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x + 90f, transform.eulerAngles.y, transform.eulerAngles.z);
         Asteroids.Instance.CreateCrater(transform.position, transform.rotation);
+        Asteroids.Instance.CreateGold(transform.position, transform.rotation);
 
     }
 

@@ -5441,6 +5441,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationMultiplier: 300
+  xAxis: 1
+  yAxis: 0
+  zAxis: 0
 --- !u!4 &5936631560447188060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 59a496b3de077ff4c8f4e7446605ea85,
