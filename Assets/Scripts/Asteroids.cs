@@ -14,10 +14,12 @@ public class Asteroids : MonoBehaviour
     public int minSecBetweenRespawn = 0;
     public int maxSecBetweenRespawn = 1;
     
-    private readonly List<GameObject> craters = new(); 
-    private readonly List<GameObject> asteroids = new(); 
-    private readonly List<GameObject> golds = new(); 
+    public List<GameObject> CratersList { get; private set; } = new(); 
+    public List<GameObject> AsteroidsList { get; private set; } = new(); 
+    public List<GameObject> GoldsList { get; private set; } = new(); 
     private Planets planets;
+
+    private const float CHANCE_TO_INSTANTIATE = 0.3f;
 
     private void Awake()
     {
@@ -65,7 +67,7 @@ public class Asteroids : MonoBehaviour
             Vector3 respawnPoint = vecOnUnitSphere * respawnPointRemoteness;
             respawnPoint += target;
             Transform asteriod = Instantiate(asteroidPrefab, respawnPoint, Quaternion.LookRotation(vecOnUnitSphere));
-            asteroids.Add(asteriod.gameObject);
+            AsteroidsList.Add(asteriod.gameObject);
             if (asteriod.TryGetComponent(out AsteroidCollideLogic asteroidCL))
             {
                 asteroidCL.moveSpeed = asteroidMoveSpeed;
@@ -81,43 +83,46 @@ public class Asteroids : MonoBehaviour
 
     private void DestroyCraters()
     {
-        foreach (var crater in craters)
+        foreach (var crater in CratersList)
         {
             Destroy(crater);
         }
-        craters.Clear();
+        CratersList.Clear();
     }
 
     private void DestroyAsteroids()
     {
-        foreach (var asteroid in asteroids)
+        foreach (var asteroid in AsteroidsList)
         {
             if (asteroid != null)
             Destroy(asteroid);
         }
-        asteroids.Clear();
+        AsteroidsList.Clear();
     }
 
     private void DestroyGolds()
     {
-        foreach (var gold in golds)
+        foreach (var gold in GoldsList)
         {
             if (gold != null)
                 Destroy(gold);
         }
-        golds.Clear();
+        GoldsList.Clear();
     }
 
     public void CreateCrater(Vector3 position, Quaternion rotation)
     {
         Transform crater = Instantiate(cratorPrefab, position, rotation);
-        craters.Add(crater.gameObject);
+        CratersList.Add(crater.gameObject);
     }
 
     public void CreateGold(Vector3 position, Quaternion rotation)
-    {
-        Transform glod = Instantiate(goldPrefab, position, rotation);
-        golds.Add(glod.gameObject);
+    {   
+        if (UnityEngine.Random.value < CHANCE_TO_INSTANTIATE)
+        {
+            Transform gold = Instantiate(goldPrefab, position, rotation);
+            GoldsList.Add(gold.gameObject);
+        }
     }
 
 

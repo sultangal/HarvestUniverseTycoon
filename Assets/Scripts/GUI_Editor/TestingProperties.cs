@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static GameManager;
@@ -22,8 +23,17 @@ public class TestingProperties : EditorWindow
     public int[] collectedFieldItemSOs;
     private Vector3 curentPlanetPosition = Vector3.zero;
 
+    public List<GameObject> cratersList;
+    public List<GameObject> asteroidsList;
+    public List<GameObject> goldsList;
 
-    [MenuItem("Testing/Test Window")]
+    public int pointsQuantity = 0;
+    public int amountOfGold = 0;
+    public int amountOfCash = 0;
+    public int level = 0;
+
+
+    [MenuItem("Testing/Testing Properties")]
     static void Init()
     {
         UnityEditor.EditorWindow window = GetWindow(typeof(TestingProperties));
@@ -50,7 +60,7 @@ public class TestingProperties : EditorWindow
         harvesterGroupRef = FindFirstObjectByType<HarvesterGroup>();
         speedMult = EditorGUILayout.Slider("Speed mult:", speedMult, 1f, 1.5f);
         harvesterGroupRef.harvesterSpeedMult = speedMult;
-        bladesWidthMult = EditorGUILayout.Slider("Blades mult:", bladesWidthMult, 1f, 4.5f);       
+        bladesWidthMult = EditorGUILayout.Slider("Blades mult:", bladesWidthMult, 1f, 4.5f);
         harvesterGroupRef.bladesWidthMult = bladesWidthMult;
 
         EditorGUILayout.Space(20);
@@ -74,22 +84,35 @@ public class TestingProperties : EditorWindow
         EditorGUILayout.Space(20);
         GuiLine();
 
+        EditorGUILayout.LabelField("Global data: ", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("    Points quantity: " + pointsQuantity.ToString());
+        EditorGUILayout.LabelField("    Amount of gold: " + amountOfGold.ToString());
+        EditorGUILayout.LabelField("    Amount of cash: " + amountOfCash.ToString());
+        EditorGUILayout.LabelField("    level: " + level.ToString());
+
+        EditorGUILayout.Space(20);
+        GuiLine();
+
         if (EditorApplication.isPlaying)
         {
             EditorGUILayout.LabelField("Game session data: ", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Collected Cash: " + collectedCash.ToString());
-            EditorGUILayout.LabelField("Collected Gold: " + collectedGold.ToString());
-            EditorGUILayout.LabelField("fieldItemSOs: ");
+            EditorGUILayout.LabelField("    Collected Cash: " + collectedCash.ToString());
+            EditorGUILayout.LabelField("    Collected Gold: " + collectedGold.ToString());
+            EditorGUILayout.LabelField("    fieldItemSOs: ");
             if (fieldItemSOs != null && collectedFieldItemSOs != null && fieldItemSOs.Length == collectedFieldItemSOs.Length)
             {
                 for (var i = 0; i < fieldItemSOs.Length; i++)
                 {
-                    EditorGUILayout.LabelField("    " + fieldItemSOs[i].ToString() + " collected: " + collectedFieldItemSOs[i]);
+                    EditorGUILayout.LabelField("        " + fieldItemSOs[i].ToString() + " collected: " + collectedFieldItemSOs[i]);
                 }
 
             }
-            EditorGUILayout.LabelField("Current planet position: " + curentPlanetPosition.ToString());
+            EditorGUILayout.LabelField("    Current planet position: " + curentPlanetPosition.ToString());
             EditorGUILayout.Space(20);
+
+            EditorGUILayout.LabelField("    Craters list Count: " + cratersList.Count.ToString());
+            EditorGUILayout.LabelField("    Asteroids list Count: " + asteroidsList.Count.ToString());
+            EditorGUILayout.LabelField("    Golds list Count: " + goldsList.Count.ToString());
             GuiLine();
         }
     }
@@ -110,11 +133,20 @@ public class TestingProperties : EditorWindow
     {
         if (EditorApplication.isPlaying && GameManager.Instance != null)
         {
-            collectedCash = GameManager.Instance.GameSessionData.collectedCash;
-            collectedGold = GameManager.Instance.GameSessionData.collectedGold;
-            fieldItemSOs = GameManager.Instance.GameSessionData.FieldItemSOs;
-            collectedFieldItemSOs = GameManager.Instance.GameSessionData.CollectedFieldItemSOs;
-            curentPlanetPosition = GameManager.Instance.GameSessionData.CurentPlanetPosition;
+            collectedCash = GameManager.Instance.GameSessionData_.collectedCash;
+            collectedGold = GameManager.Instance.GameSessionData_.collectedGold;
+            fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemSOs;
+            collectedFieldItemSOs = GameManager.Instance.GameSessionData_.CollectedFieldItemSOs;
+            curentPlanetPosition = GameManager.Instance.GameSessionData_.CurentPlanetPosition;
+
+            cratersList = Asteroids.Instance.CratersList;
+            asteroidsList = Asteroids.Instance.AsteroidsList;
+            goldsList = Asteroids.Instance.GoldsList;
+
+            pointsQuantity = GameManager.Instance.GlobalData_.pointsQuantity;
+            amountOfGold = GameManager.Instance.GlobalData_.amountOfGold;
+            amountOfCash = GameManager.Instance.GlobalData_.amountOfCash;
+            level = GameManager.Instance.GlobalData_.level;
         }
     }
 }

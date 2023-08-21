@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,8 +8,6 @@ public class Field : MonoBehaviour
     public Mesh meshForPointsSource;
 
     public List<Transform> Items { get; private set; } = new();
-
-    private readonly System.Random random = new();
     private readonly float randomMultiplier = 0.02f;
     private void Start()
     {
@@ -28,8 +27,8 @@ public class Field : MonoBehaviour
             DestroyFieldItems();
             //TODO: make inst depend on item quantity. Modify vertex color logic for that
             
-            InstantiateFieldItems(GameManager.Instance.GameSessionData.FieldItemSOs,
-                GameManager.Instance.GameSessionData.CurentPlanetPosition);
+            InstantiateFieldItems(GameManager.Instance.GameSessionData_.FieldItemSOs,
+                GameManager.Instance.GameSessionData_.CurentPlanetPosition);
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
@@ -42,7 +41,7 @@ public class Field : MonoBehaviour
     {
         for (int i = 0; i < meshForPointsSource.vertices.Length; i++)
         {
-            Vector3 position = new((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
+            Vector3 position = new(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
             position *= randomMultiplier;
             position += meshForPointsSource.vertices[i];
             position.Normalize();
@@ -56,9 +55,10 @@ public class Field : MonoBehaviour
             //    return;
             //} else
             //{
-                int rndIndex = random.Next(GameManager.Instance.GameSessionData.FieldItemSOs.Length);
-                //if (meshForPointsSource.colors[i].r > 0.5f)
-                item = Instantiate(fieldItemSOsArr[rndIndex].fieldItemPrefab, position, Quaternion.LookRotation(position));
+            
+                int rndIndex = UnityEngine.Random.Range(0, GameManager.Instance.GameSessionData_.FieldItemSOs.Length);
+            //if (meshForPointsSource.colors[i].r > 0.5f)
+            item = Instantiate(fieldItemSOsArr[rndIndex].fieldItemPrefab, position, Quaternion.LookRotation(position));
             //save reference to original prefab to identify this clone later
             item.GetComponent<GameObjectReference>().gameObjRef = fieldItemSOsArr[rndIndex].fieldItemPrefab.gameObject;
             //else
@@ -67,7 +67,7 @@ public class Field : MonoBehaviour
 
             Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
             item.eulerAngles += turnItem;
-            item.Rotate(new(0.0f, (float)random.NextDouble() * 360f, 0.0f));
+            item.Rotate(new(0.0f, UnityEngine.Random.value * 360f, 0.0f));
             item.position += planetPosition;
             Items.Add(item);
         }

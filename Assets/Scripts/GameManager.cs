@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public float CountdownTime { get; private set; }
-    public GameSessionData GameSessionData { get; private set; } = new();
+    public GameSessionData GameSessionData_ { get; private set; } = new();
 
     public event EventHandler OnCashAmountChanged;
     public event EventHandler OnGameStateChanged;   
@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     }
     private GameState state;    
     
-    private readonly GlobalData globalData = new ();
-    private readonly float COUNTDOWN_TIME = 59f;
+    public GlobalData GlobalData_ { get; private set; } = new();
+    private readonly float COUNTDOWN_TIME = 23f;
     
     private bool countdownRunning = false;
     private Planets planets;
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
             return; 
         }
 
-        globalData.pointsQuantity = field.meshForPointsSource.vertices.Length;
+        GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -79,13 +79,7 @@ public class GameManager : MonoBehaviour
 
     private void TimeIsUp()
     {
-        GameSessionData.collectedCash = 0;
         SetGameState(GameState.TimeIsUp);       
-    }
-
-    private bool IsScoreAchieved()
-    {
-        return GameSessionData.collectedCash == globalData.pointsQuantity;
     }
 
     private void IterateCountdown()
@@ -121,13 +115,26 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameSessionPlaying:
-                GameSessionData.ResetAllData(planets.GetCurrentPlanetSO().fieldItemSOs, planets.GetCurrentPlanetSO().planetPrefab.position);
+                GameSessionData_.ResetAllData(planets.GetCurrentPlanetSO().fieldItemSOs, planets.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
-            default:
-                GameSessionData.ResetAllData(null, Vector3.zero);
+            case GameState.TimeIsUp:
+                UpdateGlobalData();
+                GameSessionData_.ResetAllData(null, Vector3.zero);
+                StopCountdown();
+                this.state = state;
+                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                return;
+            case GameState.GameOver:
+                GameSessionData_.ResetAllData(null, Vector3.zero);
+                StopCountdown();
+                this.state = state;
+                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                return;
+            case GameState.WaitingToStart:
+                GameSessionData_.ResetAllData(null, Vector3.zero);
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
@@ -158,18 +165,18 @@ public class GameManager : MonoBehaviour
 
     public int GetCashAmount()
     {
-        return GameSessionData.collectedCash;
+        return GameSessionData_.collectedCash;
     }
 
     public void AddCash(GameObject gameObject)
     {
-        GameSessionData.collectedCash++;
-        for (int i = 0; i < GameSessionData.FieldItemSOs.Length; i++)
+        GameSessionData_.collectedCash++;
+        for (int i = 0; i < GameSessionData_.FieldItemSOs.Length; i++)
         {
-            if (ReferenceEquals(GameSessionData.FieldItemSOs[i].fieldItemPrefab.gameObject,
+            if (ReferenceEquals(GameSessionData_.FieldItemSOs[i].fieldItemPrefab.gameObject,
                 gameObject.GetComponent<GameObjectReference>().gameObjRef))
             {
-                GameSessionData.CollectedFieldItemSOs[i]++;
+                GameSessionData_.CollectedFieldItemSOs[i]++;
             }
         }
         OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
@@ -183,8 +190,15 @@ public class GameManager : MonoBehaviour
 
     public void AddGold(GameObject gameObject)
     {
-        GameSessionData.collectedGold++;
+        GameSessionData_.collectedGold++;
     }
+
+    public void UpdateGlobalData()
+    {
+        GlobalData_.amountOfCash += GameSessionData_.collectedCash;
+        GlobalData_.amountOfGold += GameSessionData_.collectedGold;
+    }
+
     public GameState GetState()
     {
         return state;
