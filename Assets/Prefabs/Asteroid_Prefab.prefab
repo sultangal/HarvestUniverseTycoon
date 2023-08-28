@@ -4980,4 +4980,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partSystem: {fileID: 6904784151486361261}
+  asteroidMesh: {fileID: 4621367711616819104}
   moveSpeed: 0

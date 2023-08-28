@@ -10,6 +10,8 @@ public class TestingProperties : EditorWindow
     private float speedMult = 1f;
     private float bladesWidthMult = 1f;
     private HarvesterGroup harvesterGroupRef;
+    private GameManager gm;
+    private float countdown = 59f;
 
     public float respawnPointRemoteness = 30f;
     public float asteroidMoveSpeed = 9f;
@@ -46,7 +48,7 @@ public class TestingProperties : EditorWindow
         GuiLine();
         EditorGUILayout.LabelField("Game state settings: ", EditorStyles.boldLabel);
         EditorGUILayout.BeginHorizontal();
-        testState = (GameState)EditorGUILayout.EnumPopup("Set game tate: ", testState);
+        testState = (GameState)EditorGUILayout.EnumPopup("    Set game tate: ", testState);
         if (GUILayout.Button("SET"))
         {
             GameManager.Instance.SetGameState(testState);
@@ -58,28 +60,24 @@ public class TestingProperties : EditorWindow
 
         EditorGUILayout.LabelField("Harvester settings: ", EditorStyles.boldLabel);
         harvesterGroupRef = FindFirstObjectByType<HarvesterGroup>();
-        speedMult = EditorGUILayout.Slider("Speed mult:", speedMult, 1f, 1.5f);
+        speedMult = EditorGUILayout.Slider("    Speed mult:", speedMult, 1f, 1.5f);
         harvesterGroupRef.harvesterSpeedMult = speedMult;
-        bladesWidthMult = EditorGUILayout.Slider("Blades mult:", bladesWidthMult, 1f, 4.5f);
+        bladesWidthMult = EditorGUILayout.Slider("    Blades mult:", bladesWidthMult, 1f, 4.5f);
         harvesterGroupRef.bladesWidthMult = bladesWidthMult;
 
         EditorGUILayout.Space(20);
 
+        EditorGUIUtility.labelWidth = 200;
         EditorGUILayout.LabelField("Asteroid settings: ", EditorStyles.boldLabel);
         asteroidsRef = FindFirstObjectByType<Asteroids>();
-        respawnPointRemoteness = EditorGUILayout.FloatField("Respawn point remoteness:", respawnPointRemoteness);
+        respawnPointRemoteness = EditorGUILayout.FloatField("    Respawn point remoteness:", respawnPointRemoteness);
         asteroidsRef.respawnPointRemoteness = respawnPointRemoteness;
-
-        asteroidMoveSpeed = EditorGUILayout.FloatField("Move speed:", asteroidMoveSpeed);
-        asteroidsRef.asteroidMoveSpeed = asteroidMoveSpeed;
-
-        EditorGUILayout.BeginHorizontal();
-        minSecBetweenRespawn = EditorGUILayout.IntField("Min sec between respawn:", minSecBetweenRespawn);
+        asteroidMoveSpeed = EditorGUILayout.FloatField("    Move speed:", asteroidMoveSpeed);
+        asteroidsRef.asteroidMoveSpeed = asteroidMoveSpeed;      
+        minSecBetweenRespawn = EditorGUILayout.IntField("    Min sec between respawn:", minSecBetweenRespawn);
         asteroidsRef.minSecBetweenRespawn = minSecBetweenRespawn;
-        EditorGUILayout.Space(5);
-        maxSecBetweenRespawn = EditorGUILayout.IntField("Max sec between respawn:", maxSecBetweenRespawn);
+        maxSecBetweenRespawn = EditorGUILayout.IntField("    Max sec between respawn:", maxSecBetweenRespawn);
         asteroidsRef.maxSecBetweenRespawn = maxSecBetweenRespawn;
-        EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space(20);
         GuiLine();
@@ -96,6 +94,9 @@ public class TestingProperties : EditorWindow
         if (EditorApplication.isPlaying)
         {
             EditorGUILayout.LabelField("Game session data: ", EditorStyles.boldLabel);
+            gm = FindFirstObjectByType<GameManager>();
+            countdown = EditorGUILayout.FloatField("    Countdown:", countdown);
+            gm.COUNTDOWN_TIME = countdown;
             EditorGUILayout.LabelField("    Collected Cash: " + collectedCash.ToString());
             EditorGUILayout.LabelField("    Collected Gold: " + collectedGold.ToString());
             EditorGUILayout.LabelField("    fieldItemSOs: ");

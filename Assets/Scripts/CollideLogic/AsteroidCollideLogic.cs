@@ -5,6 +5,7 @@ using UnityEngine;
 public class AsteroidCollideLogic : MonoBehaviour
 {
     [SerializeField] private ParticleSystem partSystem;
+    [SerializeField] private GameObject asteroidMesh;
     public float moveSpeed;
 
     private IEnumerator moveToTarget;
@@ -17,12 +18,11 @@ public class AsteroidCollideLogic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StopCoroutine(moveToTarget);           
-        StartCoroutine(StartDestroying());
+        StopCoroutine(moveToTarget);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x + 90f, transform.eulerAngles.y, transform.eulerAngles.z);
         Asteroids.Instance.CreateCrater(transform.position, transform.rotation);
         Asteroids.Instance.CreateGold(transform.position, transform.rotation);
-
+        StartCoroutine(StartDestroying());
     }
 
     private IEnumerator MoveToTarget(Vector3 target)
@@ -37,7 +37,7 @@ public class AsteroidCollideLogic : MonoBehaviour
     private IEnumerator StartDestroying()
     {
         gameObject.GetComponent<Collider>().enabled = false;
-        gameObject.SetActive(false);
+        asteroidMesh.SetActive(false);
         partSystem.Stop();
         yield return new WaitForSeconds(partSystem.main.duration);
         Destroy(gameObject);

@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private GameState state;    
     
     public GlobalData GlobalData_ { get; private set; } = new();
-    private readonly float COUNTDOWN_TIME = 23f;
+    public float COUNTDOWN_TIME = 23f;
     
     private bool countdownRunning = false;
     private Planets planets;

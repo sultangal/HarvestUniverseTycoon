@@ -78,8 +78,9 @@ public class Planets : MonoBehaviour
 
     private void SetVisibilityOfPlanet(int index, bool visible)
     {
-        //planetsArr[index + 1].planetRef.gameObject.SetActive(gameObject.activeSelf);
-        planetsArr[index].planetPrefab.gameObject.GetComponent<MeshRenderer>().enabled = visible;
+        planetsArr[index].planetPrefab.gameObject.SetActive(visible);
+        //planetsArr[index].planetPrefab.gameObject.GetComponent<MeshRenderer>().enabled = visible;
+        //planetsArr[index].planetPrefab.gameObject.GetComponent<Collider>().enabled = visible;
     }
 
     public void ShiftPlanetLeft()
