@@ -1,7 +1,5 @@
 Make craters with decals
 Make logic with Items amount for next level
-Watch tutors about SO
-DONE: Fix error with asteroid collide far away from planet and spawn crater in space
 Make level data class that contain amount of collected plants in current level and logic for it
 Make proper vertex distributon of itmes on planet 
 

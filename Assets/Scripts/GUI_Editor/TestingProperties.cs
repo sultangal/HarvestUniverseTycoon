@@ -34,6 +34,10 @@ public class TestingProperties : EditorWindow
     public int amountOfCash = 0;
     public int level = 0;
 
+    public FieldItemSO[] fieldItemsOnLevel;
+    public int[] amountOfCollectedFieldItemsOnLevel;
+    public bool[] goalAchievedFlags;
+
 
     [MenuItem("Testing/Testing Properties")]
     static void Init()
@@ -57,6 +61,7 @@ public class TestingProperties : EditorWindow
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.Space(20);
+        GuiLine();
 
         EditorGUILayout.LabelField("Harvester settings: ", EditorStyles.boldLabel);
         harvesterGroupRef = FindFirstObjectByType<HarvesterGroup>();
@@ -66,6 +71,7 @@ public class TestingProperties : EditorWindow
         harvesterGroupRef.bladesWidthMult = bladesWidthMult;
 
         EditorGUILayout.Space(20);
+        GuiLine();
 
         EditorGUIUtility.labelWidth = 200;
         EditorGUILayout.LabelField("Asteroid settings: ", EditorStyles.boldLabel);
@@ -91,6 +97,24 @@ public class TestingProperties : EditorWindow
         EditorGUILayout.Space(20);
         GuiLine();
 
+
+        EditorGUILayout.LabelField("Level data: ", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("    fieldItemSOs: ");
+        if (fieldItemsOnLevel != null)
+        {
+            for (var i = 0; i < fieldItemsOnLevel.Length; i++)
+            {
+                EditorGUILayout.LabelField("        " + fieldItemsOnLevel[i].ToString() +
+                    "   collected on level: "
+                    + amountOfCollectedFieldItemsOnLevel[i] +
+                    "   flags: " +
+                    goalAchievedFlags[i]);
+            }
+        }
+
+        EditorGUILayout.Space(20);
+        GuiLine();
+
         if (EditorApplication.isPlaying)
         {
             EditorGUILayout.LabelField("Game session data: ", EditorStyles.boldLabel);
@@ -104,7 +128,7 @@ public class TestingProperties : EditorWindow
             {
                 for (var i = 0; i < fieldItemSOs.Length; i++)
                 {
-                    EditorGUILayout.LabelField("        " + fieldItemSOs[i].ToString() + " collected: " + collectedFieldItemSOs[i]);
+                    EditorGUILayout.LabelField("        " + fieldItemSOs[i].ToString() + " collected in session: " + collectedFieldItemSOs[i]);
                 }
 
             }
@@ -136,8 +160,8 @@ public class TestingProperties : EditorWindow
         {
             collectedCash = GameManager.Instance.GameSessionData_.collectedCash;
             collectedGold = GameManager.Instance.GameSessionData_.collectedGold;
-            fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemSOs;
-            collectedFieldItemSOs = GameManager.Instance.GameSessionData_.CollectedFieldItemSOs;
+            fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemsOnLevel;
+            collectedFieldItemSOs = GameManager.Instance.GameSessionData_.CollectedFieldItems;
             curentPlanetPosition = GameManager.Instance.GameSessionData_.CurentPlanetPosition;
 
             cratersList = Asteroids.Instance.CratersList;
@@ -148,6 +172,10 @@ public class TestingProperties : EditorWindow
             amountOfGold = GameManager.Instance.GlobalData_.amountOfGold;
             amountOfCash = GameManager.Instance.GlobalData_.amountOfCash;
             level = GameManager.Instance.GlobalData_.level;
+
+            fieldItemsOnLevel = GameManager.Instance.LevelData_.FieldItemsOnLevel;
+            amountOfCollectedFieldItemsOnLevel = GameManager.Instance.LevelData_.AmountOfCollectedFieldItemsOnLevel;
+            goalAchievedFlags = GameManager.Instance.LevelData_.GoalAchievedFlags;
         }
     }
 }

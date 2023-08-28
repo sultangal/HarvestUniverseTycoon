@@ -105,8 +105,20 @@ public class Planets : MonoBehaviour
         }
     }
 
+    public bool IsCurrPlanetActualLevel()
+    {
+        if (GameManager.Instance.GlobalData_.level == currentPlanetIndex)
+            return true;
+        else return false;
+        
+    }
+
     public PlanetSO GetCurrentPlanetSO()
     {
         return planetsArr[currentPlanetIndex];
+    }
+    public PlanetSO GetCurrentLevelPlanetSO()
+    {
+        return planetsArr[GameManager.Instance.GlobalData_.level];
     }
 }

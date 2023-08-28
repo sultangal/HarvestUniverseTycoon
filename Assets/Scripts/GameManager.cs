@@ -23,10 +23,10 @@ public class GameManager : MonoBehaviour
     private GameState state;    
     
     public GlobalData GlobalData_ { get; private set; } = new();
+    public LevelData LevelData_ { get; private set; }
     public float COUNTDOWN_TIME = 23f;
     
     private bool countdownRunning = false;
-    private Planets planets;
 
 #if UNITY_EDITOR
     //private readonly static string appPath = Application.dataPath;
@@ -49,20 +49,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-
-        if (!TryGetComponent(out planets))
-        {
-            Debug.LogError("Planets script not founded. In order to work properly, gameObject has to reference Planets script.");
-            return;
-        }
-
-        if (!TryGetComponent(out Field field))
-        {
-            Debug.LogError("No Fileds script attached!");
-            return; 
-        }
-
-        GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
+        InitializeAllData();
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -82,6 +69,17 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.TimeIsUp);       
     }
 
+    private void InitializeAllData()
+    {
+        if (!TryGetComponent(out Field field))
+        {
+            Debug.LogError("No Fileds script attached!");
+            return;
+        }
+        GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
+        LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
+    }
+
     private void IterateCountdown()
     {
         if (countdownRunning)
@@ -95,14 +93,32 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     private void StartCountdown()
     {
         CountdownTime = COUNTDOWN_TIME;
         countdownRunning = true;
     }
+
     private void StopCountdown()
     {
         countdownRunning = false;
+    }
+
+    private void UpdateData()
+    {
+        GlobalData_.amountOfCash += GameSessionData_.collectedCash;
+        GlobalData_.amountOfGold += GameSessionData_.collectedGold;
+        LevelData_.AddCollectedAmountOfItems(GameSessionData_.CollectedFieldItems);
+    }
+
+    private void CheckForNextLevel()
+    {
+        if (LevelData_.CheckIfNextLevelGoalAchieved())
+        {
+            GlobalData_.level++;
+            LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
+        }
     }
 
     private void Update()
@@ -115,26 +131,27 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameSessionPlaying:
-                GameSessionData_.ResetAllData(planets.GetCurrentPlanetSO().fieldItemSOs, planets.GetCurrentPlanetSO().planetPrefab.position);
+                GameSessionData_.Reinitialize(Planets.Instance.GetCurrentPlanetSO().fieldItemSOs, Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.TimeIsUp:
-                UpdateGlobalData();
-                GameSessionData_.ResetAllData(null, Vector3.zero);
+                UpdateData();
+                CheckForNextLevel();
+                GameSessionData_.Reset();
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.GameOver:
-                GameSessionData_.ResetAllData(null, Vector3.zero);
+                GameSessionData_.Reinitialize(null, Vector3.zero);
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.WaitingToStart:
-                GameSessionData_.ResetAllData(null, Vector3.zero);
+                GameSessionData_.Reinitialize(null, Vector3.zero);
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
@@ -171,12 +188,12 @@ public class GameManager : MonoBehaviour
     public void AddCash(GameObject gameObject)
     {
         GameSessionData_.collectedCash++;
-        for (int i = 0; i < GameSessionData_.FieldItemSOs.Length; i++)
+        for (int i = 0; i < GameSessionData_.FieldItemsOnLevel.Length; i++)
         {
-            if (ReferenceEquals(GameSessionData_.FieldItemSOs[i].fieldItemPrefab.gameObject,
+            if (ReferenceEquals(GameSessionData_.FieldItemsOnLevel[i].fieldItemPrefab.gameObject,
                 gameObject.GetComponent<GameObjectReference>().gameObjRef))
             {
-                GameSessionData_.CollectedFieldItemSOs[i]++;
+                GameSessionData_.CollectedFieldItems[i]++;
             }
         }
         OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
@@ -193,11 +210,7 @@ public class GameManager : MonoBehaviour
         GameSessionData_.collectedGold++;
     }
 
-    public void UpdateGlobalData()
-    {
-        GlobalData_.amountOfCash += GameSessionData_.collectedCash;
-        GlobalData_.amountOfGold += GameSessionData_.collectedGold;
-    }
+ 
 
     public GameState GetState()
     {
