@@ -1596,7 +1596,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0, g: 0.58708096, b: 1, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -2354,7 +2354,7 @@ MonoBehaviour:
   joystick: {fileID: 504293519}
   partSystem: {fileID: 1105347783}
   harvesterSpeedMult: 1
-  bladesWidthMult: 1
+  bladesWidthMult: 2.034
 --- !u!4 &1825356968
 Transform:
   m_ObjectHideFlags: 0

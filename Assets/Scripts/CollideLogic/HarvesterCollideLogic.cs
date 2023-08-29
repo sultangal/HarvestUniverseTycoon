@@ -13,7 +13,7 @@ public class HarvesterCollideLogic : MonoBehaviour
         }
         if (other.gameObject.layer == 13)
         {
-            GameManager.Instance.AddGold(other.gameObject);
+            GameManager.Instance.AddGold();
         }
         Destroy(other.gameObject);             
         partSystem.Play();

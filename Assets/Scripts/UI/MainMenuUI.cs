@@ -11,20 +11,30 @@ public class MainMenuUI : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
 
-        btnPlay.GetComponent<Button>().onClick.AddListener(() =>
+        btnPlay.onClick.AddListener(() =>
         {
             GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
         });
 
-        btnShiftLeft.GetComponent<Button>().onClick.AddListener(() =>
+        btnShiftLeft.onClick.AddListener(() =>
         {
-            Planets.Instance.ShiftPlanetLeft();            
+            Planets.Instance.ShiftPlanetLeft();
+            SetButtonInteractivity();
         });
 
-        btnShiftRight.GetComponent<Button>().onClick.AddListener(() =>
+        btnShiftRight.onClick.AddListener(() =>
         {
-            Planets.Instance.ShiftPlanetRight();           
+            Planets.Instance.ShiftPlanetRight();
+            SetButtonInteractivity();
         });
+    }
+
+    private void SetButtonInteractivity()
+    {
+        if (Planets.Instance.CurrentPlanetIndex <= GameManager.Instance.GlobalData_.level)        
+            btnPlay.interactable = true;        
+        else
+            btnPlay.interactable = false;
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)

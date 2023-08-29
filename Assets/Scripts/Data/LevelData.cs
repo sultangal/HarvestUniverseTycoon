@@ -40,13 +40,6 @@ public class LevelData
         }
     }
 
-    public void Reset()
-    {
-        FieldItemsOnLevel = null;
-        AmountOfCollectedFieldItemsOnLevel = null;
-        GoalAchievedFlags = null;
-}
-
     public bool CheckIfNextLevelGoalAchieved()
     {
         foreach (var flag in GoalAchievedFlags)

@@ -11,7 +11,12 @@ public class GameManager : MonoBehaviour
     public GameSessionData GameSessionData_ { get; private set; } = new();
 
     public event EventHandler OnCashAmountChanged;
-    public event EventHandler OnGameStateChanged;   
+    public event EventHandler OnGameStateChanged;
+    public event EventHandler<OnOnLevelUpEventArgs> OnLevelUp;
+    public class OnOnLevelUpEventArgs : EventArgs
+    {
+        public int level;
+    }
 
     public enum GameState
     {
@@ -27,6 +32,7 @@ public class GameManager : MonoBehaviour
     public float COUNTDOWN_TIME = 23f;
     
     private bool countdownRunning = false;
+    private bool isNewLevelFlag = false;
 
 #if UNITY_EDITOR
     //private readonly static string appPath = Application.dataPath;
@@ -118,6 +124,17 @@ public class GameManager : MonoBehaviour
         {
             GlobalData_.level++;
             LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
+            OnLevelUp?.Invoke(this, new OnOnLevelUpEventArgs { level = GlobalData_.level });
+            isNewLevelFlag = true;
+        }
+    }
+
+    private void DemonstrateNewLevelIfAvailable()
+    {
+        if (isNewLevelFlag)
+        {
+            isNewLevelFlag = false;
+            Planets.Instance.ShiftPlanetRight();
         }
     }
 
@@ -145,13 +162,14 @@ public class GameManager : MonoBehaviour
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.GameOver:
-                GameSessionData_.Reinitialize(null, Vector3.zero);
+                GameSessionData_.Reset();
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.WaitingToStart:
-                GameSessionData_.Reinitialize(null, Vector3.zero);
+                DemonstrateNewLevelIfAvailable();
+                GameSessionData_.Reset();
                 StopCountdown();
                 this.state = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
@@ -205,17 +223,8 @@ public class GameManager : MonoBehaviour
         //s}
     }
 
-    public void AddGold(GameObject gameObject)
+    public void AddGold()
     {
         GameSessionData_.collectedGold++;
     }
-
- 
-
-    public GameState GetState()
-    {
-        return state;
-    }
-
-
 }

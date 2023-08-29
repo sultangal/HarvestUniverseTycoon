@@ -17,7 +17,7 @@ public class Planets : MonoBehaviour
         public Transform currPlanetTransform;
     }
 
-    private int currentPlanetIndex = 0;
+    public int CurrentPlanetIndex { get; private set; } = 0;
     private const float SPACE_BETWEEN_PLANETS = 15f;
 
     private void Awake()
@@ -56,24 +56,30 @@ public class Planets : MonoBehaviour
             
             Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
             planetsArr[i].planetPrefab.position += newPos;
-            planetsArr[i].planetPrefab.GetComponent<PlanetVisual>().SetPlanetColor(planetsArr[i].planetColor);
+            PlanetVisual planetVisual = planetsArr[i].planetPrefab.GetComponent<PlanetVisual>();
+            planetVisual.planetId = i;
+            planetVisual.SetPlanetColor(planetsArr[i].planetColor);
+            if (i <= GameManager.Instance.GlobalData_.level)
+                planetVisual.SetAvalability(true); 
+            else 
+                planetVisual.SetAvalability(false);    
         }
     }
 
     private void MakeCurrAndAdjasentPlanetsVisible()
     {
         MakeOnlyCurrPlanetVisible();
-        if (currentPlanetIndex > 0)
-            SetVisibilityOfPlanet(currentPlanetIndex - 1, true);
-        if (currentPlanetIndex < planetsArr.Length - 1)
-            SetVisibilityOfPlanet(currentPlanetIndex + 1, true);
+        if (CurrentPlanetIndex > 0)
+            SetVisibilityOfPlanet(CurrentPlanetIndex - 1, true);
+        if (CurrentPlanetIndex < planetsArr.Length - 1)
+            SetVisibilityOfPlanet(CurrentPlanetIndex + 1, true);
     }
 
     private void MakeOnlyCurrPlanetVisible()
     {
         for (int i = 0; i < planetsArr.Length; i++)
             SetVisibilityOfPlanet(i, false);
-        SetVisibilityOfPlanet(currentPlanetIndex, true);
+        SetVisibilityOfPlanet(CurrentPlanetIndex, true);
     }
 
     private void SetVisibilityOfPlanet(int index, bool visible)
@@ -85,29 +91,29 @@ public class Planets : MonoBehaviour
 
     public void ShiftPlanetLeft()
     {
-        if (currentPlanetIndex > 0)
+        if (CurrentPlanetIndex > 0)
         {
-            currentPlanetIndex--;
+            CurrentPlanetIndex--;
             MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsArr[currentPlanetIndex].planetPrefab });
+            { currPlanetTransform = planetsArr[CurrentPlanetIndex].planetPrefab });
         }
     }
 
     public void ShiftPlanetRight()
     {
-        if (currentPlanetIndex < planetsArr.Length - 1)
+        if (CurrentPlanetIndex < planetsArr.Length - 1)
         {
-            currentPlanetIndex++;
+            CurrentPlanetIndex++;
             MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsArr[currentPlanetIndex].planetPrefab });
+            { currPlanetTransform = planetsArr[CurrentPlanetIndex].planetPrefab });
         }
     }
 
     public bool IsCurrPlanetActualLevel()
     {
-        if (GameManager.Instance.GlobalData_.level == currentPlanetIndex)
+        if (GameManager.Instance.GlobalData_.level == CurrentPlanetIndex)
             return true;
         else return false;
         
@@ -115,7 +121,7 @@ public class Planets : MonoBehaviour
 
     public PlanetSO GetCurrentPlanetSO()
     {
-        return planetsArr[currentPlanetIndex];
+        return planetsArr[CurrentPlanetIndex];
     }
     public PlanetSO GetCurrentLevelPlanetSO()
     {

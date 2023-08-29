@@ -1,12 +1,55 @@
+using System;
 using UnityEngine;
 
 public class PlanetVisual : MonoBehaviour
 {
+    public int planetId;
+    private bool isAvailable = false;
+    private Color planetColor;
+    Material planetMaterial;
+
+    private void Start()
+    {
+        GameManager.Instance.OnLevelUp += GameManager_OnLevelUp;
+    }
+
+    private void GameManager_OnLevelUp(object sender, GameManager.OnOnLevelUpEventArgs e)
+    {
+       if (planetId == e.level) ApplyColorToPlanet();
+    }
+
     public void SetPlanetColor(Color color)
     {
-        Material mat = GetComponent<Renderer>().material;
-        mat.SetColor("_Color", color);
-        mat.SetColor("_FresnelColor", color*2.0f);      
+        planetColor = color;
+    }
+
+    public void SetAvalability(bool isAvalable)
+    {
+        isAvailable = isAvalable;
+        if (isAvailable)
+        {
+            ApplyColorToPlanet();
+        }
+        else
+        {
+            ApplyGreyToPlanet();
+        }
+    }
+
+    private void ApplyGreyToPlanet()
+    {
+        planetMaterial = GetComponent<Renderer>().material;
+        planetMaterial.SetColor("_Color", new Color(0.0f, 0.0f, 0.0f));
+        planetMaterial.SetColor("_Emission", new Color(0.5f, 0.5f, 0.5f));
+        planetMaterial.SetColor("_FresnelColor", new Color(0.0f, 0.0f, 0.0f));
+    }
+
+    private void ApplyColorToPlanet()
+    {
+        planetMaterial = GetComponent<Renderer>().material;
+        planetMaterial.SetColor("_Color", planetColor);
+        planetMaterial.SetColor("_Emission", new Color(0.0f, 0.0f, 0.0f));
+        planetMaterial.SetColor("_FresnelColor", planetColor);
     }
 
 }
