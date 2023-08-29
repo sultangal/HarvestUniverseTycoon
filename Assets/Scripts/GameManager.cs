@@ -205,6 +205,7 @@ public class GameManager : MonoBehaviour
 
     public void AddCash(GameObject gameObject)
     {
+        if (GameSessionData_.FieldItemsOnLevel == null) return;
         GameSessionData_.collectedCash++;
         for (int i = 0; i < GameSessionData_.FieldItemsOnLevel.Length; i++)
         {
@@ -215,6 +216,7 @@ public class GameManager : MonoBehaviour
             }
         }
         OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+
         //WriteScoreToFile();
 
         //sif (IsScoreAchieved())

@@ -511,8 +511,8 @@ MonoBehaviour:
     type: 3}
   respawnPointRemoteness: 30
   asteroidMoveSpeed: 9
-  minSecBetweenRespawn: 2
-  maxSecBetweenRespawn: 3
+  minSecBetweenRespawn: 5
+  maxSecBetweenRespawn: 6
 --- !u!114 &534743018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource: {fileID: 6461297695846733525, guid: f2adbededf477bb49b87fe442fec3290,
+  meshForPointsSource: {fileID: -3769597631504553030, guid: 182c835becfcf4c448560da0dc72148c,
     type: 3}
 --- !u!1 &544802525
 GameObject:
