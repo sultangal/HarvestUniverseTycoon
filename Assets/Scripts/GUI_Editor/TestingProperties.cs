@@ -160,7 +160,7 @@ public class TestingProperties : EditorWindow
         {
             collectedCash = GameManager.Instance.GameSessionData_.collectedCash;
             collectedGold = GameManager.Instance.GameSessionData_.collectedGold;
-            fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemsOnLevel;
+            fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemsSOonLevel;
             collectedFieldItemSOs = GameManager.Instance.GameSessionData_.CollectedFieldItems;
             curentPlanetPosition = GameManager.Instance.GameSessionData_.CurentPlanetPosition;
 

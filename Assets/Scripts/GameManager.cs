@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("No Fileds script attached!");
             return;
         }
-        GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
+        //GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
         LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
     }
 
@@ -205,12 +205,13 @@ public class GameManager : MonoBehaviour
 
     public void AddCash(GameObject gameObject)
     {
-        if (GameSessionData_.FieldItemsOnLevel == null) return;
+        if (GameSessionData_.FieldItemsSOonLevel == null) return;
         GameSessionData_.collectedCash++;
-        for (int i = 0; i < GameSessionData_.FieldItemsOnLevel.Length; i++)
+        for (int i = 0; i < GameSessionData_.FieldItemsSOonLevel.Length; i++)
         {
-            if (ReferenceEquals(GameSessionData_.FieldItemsOnLevel[i].fieldItemPrefab.gameObject,
-                gameObject.GetComponent<GameObjectReference>().gameObjRef))
+            //compare refs to identify and count collected items
+            if (ReferenceEquals(GameSessionData_.FieldItemsSOonLevel[i].fieldItemPrefab.gameObject,
+                gameObject.GetComponent<GameObjectReference>().fieldItemSORef.fieldItemPrefab.gameObject))
             {
                 GameSessionData_.CollectedFieldItems[i]++;
             }

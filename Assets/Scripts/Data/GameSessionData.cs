@@ -6,7 +6,7 @@ public class GameSessionData
     public int collectedCash = 0;
     public int collectedGold = 0;
 
-    public FieldItemSO[] FieldItemsOnLevel { get; private set; } = null;
+    public FieldItemSO[] FieldItemsSOonLevel { get; private set; } = null;
     public int[] CollectedFieldItems { get; private set; } = null;
     public Vector3 CurentPlanetPosition { get; private set; } = Vector3.zero;
 
@@ -16,7 +16,7 @@ public class GameSessionData
     {
         collectedCash = 0;
         collectedGold = 0;
-        this.FieldItemsOnLevel = fieldItemSOs;
+        this.FieldItemsSOonLevel = fieldItemSOs;
         this.CurentPlanetPosition = curentPlanetPosition;
         if (fieldItemSOs != null)
             CollectedFieldItems = new int[fieldItemSOs.Length];
@@ -26,7 +26,7 @@ public class GameSessionData
     {
         collectedCash = 0;
         collectedGold = 0;
-        this.FieldItemsOnLevel = null;
+        this.FieldItemsSOonLevel = null;
         this.CurentPlanetPosition = Vector3.zero;
     }
 }

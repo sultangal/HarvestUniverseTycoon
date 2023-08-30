@@ -525,7 +525,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource: {fileID: -3769597631504553030, guid: 182c835becfcf4c448560da0dc72148c,
+  meshForPointsSource_2_Items: {fileID: -4511651284078640745, guid: 9235c7fbd106304438cd06a246505231,
+    type: 3}
+  meshForPointsSource_3_Items: {fileID: -3769597631504553030, guid: 86e23bd793cfc3d44b6b53849c229bd5,
+    type: 3}
+  meshForPointsSource_4_Items: {fileID: 3486240652854991045, guid: 4085b7930ea697e42a93a127bc53bc4d,
+    type: 3}
+  meshForPointsSource_5_Items: {fileID: -3785627218052110456, guid: 4225b027543c7ba4fb22dadf775e8169,
+    type: 3}
+  meshForPointsSource_6_Items: {fileID: 7332531672616753091, guid: 01c2cfdf6017c86449b050ce12e69920,
+    type: 3}
+  meshForPointsSource_7_Items: {fileID: -3243149996538365690, guid: 59ed2143d4475b244a09d29cd4c7c1b7,
+    type: 3}
+  meshForPointsSource_8_Items: {fileID: -7297265607014630442, guid: a926035f083406f44852399254e37013,
     type: 3}
 --- !u!1 &544802525
 GameObject:
@@ -2354,7 +2366,7 @@ MonoBehaviour:
   joystick: {fileID: 504293519}
   partSystem: {fileID: 1105347783}
   harvesterSpeedMult: 1
-  bladesWidthMult: 2.034
+  bladesWidthMult: 2.078
 --- !u!4 &1825356968
 Transform:
   m_ObjectHideFlags: 0
