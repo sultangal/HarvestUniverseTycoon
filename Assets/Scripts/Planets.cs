@@ -18,6 +18,7 @@ public class Planets : MonoBehaviour
     }
 
     public int CurrentPlanetIndex { get; private set; } = 0;
+    public int LastPlanetIndex { get; private set; } = 0;
     private const float SPACE_BETWEEN_PLANETS = 15f;
 
     private void Awake()
@@ -47,6 +48,7 @@ public class Planets : MonoBehaviour
 
     private void CreatePlanets()
     {
+        LastPlanetIndex = planetsArr.Length-1;
         for (int i = 0; i < planetsArr.Length; i++)
         {
             planetsArr[i].planetPrefab = Instantiate(

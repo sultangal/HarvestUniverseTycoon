@@ -118,15 +118,21 @@ public class GameManager : MonoBehaviour
         LevelData_.AddCollectedAmountOfItems(GameSessionData_.CollectedFieldItems);
     }
 
-    private void CheckForNextLevel()
+    private bool CheckForNextLevel()
     {
         if (LevelData_.CheckIfNextLevelGoalAchieved())
         {
-            GlobalData_.level++;
+            if (GlobalData_.level == Planets.Instance.LastPlanetIndex)
+            {
+                Debug.Log("Last level achieved! Congratulations!");
+                return false;
+            }
+            GlobalData_.level++;           
             LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
             OnLevelUp?.Invoke(this, new OnOnLevelUpEventArgs { level = GlobalData_.level });
-            isNewLevelFlag = true;
+            isNewLevelFlag = true;           
         }
+        return true;
     }
 
     private void DemonstrateNewLevelIfAvailable()
