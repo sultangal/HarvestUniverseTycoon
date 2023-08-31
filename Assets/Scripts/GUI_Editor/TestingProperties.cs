@@ -3,6 +3,8 @@ using UnityEditor;
 using UnityEngine;
 using static GameManager;
 
+
+#if UNITY_EDITOR
 public class TestingProperties : EditorWindow
 {
     private GameState testState;
@@ -179,3 +181,5 @@ public class TestingProperties : EditorWindow
         }
     }
 }
+
+#endif
