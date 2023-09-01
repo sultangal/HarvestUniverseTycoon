@@ -39,17 +39,17 @@ public class PlanetVisual : MonoBehaviour
     private void ApplyGreyToPlanet()
     {
         planetMaterial = GetComponent<Renderer>().material;
-        planetMaterial.SetColor("_Color", new Color(0.0f, 0.0f, 0.0f));
-        planetMaterial.SetColor("_Emission", new Color(0.5f, 0.5f, 0.5f));
-        planetMaterial.SetColor("_FresnelColor", new Color(0.0f, 0.0f, 0.0f));
+        planetMaterial.SetColor("_BaseColor", new Color(0.0f, 0.0f, 0.0f));
+        planetMaterial.SetColor("_EmissionColor", new Color(0.5f, 0.5f, 0.5f));
+        //planetMaterial.SetColor("_FresnelColor", new Color(0.0f, 0.0f, 0.0f));
     }
 
     private void ApplyColorToPlanet()
     {
         planetMaterial = GetComponent<Renderer>().material;
-        planetMaterial.SetColor("_Color", planetColor);
+        planetMaterial.SetColor("_BaseColor", planetColor);
         planetMaterial.SetColor("_Emission", new Color(0.0f, 0.0f, 0.0f));
-        planetMaterial.SetColor("_FresnelColor", planetColor);
+        //planetMaterial.SetColor("_FresnelColor", planetColor);
     }
 
 }

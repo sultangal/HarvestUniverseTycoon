@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596ed91b5522e734c956d1f25c9ef65d, type: 3}
   m_Name: Corn7SO
   m_EditorClassIdentifier: 
-  fieldItemPrefab: {fileID: 2963871370287024525, guid: 195bfd080c5f2764c82f817987d6420a,
+  fieldItemPrefab: {fileID: 6776221628181420395, guid: 195bfd080c5f2764c82f817987d6420a,
     type: 3}
-  collectedInGameSession: 0
   itemSprite: {fileID: 0}

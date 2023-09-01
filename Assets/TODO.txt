@@ -1,4 +1,3 @@
-Make craters with decals
 Make proper vertex distributon of itmes on planet 
 
 Добавить уменьшающуюся тень от астероида на земле, чтобы лучше информировать игрока о скором его приземлении.
