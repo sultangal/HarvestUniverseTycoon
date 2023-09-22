@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
         TimeIsUp,
         GameOver
     }
-    private GameState state;    
-    
+    public GameState State { get; private set; }
+
     public GlobalData GlobalData_ { get; private set; } = new();
     public LevelData LevelData_ { get; private set; }
     public float COUNTDOWN_TIME = 23f;
@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
             case GameState.GameSessionPlaying:
                 GameSessionData_.Reinitialize(Planets.Instance.GetCurrentPlanetSO().fieldItemSOs, Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
-                this.state = state;
+                this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.TimeIsUp:
@@ -164,20 +164,20 @@ public class GameManager : MonoBehaviour
                 CheckForNextLevel();
                 GameSessionData_.Reset();
                 StopCountdown();
-                this.state = state;
+                this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.GameOver:
                 GameSessionData_.Reset();
                 StopCountdown();
-                this.state = state;
+                this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.WaitingToStart:
                 DemonstrateNewLevelIfAvailable();
                 GameSessionData_.Reset();
                 StopCountdown();
-                this.state = state;
+                this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
         }
@@ -186,22 +186,22 @@ public class GameManager : MonoBehaviour
 
     public bool IsGamePlaying()
     {
-        return state == GameState.GameSessionPlaying;
+        return State == GameState.GameSessionPlaying;
     }
 
     public bool IsGameWaitingToStart()
     {
-        return state == GameState.WaitingToStart;
+        return State == GameState.WaitingToStart;
     }
 
     public bool IsTimeIsUp()
     {
-        return state == GameState.TimeIsUp;
+        return State == GameState.TimeIsUp;
     }
 
     public bool IsGameOver()
     {
-        return state == GameState.GameOver;
+        return State == GameState.GameOver;
     }
 
     public int GetCashAmount()

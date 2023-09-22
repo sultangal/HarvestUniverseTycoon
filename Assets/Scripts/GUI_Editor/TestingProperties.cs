@@ -8,6 +8,7 @@ using static GameManager;
 public class TestingProperties : EditorWindow
 {
     private GameState testState;
+    private GameState currState;
 
     private float speedMult = 1f;
     private float bladesWidthMult = 1f;
@@ -61,7 +62,7 @@ public class TestingProperties : EditorWindow
             OnGUI();
         }
         EditorGUILayout.EndHorizontal();
-
+        EditorGUILayout.LabelField("    Current game state: " + currState.ToString());
         EditorGUILayout.Space(20);
         GuiLine();
 
@@ -178,6 +179,8 @@ public class TestingProperties : EditorWindow
             fieldItemsOnLevel = GameManager.Instance.LevelData_.FieldItemsOnLevel;
             amountOfCollectedFieldItemsOnLevel = GameManager.Instance.LevelData_.AmountOfCollectedFieldItemsOnLevel;
             goalAchievedFlags = GameManager.Instance.LevelData_.GoalAchievedFlags;
+
+            currState = GameManager.Instance.State;
         }
     }
 }

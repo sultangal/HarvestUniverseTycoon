@@ -10,6 +10,11 @@ public class AsteroidCollideLogic : MonoBehaviour
 
     private IEnumerator moveToTarget;
 
+    private void Start()
+    {
+        var main = partSystem.main;
+        main.cullingMode = ParticleSystemCullingMode.AlwaysSimulate;
+    }
     public void StartMoving(Vector3 target)
     {
         moveToTarget = MoveToTarget(target);
