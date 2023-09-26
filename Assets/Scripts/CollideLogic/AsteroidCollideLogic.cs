@@ -5,7 +5,7 @@ using UnityEngine;
 public class AsteroidCollideLogic : MonoBehaviour
 {
     [SerializeField] private ParticleSystem partSystem;
-    [SerializeField] private GameObject asteroidMesh;
+    //[SerializeField] private GameObject asteroidMesh;
     public float moveSpeed;
 
     private IEnumerator moveToTarget;
@@ -42,7 +42,7 @@ public class AsteroidCollideLogic : MonoBehaviour
     private IEnumerator StartDestroying()
     {
         gameObject.GetComponent<Collider>().enabled = false;
-        asteroidMesh.SetActive(false);
+        //asteroidMesh.SetActive(false);
         partSystem.Stop();
         yield return new WaitForSeconds(partSystem.main.duration);
         Destroy(gameObject);

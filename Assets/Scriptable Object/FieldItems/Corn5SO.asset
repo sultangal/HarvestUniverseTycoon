@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596ed91b5522e734c956d1f25c9ef65d, type: 3}
   m_Name: Corn5SO
   m_EditorClassIdentifier: 
-  fieldItemPrefab: {fileID: 1712093669471102578, guid: 3c9f4d9a069bd464f82e08fdbb1a861b,
+  fieldItemPrefab: {fileID: 483171373342675088, guid: 3c9f4d9a069bd464f82e08fdbb1a861b,
     type: 3}
   itemSprite: {fileID: 0}
