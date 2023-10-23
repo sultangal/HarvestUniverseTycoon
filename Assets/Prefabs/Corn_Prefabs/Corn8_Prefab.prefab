@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4659701860804840383}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.031, z: 0}
   m_LocalScale: {x: 25, y: 28.16906, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1118859372641838369}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &164228987718812043
 MeshFilter:
@@ -92,9 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1118859372641838369}
-  - component: {fileID: 8748965439064748068}
   - component: {fileID: 7662498325331311201}
   - component: {fileID: 7980212628523685647}
+  - component: {fileID: 5288684316491278574}
   m_Layer: 8
   m_Name: Corn8_Prefab
   m_TagString: Untagged
@@ -109,6 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7715475672827779621}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -116,29 +117,7 @@ Transform:
   m_Children:
   - {fileID: 1937733196155514732}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8748965439064748068
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7715475672827779621}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.7, z: 0.1}
-  m_Center: {x: 0, y: 0.35, z: 0}
 --- !u!114 &7662498325331311201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +144,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldItemSORef: {fileID: 11400000, guid: 9ca330adc169b0c47b779bba1954772a, type: 2}
+--- !u!135 &5288684316491278574
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715475672827779621}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0.4, z: 0}
