@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class CornPrefabMono : MonoBehaviour
 {

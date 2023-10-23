@@ -181,7 +181,6 @@ MonoBehaviour:
     type: 3}
   meshForPointsSource_8_Items: {fileID: -7297265607014630442, guid: a926035f083406f44852399254e37013,
     type: 3}
-  RandomSeed: 1
 --- !u!1 &1734497572
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1734497574}
   - component: {fileID: 1734497573}
+  - component: {fileID: 1734497575}
   m_Layer: 0
   m_Name: CornPrefab
   m_TagString: Untagged
@@ -230,6 +230,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1734497575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734497572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6917bd86ff783544abc6a7759915c255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomSeed: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

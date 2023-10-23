@@ -22,13 +22,13 @@ public class Field : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            DestroyFieldItems();
-            InstantiateFieldItems();
+            //DestroyFieldItems();
+            //InstantiateFieldItems();
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            DestroyFieldItems();
+            //DestroyFieldItems();
         }
     }
 

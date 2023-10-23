@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
+
 
 public class SpawnPointsSourceMono : MonoBehaviour
 {
@@ -38,34 +36,14 @@ public class SpawnPointsSourceBaker : Baker<SpawnPointsSourceMono>
             for (int i = 0; i < authoring.meshForPointsSource_2_Items.vertices.Length; i++)
             {
                 pointsBuilder[i] = authoring.meshForPointsSource_2_Items.vertices[i];
+                vcolor_2_Items_Builder[i] = authoring.meshForPointsSource_2_Items.colors[i].r;                                            
+                vcolor_3_Items_Builder[i] = authoring.meshForPointsSource_3_Items.colors[i].r;                                          
+                vcolor_4_Items_Builder[i] = authoring.meshForPointsSource_4_Items.colors[i].r;                                           
+                vcolor_5_Items_Builder[i] = authoring.meshForPointsSource_5_Items.colors[i].r;                                            
+                vcolor_6_Items_Builder[i] = authoring.meshForPointsSource_6_Items.colors[i].r;                                        
+                vcolor_7_Items_Builder[i] = authoring.meshForPointsSource_7_Items.colors[i].r;                                          
+                vcolor_8_Items_Builder[i] = authoring.meshForPointsSource_8_Items.colors[i].r;
 
-                vcolor_2_Items_Builder[i].x = authoring.meshForPointsSource_2_Items.colors[i].r;
-                vcolor_2_Items_Builder[i].y = authoring.meshForPointsSource_2_Items.colors[i].g;
-                vcolor_2_Items_Builder[i].z = authoring.meshForPointsSource_2_Items.colors[i].b;
-                                              
-                vcolor_3_Items_Builder[i].x = authoring.meshForPointsSource_3_Items.colors[i].r;
-                vcolor_3_Items_Builder[i].y = authoring.meshForPointsSource_3_Items.colors[i].g;
-                vcolor_3_Items_Builder[i].z = authoring.meshForPointsSource_3_Items.colors[i].b;
-                                             
-                vcolor_4_Items_Builder[i].x = authoring.meshForPointsSource_4_Items.colors[i].r;
-                vcolor_4_Items_Builder[i].y = authoring.meshForPointsSource_4_Items.colors[i].g;
-                vcolor_4_Items_Builder[i].z = authoring.meshForPointsSource_4_Items.colors[i].b;
-                                              
-                vcolor_5_Items_Builder[i].x = authoring.meshForPointsSource_5_Items.colors[i].r;
-                vcolor_5_Items_Builder[i].y = authoring.meshForPointsSource_5_Items.colors[i].g;
-                vcolor_5_Items_Builder[i].z = authoring.meshForPointsSource_5_Items.colors[i].b;
-                                              
-                vcolor_6_Items_Builder[i].x = authoring.meshForPointsSource_6_Items.colors[i].r;
-                vcolor_6_Items_Builder[i].y = authoring.meshForPointsSource_6_Items.colors[i].g;
-                vcolor_6_Items_Builder[i].z = authoring.meshForPointsSource_6_Items.colors[i].b;
-                                             
-                vcolor_7_Items_Builder[i].x = authoring.meshForPointsSource_7_Items.colors[i].r;
-                vcolor_7_Items_Builder[i].y = authoring.meshForPointsSource_7_Items.colors[i].g;
-                vcolor_7_Items_Builder[i].z = authoring.meshForPointsSource_7_Items.colors[i].b;
-                                            
-                vcolor_8_Items_Builder[i].x = authoring.meshForPointsSource_8_Items.colors[i].r;
-                vcolor_8_Items_Builder[i].y = authoring.meshForPointsSource_8_Items.colors[i].g;
-                vcolor_8_Items_Builder[i].z = authoring.meshForPointsSource_8_Items.colors[i].b;
             }
 
             var blobAsset = builder.CreateBlobAssetReference<SpawnPointsBlob>(Allocator.Persistent);         
@@ -73,7 +51,6 @@ public class SpawnPointsSourceBaker : Baker<SpawnPointsSourceMono>
             AddBlobAsset<SpawnPointsBlob>(ref blobAsset, out _);
             AddComponent(entity, new SpawnPointsComponent { Value = blobAsset });
         }
-
     }    
 }
 
@@ -85,12 +62,12 @@ public struct SpawnPointsComponent : IComponentData
 public struct SpawnPointsBlob
 {
     public BlobArray<float3> points;
-    public BlobArray<float3> vcolor_2_Items;
-    public BlobArray<float3> vcolor_3_Items;
-    public BlobArray<float3> vcolor_4_Items;
-    public BlobArray<float3> vcolor_5_Items;
-    public BlobArray<float3> vcolor_6_Items;
-    public BlobArray<float3> vcolor_7_Items;
-    public BlobArray<float3> vcolor_8_Items;
+    public BlobArray<float> vcolor_2_Items;
+    public BlobArray<float> vcolor_3_Items;
+    public BlobArray<float> vcolor_4_Items;
+    public BlobArray<float> vcolor_5_Items;
+    public BlobArray<float> vcolor_6_Items;
+    public BlobArray<float> vcolor_7_Items;
+    public BlobArray<float> vcolor_8_Items;
 
 }
