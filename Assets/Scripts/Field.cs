@@ -22,13 +22,13 @@ public class Field : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            //DestroyFieldItems();
-            //InstantiateFieldItems();
+            DestroyFieldItems();
+            InstantiateFieldItems();
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            //DestroyFieldItems();
+            DestroyFieldItems();
         }
     }
 
@@ -339,6 +339,8 @@ public class Field : MonoBehaviour
         Vector3 turnItem = new(90.0f, 0.0f, 0.0f);
         item.eulerAngles += turnItem;
         item.Rotate(new(0.0f, UnityEngine.Random.value * 360f, 0.0f));
+        //var sc = UnityEngine.Random.Range(1f, 1.5f);
+        //item.localScale = new(sc, sc);
         item.position += GameManager.Instance.GameSessionData_.CurentPlanetPosition;
         Items.Add(item);
     }

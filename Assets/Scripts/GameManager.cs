@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameSessionData GameSessionData_ { get; private set; } = new();
 
     public event EventHandler OnCashAmountChanged;
+    public event EventHandler OnGoldAmountChanged;
     public event EventHandler OnGameStateChanged;
     public event EventHandler<OnOnLevelUpEventArgs> OnLevelUp;
     public class OnOnLevelUpEventArgs : EventArgs
@@ -209,6 +210,11 @@ public class GameManager : MonoBehaviour
         return GameSessionData_.collectedCash;
     }
 
+    public int GetGoldAmount()
+    {
+        return GameSessionData_.collectedGold;
+    }
+
     public void AddCash(GameObject gameObject)
     {
         if (GameSessionData_.FieldItemsSOonLevel == null) return;
@@ -235,5 +241,6 @@ public class GameManager : MonoBehaviour
     public void AddGold()
     {
         GameSessionData_.collectedGold++;
+        OnGoldAmountChanged?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -43,19 +43,19 @@ public class Asteroids : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        //if (GameManager.Instance.IsGamePlaying())
-        //{
-        //    StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));
-        //}
-        //else
-        //    StopAllCoroutines();
-        //
-        //if (GameManager.Instance.IsGameWaitingToStart())
-        //{
-        //    DestroyAsteroids();
-        //    DestroyCraters();
-        //    DestroyGolds();
-        //}
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));
+        }
+        else
+            StopAllCoroutines();
+
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            DestroyAsteroids();
+            DestroyCraters();
+            DestroyGolds();
+        }
     }
 
     private IEnumerator AsteroidsFallCoroutine(Vector3 target)

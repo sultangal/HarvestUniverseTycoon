@@ -11,15 +11,15 @@ public class TestingProperties : EditorWindow
     private GameState currState;
 
     private float speedMult = 1f;
-    private float bladesWidthMult = 1f;
+    private float bladesWidthMult = 1.5f;
     private HarvesterGroup harvesterGroupRef;
     private GameManager gm;
     private float countdown = 59f;
 
     public float respawnPointRemoteness = 30f;
     public float asteroidMoveSpeed = 9f;
-    public int minSecBetweenRespawn = 0;
-    public int maxSecBetweenRespawn = 1;
+    public int minSecBetweenRespawn = 3;
+    public int maxSecBetweenRespawn = 5;
     private Asteroids asteroidsRef;
 
     private int collectedCash = 0;
