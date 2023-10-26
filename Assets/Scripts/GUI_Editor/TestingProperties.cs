@@ -121,9 +121,6 @@ public class TestingProperties : EditorWindow
         if (EditorApplication.isPlaying)
         {
             EditorGUILayout.LabelField("Game session data: ", EditorStyles.boldLabel);
-            gm = FindFirstObjectByType<GameManager>();
-            countdown = EditorGUILayout.FloatField("    Countdown:", countdown);
-            gm.COUNTDOWN_TIME = countdown;
             EditorGUILayout.LabelField("    Collected Cash: " + collectedCash.ToString());
             EditorGUILayout.LabelField("    Collected Gold: " + collectedGold.ToString());
             EditorGUILayout.LabelField("    fieldItemSOs: ");

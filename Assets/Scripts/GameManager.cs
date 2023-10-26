@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public GlobalData GlobalData_ { get; private set; } = new();
     public LevelData LevelData_ { get; private set; }
-    public float COUNTDOWN_TIME = 23f;
+    public float COUNTDOWN_TIME = 50f;
     
     private bool countdownRunning = false;
     private bool isNewLevelFlag = false;
