@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b4e00508d1ef048b9130b946fbb112, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource_2_Items: {fileID: -4511651284078640745, guid: 9235c7fbd106304438cd06a246505231,
+  meshForPointsSource_2_Items: {fileID: -4511651284078640745, guid: b3c17433289f04f49a07a1b6accf7a8c,
     type: 3}
   meshForPointsSource_3_Items: {fileID: -3769597631504553030, guid: 86e23bd793cfc3d44b6b53849c229bd5,
     type: 3}
