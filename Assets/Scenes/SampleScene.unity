@@ -598,7 +598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4a37ac1b9877447bbd36aec3b4ddb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  COUNTDOWN_TIME: 23
 --- !u!114 &534743016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,19 +657,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2094795253a44bf41a6f2d5930a82510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshForPointsSource_2_Items: {fileID: -4511651284078640745, guid: b3c17433289f04f49a07a1b6accf7a8c,
+  meshForPointsSource_2_Items: {fileID: -4511651284078640745, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_3_Items: {fileID: -3769597631504553030, guid: 86e23bd793cfc3d44b6b53849c229bd5,
+  meshForPointsSource_3_Items: {fileID: -3769597631504553030, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_4_Items: {fileID: 3486240652854991045, guid: 4085b7930ea697e42a93a127bc53bc4d,
+  meshForPointsSource_4_Items: {fileID: 3486240652854991045, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_5_Items: {fileID: -3785627218052110456, guid: 4225b027543c7ba4fb22dadf775e8169,
+  meshForPointsSource_5_Items: {fileID: -3785627218052110456, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_6_Items: {fileID: 7332531672616753091, guid: 01c2cfdf6017c86449b050ce12e69920,
+  meshForPointsSource_6_Items: {fileID: 7332531672616753091, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_7_Items: {fileID: -3243149996538365690, guid: 59ed2143d4475b244a09d29cd4c7c1b7,
+  meshForPointsSource_7_Items: {fileID: -3243149996538365690, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
-  meshForPointsSource_8_Items: {fileID: -7297265607014630442, guid: a926035f083406f44852399254e37013,
+  meshForPointsSource_8_Items: {fileID: -7297265607014630442, guid: 8c826106d7457824988d4eea49425296,
     type: 3}
 --- !u!1 &544802525
 GameObject:
