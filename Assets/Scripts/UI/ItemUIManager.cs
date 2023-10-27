@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ItemUIManager : MonoBehaviour
 {
@@ -38,27 +39,34 @@ public class ItemUIManager : MonoBehaviour
         foreach (Transform child in container)
         {
             Destroy(child.gameObject);
-        }       
+        }
     }
 
     private void Reinitialize()
     {
         ResetItems();
-     
+
         for (int i = 0; i < Planets.Instance.GetCurrentPlanetSO().fieldItemAmountForNextLevel.Length; i++)
         {
             var item = Instantiate(itemUITemplate, container);
-            item.GetComponent<ItemUI>().countsGoal.text = "/" +
-                Planets.Instance.GetCurrentLevelPlanetSO().fieldItemAmountForNextLevel[i].ToString();
+            var itemUI = item.GetComponent<ItemUI>();
+            itemUI.countsGoal.text = "/" +
+                Planets.Instance.GetCurrentPlanetSO().fieldItemAmountForNextLevel[i].ToString();
+            itemUI.itemImage.sprite =
+                Planets.Instance.GetCurrentPlanetSO().fieldItemSOs[i].itemSprite;
         }
     }
 
     private void UpdateVisuals()
     {
-        for (int i = 0; i < GameManager.Instance.GameSessionData_.CollectedFieldItems.Length; i++)
+        var gm = GameManager.Instance;
+        var pln = Planets.Instance;
+        for (int i = 0; i < gm.GameSessionData_.CollectedFieldItems.Length; i++)
         {
-            int countCollected = GameManager.Instance.GameSessionData_.CollectedFieldItems[i];
-            int countsGoal = Planets.Instance.GetCurrentLevelPlanetSO().fieldItemAmountForNextLevel[i];
+            int countCollected =
+                pln.GetCurrentPlanetAmountOfCollectedItems()[i] + gm.GameSessionData_.CollectedFieldItems[i];
+            //int countCollected = gm.GameSessionData_.CollectedFieldItems[i];
+            int countsGoal = pln.GetCurrentPlanetSO().fieldItemAmountForNextLevel[i];
             var itemUIComponent = container.GetChild(i).GetComponent<ItemUI>();
             if (countCollected > countsGoal)
             {
@@ -66,7 +74,7 @@ public class ItemUIManager : MonoBehaviour
             }
             itemUIComponent.countsCollected.text = countCollected.ToString();
         }
-       
+
     }
 
     private void Update()

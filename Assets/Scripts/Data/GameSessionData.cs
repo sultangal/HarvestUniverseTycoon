@@ -18,7 +18,13 @@ public class GameSessionData
         this.FieldItemsSOonLevel = fieldItemSOs;
         this.CurentPlanetPosition = curentPlanetPosition;
         if (fieldItemSOs != null)
+        {
             CollectedFieldItems = new int[fieldItemSOs.Length];
+            //for (var i = 0; i < collectedItemsOnPlanet.Length; i++)
+            //{
+            //    CollectedFieldItems[i] = collectedItemsOnPlanet[i];
+            //}
+        }
     }
 
     public void Reset()

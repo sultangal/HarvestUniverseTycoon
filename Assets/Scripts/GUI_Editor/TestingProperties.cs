@@ -37,9 +37,10 @@ public class TestingProperties : EditorWindow
     public int amountOfCash = 0;
     public int level = 0;
 
-    public FieldItemSO[] fieldItemsOnLevel;
-    public int[] amountOfCollectedFieldItemsOnLevel;
-    public bool[] goalAchievedFlags;
+    public PlanetData[] planetsData;
+    //public FieldItemSO[] fieldItemsOnLevel;
+    //public int[] amountOfCollectedFieldItemsOnLevel;
+    //public bool[] goalAchievedFlags;
 
 
     [MenuItem("Testing/Testing Properties")]
@@ -101,19 +102,35 @@ public class TestingProperties : EditorWindow
         GuiLine();
 
 
-        EditorGUILayout.LabelField("Level data: ", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField("    fieldItemSOs: ");
-        if (fieldItemsOnLevel != null)
-        {
-            for (var i = 0; i < fieldItemsOnLevel.Length; i++)
+        EditorGUILayout.LabelField("Planets data: ", EditorStyles.boldLabel);
+
+        //EditorGUILayout.LabelField("    : ");
+
+        if (planetsData != null)
+        {          
+            for (var i = 0; i < planetsData.Length; i++)
             {
-                EditorGUILayout.LabelField("        " + fieldItemsOnLevel[i].ToString() +
-                    "   collected on level: "
-                    + amountOfCollectedFieldItemsOnLevel[i] +
-                    "   flags: " +
-                    goalAchievedFlags[i]);
+                EditorGUILayout.LabelField("Planet: " + i);
+                for (global::System.Int32 j = 0; j < planetsData[i].amountOfCollectedFieldItemsOnPlanet.Length; j++)
+                {
+                    EditorGUILayout.LabelField("        " + planetsData[i].amountOfCollectedFieldItemsOnPlanet[j].ToString());
+                }
+                EditorGUILayout.LabelField("-------");
             }
+            
         }
+
+        //if (fieldItemsOnLevel != null)
+        //{
+        //    for (var i = 0; i < fieldItemsOnLevel.Length; i++)
+        //    {
+        //        EditorGUILayout.LabelField("        " + fieldItemsOnLevel[i].ToString() +
+        //            "   collected on level: "
+        //            + amountOfCollectedFieldItemsOnLevel[i] +
+        //            "   flags: " +
+        //            goalAchievedFlags[i]);
+        //    }
+        //}
 
         EditorGUILayout.Space(20);
         GuiLine();
@@ -173,9 +190,10 @@ public class TestingProperties : EditorWindow
             amountOfCash = GameManager.Instance.GlobalData_.amountOfCash;
             level = GameManager.Instance.GlobalData_.level;
 
-            fieldItemsOnLevel = GameManager.Instance.LevelData_.FieldItemsOnLevel;
-            amountOfCollectedFieldItemsOnLevel = GameManager.Instance.LevelData_.AmountOfCollectedFieldItemsOnLevel;
-            goalAchievedFlags = GameManager.Instance.LevelData_.GoalAchievedFlags;
+            planetsData = Planets.Instance.PlanetData;
+            //fieldItemsOnLevel = GameManager.Instance.LevelData_.FieldItemsOnLevel;
+            //amountOfCollectedFieldItemsOnLevel = GameManager.Instance.LevelData_.AmountOfCollectedFieldItemsOnPlanet;
+            //goalAchievedFlags = GameManager.Instance.LevelData_.GoalAchievedFlags;
 
             currState = GameManager.Instance.State;
         }

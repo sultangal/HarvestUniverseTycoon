@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
     public GameState State { get; private set; }
 
     public GlobalData GlobalData_ { get; private set; } = new();
-    public LevelData LevelData_ { get; private set; }
-    public float COUNTDOWN_TIME = 50f;
+    //public PlanetData LevelData_ { get; private set; }
+    private readonly float COUNTDOWN_TIME = 5f;
     
     private bool countdownRunning = false;
     private bool isNewLevelFlag = false;
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         //GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
-        LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
+        //LevelData_ = new PlanetData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
     }
 
     private void IterateCountdown()
@@ -116,12 +116,15 @@ public class GameManager : MonoBehaviour
     {
         GlobalData_.amountOfCash += GameSessionData_.collectedCash;
         GlobalData_.amountOfGold += GameSessionData_.collectedGold;
-        LevelData_.AddCollectedAmountOfItems(GameSessionData_.CollectedFieldItems);
+        Planets.Instance.AddCollectedAmountOfItems(GameSessionData_.CollectedFieldItems);
     }
 
     private bool CheckForNextLevel()
     {
-        if (LevelData_.CheckIfNextLevelGoalAchieved())
+        var pln = Planets.Instance;
+        if (!pln.IsCurrPlanetActualLevel()) return false;
+
+        if (pln.CheckIfNextLevelGoalAchieved())
         {
             if (GlobalData_.level == Planets.Instance.LastPlanetIndex)
             {
@@ -129,7 +132,7 @@ public class GameManager : MonoBehaviour
                 return false;
             }
             GlobalData_.level++;           
-            LevelData_ = new LevelData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
+            //LevelData_ = new PlanetData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
             OnLevelUp?.Invoke(this, new OnOnLevelUpEventArgs { level = GlobalData_.level });
             isNewLevelFlag = true;           
         }
@@ -155,7 +158,8 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameSessionPlaying:
-                GameSessionData_.Reinitialize(Planets.Instance.GetCurrentPlanetSO().fieldItemSOs, Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
+                GameSessionData_.Reinitialize(Planets.Instance.GetCurrentPlanetSO().fieldItemSOs, 
+                    Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
                 this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);

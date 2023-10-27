@@ -611,7 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8264694a30532840bde765127b8c719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetsArr:
+  planetsSOArr:
   - {fileID: 11400000, guid: 608cffede9df7c344b5f315fd841955c, type: 2}
   - {fileID: 11400000, guid: 2d18d6b0fd7bab941bce4c34eea91928, type: 2}
   - {fileID: 11400000, guid: c4a2f9bc6ac416540bdff4ad54060e55, type: 2}
@@ -1201,7 +1201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -88.099945}
+  m_AnchoredPosition: {x: 0, y: -88.09985}
   m_SizeDelta: {x: -228, y: -1178.2002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814981547

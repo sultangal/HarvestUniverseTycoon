@@ -7,7 +7,7 @@ public class Planets : MonoBehaviour
 {
     public static Planets Instance { get; private set; }
 
-    [SerializeField] private PlanetSO[] planetsArr;
+    [SerializeField] private PlanetSO[] planetsSOArr;
     [SerializeField] private PlanetMeshSO planetMeshSO;
 
     public event EventHandler<OnPlanetShiftEventArgs> OnPlanetShift;
@@ -16,6 +16,8 @@ public class Planets : MonoBehaviour
     {
         public Transform currPlanetTransform;
     }
+
+    public PlanetData[] PlanetData { get; private set; }
 
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
@@ -48,19 +50,26 @@ public class Planets : MonoBehaviour
 
     private void CreatePlanets()
     {
-        LastPlanetIndex = planetsArr.Length-1;
-        for (int i = 0; i < planetsArr.Length; i++)
+        PlanetData = new PlanetData[planetsSOArr.Length];
+        LastPlanetIndex = planetsSOArr.Length-1;
+        for (int i = 0; i < planetsSOArr.Length; i++)
         {
-            planetsArr[i].planetPrefab = Instantiate(
+            planetsSOArr[i].planetPrefab = Instantiate(
                 planetMeshSO.planetMesh,
                 planetMeshSO.planetMesh.position,
                 planetMeshSO.planetMesh.rotation);
-            
+
+            PlanetData[i] = new PlanetData
+            {
+                amountOfCollectedFieldItemsOnPlanet = new int[planetsSOArr[i].fieldItemSOs.Length],
+                goalAchievedFlags = new bool[planetsSOArr[i].fieldItemSOs.Length]
+            };
+
             Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
-            planetsArr[i].planetPrefab.position += newPos;
-            PlanetVisual planetVisual = planetsArr[i].planetPrefab.GetComponent<PlanetVisual>();
+            planetsSOArr[i].planetPrefab.position += newPos;
+            PlanetVisual planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisual>();
             planetVisual.planetId = i;
-            planetVisual.SetPlanetColor(planetsArr[i].planetColor);
+            planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
             if (i <= GameManager.Instance.GlobalData_.level)
                 planetVisual.SetAvalability(true); 
             else 
@@ -73,20 +82,20 @@ public class Planets : MonoBehaviour
         MakeOnlyCurrPlanetVisible();
         if (CurrentPlanetIndex > 0)
             SetVisibilityOfPlanet(CurrentPlanetIndex - 1, true);
-        if (CurrentPlanetIndex < planetsArr.Length - 1)
+        if (CurrentPlanetIndex < planetsSOArr.Length - 1)
             SetVisibilityOfPlanet(CurrentPlanetIndex + 1, true);
     }
 
     private void MakeOnlyCurrPlanetVisible()
     {
-        for (int i = 0; i < planetsArr.Length; i++)
+        for (int i = 0; i < planetsSOArr.Length; i++)
             SetVisibilityOfPlanet(i, false);
         SetVisibilityOfPlanet(CurrentPlanetIndex, true);
     }
 
     private void SetVisibilityOfPlanet(int index, bool visible)
     {
-        planetsArr[index].planetPrefab.gameObject.SetActive(visible);
+        planetsSOArr[index].planetPrefab.gameObject.SetActive(visible);
         //planetsArr[index].planetPrefab.gameObject.GetComponent<MeshRenderer>().enabled = visible;
         //planetsArr[index].planetPrefab.gameObject.GetComponent<Collider>().enabled = visible;
     }
@@ -98,18 +107,18 @@ public class Planets : MonoBehaviour
             CurrentPlanetIndex--;
             MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsArr[CurrentPlanetIndex].planetPrefab });
+            { currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab });
         }
     }
 
     public void ShiftPlanetRight()
     {
-        if (CurrentPlanetIndex < planetsArr.Length - 1)
+        if (CurrentPlanetIndex < planetsSOArr.Length - 1)
         {
             CurrentPlanetIndex++;
             MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsArr[CurrentPlanetIndex].planetPrefab });
+            { currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab });
         }
     }
 
@@ -123,10 +132,50 @@ public class Planets : MonoBehaviour
 
     public PlanetSO GetCurrentPlanetSO()
     {
-        return planetsArr[CurrentPlanetIndex];
+        return planetsSOArr[CurrentPlanetIndex];
     }
     public PlanetSO GetCurrentLevelPlanetSO()
     {
-        return planetsArr[GameManager.Instance.GlobalData_.level];
+        return planetsSOArr[GameManager.Instance.GlobalData_.level];
+    }
+
+    public int[] GetCurrentPlanetAmountOfCollectedItems()
+    {
+        return PlanetData[CurrentPlanetIndex].amountOfCollectedFieldItemsOnPlanet;
+    }
+
+    public void AddCollectedAmountOfItems(int[] itemsCountArr)
+    {
+        //if (!Planets.Instance.IsCurrPlanetActualLevel()) return;
+        //if (itemsCountArr.Length != AmountOfCollectedFieldItemsOnPlanet.Length)
+        //{
+        //    Debug.LogError("Array length does't the same.");
+        //    return;
+        //}
+
+        var collectedItems = PlanetData[CurrentPlanetIndex].amountOfCollectedFieldItemsOnPlanet;
+        
+        for (var i = 0; i < collectedItems.Length; i++)
+        {
+            collectedItems[i] += itemsCountArr[i];
+
+            if (collectedItems[i] > planetsSOArr[CurrentPlanetIndex].fieldItemAmountForNextLevel[i])
+            {
+                //collectedItems[i] = itemAmountForNextLevel;
+                PlanetData[CurrentPlanetIndex].goalAchievedFlags[i] = true;
+            }
+
+        }
+
+    }
+
+    public bool CheckIfNextLevelGoalAchieved()
+    {
+        foreach (var flag in PlanetData[CurrentPlanetIndex].goalAchievedFlags)
+        {
+            if (!flag)
+                return false;
+        }
+        return true;
     }
 }
