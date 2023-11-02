@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private readonly float COUNTDOWN_TIME = 5f;
     
     private bool countdownRunning = false;
-    private bool isNewLevelFlag = false;
+    public bool IsNewLevelFlag { get; private set; } = false;
 
 #if UNITY_EDITOR
     //private readonly static string appPath = Application.dataPath;
@@ -134,18 +134,9 @@ public class GameManager : MonoBehaviour
             GlobalData_.level++;           
             //LevelData_ = new PlanetData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
             OnLevelUp?.Invoke(this, new OnOnLevelUpEventArgs { level = GlobalData_.level });
-            isNewLevelFlag = true;           
+            IsNewLevelFlag = true;           
         }
         return true;
-    }
-
-    private void DemonstrateNewLevelIfAvailable()
-    {
-        if (isNewLevelFlag)
-        {
-            isNewLevelFlag = false;
-            Planets.Instance.ShiftPlanetRight();
-        }
     }
 
     private void Update()
@@ -158,6 +149,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GameSessionPlaying:
+                IsNewLevelFlag = false;
                 GameSessionData_.Reinitialize(Planets.Instance.GetCurrentPlanetSO().fieldItemSOs, 
                     Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
@@ -178,8 +170,7 @@ public class GameManager : MonoBehaviour
                 this.State = state;
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
-            case GameState.WaitingToStart:
-                DemonstrateNewLevelIfAvailable();
+            case GameState.WaitingToStart:             
                 GameSessionData_.Reset();
                 StopCountdown();
                 this.State = state;

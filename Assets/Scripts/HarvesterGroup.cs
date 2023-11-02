@@ -1,14 +1,14 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HarvesterGroup : MonoBehaviour
 {       
     [SerializeField] private Transform harvesterRef;
     [SerializeField] private Transform harvesterBodyRef;
-    [SerializeField] private Transform harvesterBladesGroupRef;
-   
+    [SerializeField] private Transform harvesterBladesGroupRef;   
     [SerializeField] private FloatingJoystick joystick;
-
     [SerializeField] private ParticleSystem partSystem;
 
     private Vector2 inputDirection;
@@ -27,7 +27,7 @@ public class HarvesterGroup : MonoBehaviour
     private float forwardVelocity = 0.0f;
 
     private readonly float wiggleFrequency = 5.0f;
-    private readonly float wiggleAmount = 10.0f;  
+    private readonly float wiggleAmount = 10.0f;
 
     private void Start()
     {
@@ -40,7 +40,13 @@ public class HarvesterGroup : MonoBehaviour
 
     private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
     {
-        transform.DOMove((e.currPlanetTransform.position), 1);
+        transform.DOMove((e.currPlanetTransform.position), e.shiftSpeed).OnComplete(HarvesterAppearence);
+    }
+
+    private void HarvesterAppearence()
+    {
+        harvesterRef.transform.position = new(transform.position.x, 13.381f, transform.position.z);
+        harvesterRef.transform.DOMoveY(5.381f, 0.5f);
     }
 
     private void Update()
@@ -124,12 +130,14 @@ public class HarvesterGroup : MonoBehaviour
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
+            harvesterRef.SetParent(null);
             transform.localEulerAngles = Vector3.zero;
             harvesterRef.transform.localEulerAngles = Vector3.zero;
         }
 
         if (GameManager.Instance.IsGamePlaying())
         {
+            harvesterRef.SetParent(transform);
             SetHarvesterSettings();
         }
     }

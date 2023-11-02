@@ -1,4 +1,6 @@
+using DG.Tweening;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour
@@ -10,11 +12,14 @@ public class CameraControl : MonoBehaviour
     private float vertVelocity = 0.0f;
 
     [SerializeField] private Camera cameraRef;
+    [SerializeField] private Transform harvesterGroup;
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] AnimationCurve cameraCurve;
     private const float MIN_ASPECT_RATIO = 0.5625f;
+
     private void Start()
     {
+        GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         accelRatePerSec = 1f / timeToAjust;
         decelRatePerSec = -1f / timeToAjust;
         //cameraRef = GetComponent<Camera>();
@@ -35,6 +40,24 @@ public class CameraControl : MonoBehaviour
 
         CameraMotion();
 #endif
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    {
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 20.6f, -3f)), 1);
+            cameraRef.transform.DORotate((new(78.71f, 0f, 0f)), 1);
+        }
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 6.04f, -4.31f)), 1);
+            if (GameManager.Instance.IsNewLevelFlag)
+                cameraRef.transform.DORotate((new(0f, 0f, 0f)), 1).OnComplete(
+                    () => Planets.Instance.ShiftPlanetRight(2f)
+                    );
+            else cameraRef.transform.DORotate((new(0f, 0f, 0f)), 1);
+        }
     }
 
 #if UNITY_EDITOR

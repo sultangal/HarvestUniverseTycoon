@@ -15,13 +15,14 @@ public class Planets : MonoBehaviour
     public class OnPlanetShiftEventArgs : EventArgs
     {
         public Transform currPlanetTransform;
+        public float shiftSpeed;
     }
 
     public PlanetData[] PlanetData { get; private set; }
 
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
-    private const float SPACE_BETWEEN_PLANETS = 15f;
+    private const float SPACE_BETWEEN_PLANETS = 10f;
 
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class Planets : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         CreatePlanets();
-        MakeCurrAndAdjasentPlanetsVisible();
+        //MakeCurrAndAdjasentPlanetsVisible();
     }
 
     private void GameManager_OnGameStateChanged(object sender, EventArgs e)
@@ -45,6 +46,10 @@ public class Planets : MonoBehaviour
         if (GameManager.Instance.IsGamePlaying())
         {
             MakeOnlyCurrPlanetVisible();
+        }
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            MakeAllPlanetsVisible();
         }
     }
 
@@ -93,6 +98,12 @@ public class Planets : MonoBehaviour
         SetVisibilityOfPlanet(CurrentPlanetIndex, true);
     }
 
+    private void MakeAllPlanetsVisible()
+    {
+        for (int i = 0; i < planetsSOArr.Length; i++)
+            SetVisibilityOfPlanet(i, true);
+    }
+
     private void SetVisibilityOfPlanet(int index, bool visible)
     {
         planetsSOArr[index].planetPrefab.gameObject.SetActive(visible);
@@ -102,23 +113,39 @@ public class Planets : MonoBehaviour
 
     public void ShiftPlanetLeft()
     {
+        ShiftPlanetLeft(1f);
+    }
+
+    public void ShiftPlanetLeft(float shiftSpeed)
+    {
         if (CurrentPlanetIndex > 0)
         {
             CurrentPlanetIndex--;
-            MakeCurrAndAdjasentPlanetsVisible();
+            //MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab });
+            { 
+                currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,
+                shiftSpeed = shiftSpeed
+            });
         }
     }
 
     public void ShiftPlanetRight()
     {
+        ShiftPlanetRight(1f);
+    }
+
+    public void ShiftPlanetRight(float shiftSpeed)
+    {
         if (CurrentPlanetIndex < planetsSOArr.Length - 1)
         {
             CurrentPlanetIndex++;
-            MakeCurrAndAdjasentPlanetsVisible();
-            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
-            { currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab });
+            //MakeCurrAndAdjasentPlanetsVisible();
+            OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs
+            {
+                currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,
+                shiftSpeed = shiftSpeed
+            });
         }
     }
 
@@ -134,6 +161,12 @@ public class Planets : MonoBehaviour
     {
         return planetsSOArr[CurrentPlanetIndex];
     }
+
+    public Vector3 GetCurrentPlanetPosition()
+    {
+        return planetsSOArr[CurrentPlanetIndex].planetPrefab.transform.position;
+    }
+
     public PlanetSO GetCurrentLevelPlanetSO()
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level];
