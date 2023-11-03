@@ -22,7 +22,7 @@ public class Planets : MonoBehaviour
 
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
-    private const float SPACE_BETWEEN_PLANETS = 10f;
+    private const float SPACE_BETWEEN_PLANETS = 6f;
 
     private void Awake()
     {

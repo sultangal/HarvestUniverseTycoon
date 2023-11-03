@@ -30,7 +30,7 @@ public class HarvesterGroup : MonoBehaviour
     private readonly float wiggleFrequency = 5.0f;
     private readonly float wiggleAmount = 10.0f;
 
-    private readonly float Y_HEIGHT = 5.381f;
+    private readonly float Y_HARVESTER_HEIGHT = 5.381f;
 
     private void Start()
     {
@@ -49,7 +49,7 @@ public class HarvesterGroup : MonoBehaviour
 
     private void HarvesterAppearence()
     {
-        rotationTable.transform.position = new(transform.position.x, 5.381f, 0.0f);
+        rotationTable.transform.position = new(transform.position.x, Y_HARVESTER_HEIGHT, 0.0f);
         rotationTable.transform.DOMoveY(0.0f, 0.5f);
     }
 
