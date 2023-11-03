@@ -77,8 +77,10 @@ public class CameraControl : MonoBehaviour
         {
             cameraRef.fieldOfView = 55.5f;
         }
-
-        CameraMotion();
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            CameraMotion();
+        }
     }
 
     public static Vector2 GetMainGameViewSize()

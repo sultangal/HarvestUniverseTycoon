@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class HarvesterGroup : MonoBehaviour
 {       
     [SerializeField] private Transform harvesterRef;
+    [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
     [SerializeField] private Transform harvesterBladesGroupRef;   
     [SerializeField] private FloatingJoystick joystick;
@@ -29,9 +30,12 @@ public class HarvesterGroup : MonoBehaviour
     private readonly float wiggleFrequency = 5.0f;
     private readonly float wiggleAmount = 10.0f;
 
+    private readonly float Y_HEIGHT = 5.381f;
+
     private void Start()
     {
         SetHarvesterSettings();
+        harvesterRef.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -45,8 +49,8 @@ public class HarvesterGroup : MonoBehaviour
 
     private void HarvesterAppearence()
     {
-        harvesterRef.transform.position = new(transform.position.x, 13.381f, transform.position.z);
-        harvesterRef.transform.DOMoveY(5.381f, 0.5f);
+        rotationTable.transform.position = new(transform.position.x, 5.381f, 0.0f);
+        rotationTable.transform.DOMoveY(0.0f, 0.5f);
     }
 
     private void Update()
@@ -129,14 +133,18 @@ public class HarvesterGroup : MonoBehaviour
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
-        {
-            harvesterRef.SetParent(null);
+        {            
             transform.localEulerAngles = Vector3.zero;
+            harvesterRef.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterRef.transform.localEulerAngles = Vector3.zero;
+            harvesterBodyRef.transform.localEulerAngles = Vector3.zero;
+            harvesterRef.SetParent(rotationTable);
         }
 
         if (GameManager.Instance.IsGamePlaying())
         {
+            harvesterRef.transform.localEulerAngles = Vector3.zero;
+            harvesterRef.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterRef.SetParent(transform);
             SetHarvesterSettings();
         }

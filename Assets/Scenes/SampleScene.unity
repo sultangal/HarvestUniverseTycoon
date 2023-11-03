@@ -407,8 +407,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 415011918}
+  - component: {fileID: 415011919}
   m_Layer: 0
-  m_Name: PlayerGroup
+  m_Name: RotationTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,6 +430,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &415011919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415011917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca0abbadbf2c374592db7d1838acc0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationMultiplier: 20
+  xAxis: 0
+  yAxis: 1
+  zAxis: 0
 --- !u!1 &420762335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,7 +1167,7 @@ PrefabInstance:
     - target: {fileID: 7886498911938334279, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.001
+      value: 0.726
       objectReference: {fileID: 0}
     - target: {fileID: 7886498911938334279, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
@@ -1231,7 +1248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -88.09985}
+  m_AnchoredPosition: {x: 0, y: -88.09961}
   m_SizeDelta: {x: -228, y: -1178.2002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814981547
@@ -1385,7 +1402,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: -3
+      value: -4
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1394,7 +1411,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 3
+      value: 4
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2274,7 +2291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 27.000122, y: 613}
+  m_AnchoredPosition: {x: 27.000244, y: 613}
   m_SizeDelta: {x: 64.350174, y: 398}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1332504119
@@ -2702,7 +2719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harvesterRef: {fileID: 1188670071}
-  cameraRef: {fileID: 963194227}
+  rotationTable: {fileID: 415011918}
   harvesterBodyRef: {fileID: 404185332}
   harvesterBladesGroupRef: {fileID: 972174035}
   joystick: {fileID: 504293519}
@@ -3342,9 +3359,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 1882260629}
   - {fileID: 705507995}
+  - {fileID: 415011918}
   - {fileID: 810067803}
   - {fileID: 1825356968}
-  - {fileID: 415011918}
   - {fileID: 1934503638}
   - {fileID: 2133778925}
   - {fileID: 534743014}
