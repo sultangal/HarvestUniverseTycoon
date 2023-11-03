@@ -16,6 +16,7 @@ public class Planets : MonoBehaviour
     {
         public Transform currPlanetTransform;
         public float shiftSpeed;
+        public bool isRight;
     }
 
     public PlanetData[] PlanetData { get; private set; }
@@ -125,7 +126,8 @@ public class Planets : MonoBehaviour
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
             { 
                 currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,
-                shiftSpeed = shiftSpeed
+                shiftSpeed = shiftSpeed,
+                isRight = false
             });
         }
     }
@@ -144,7 +146,8 @@ public class Planets : MonoBehaviour
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs
             {
                 currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,
-                shiftSpeed = shiftSpeed
+                shiftSpeed = shiftSpeed,
+                isRight = true
             });
         }
     }
