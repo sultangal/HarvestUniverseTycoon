@@ -7,7 +7,7 @@ public class Planets : MonoBehaviour
 {
     public static Planets Instance { get; private set; }
 
-    [SerializeField] private PlanetSO[] planetsSOArr;
+    public PlanetSO[] planetsSOArr;
     [SerializeField] private PlanetMeshSO planetMeshSO;
 
     public event EventHandler<OnPlanetShiftEventArgs> OnPlanetShift;
