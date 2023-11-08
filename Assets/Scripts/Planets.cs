@@ -77,9 +77,9 @@ public class Planets : MonoBehaviour
             planetVisual.planetId = i;
             planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
             if (i <= GameManager.Instance.GlobalData_.level)
-                planetVisual.SetAvalability(true); 
+                planetVisual.SetAvalabilityVisual(true); 
             else 
-                planetVisual.SetAvalability(false);    
+                planetVisual.SetAvalabilityVisual(false);    
         }
     }
 

@@ -6,7 +6,7 @@ public class PlanetVisual : MonoBehaviour
     public int planetId;
     private bool isAvailable = false;
     private Color planetColor;
-    Material planetMaterial;
+    private Material planetMaterial;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class PlanetVisual : MonoBehaviour
         planetColor = color;
     }
 
-    public void SetAvalability(bool isAvalable)
+    public void SetAvalabilityVisual(bool isAvalable)
     {
         isAvailable = isAvalable;
         if (isAvailable)
