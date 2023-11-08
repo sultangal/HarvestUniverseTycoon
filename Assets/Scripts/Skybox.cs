@@ -51,13 +51,13 @@ public class Skybox : MonoBehaviour
                 () => skyboxMat.GetColor("_Tint"),
                 x => skyboxMat.SetColor("_Tint", x),
                 colorAvailable,
-                ANIM_DURATION);
+                0.5f);
         else
             DOTween.To(
                 () => skyboxMat.GetColor("_Tint"),
                 x => skyboxMat.SetColor("_Tint", x),
                 colorNotAvailable,
-                ANIM_DURATION);
+                0.5f);
     }
 
     private void OnDestroy()
