@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class HarvesterGroup : MonoBehaviour
 {       
-    [SerializeField] private Transform harvesterRef;
+    [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
     [SerializeField] private Transform harvesterBladesGroupRef;   
@@ -35,7 +35,7 @@ public class HarvesterGroup : MonoBehaviour
     private void Start()
     {
         SetHarvesterSettings();
-        harvesterRef.SetParent(rotationTable);
+        harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -50,6 +50,8 @@ public class HarvesterGroup : MonoBehaviour
     private void HarvesterAppearence()
     {
         rotationTable.transform.position = new(transform.position.x, Y_HARVESTER_HEIGHT, 0.0f);
+        var comp = harvesterPrefab.GetComponent<HarvesterVisuals>();
+        comp.UpdateAvailabilityVisual();
         rotationTable.transform.DOMoveY(0.0f, 0.5f);
     }
 
@@ -64,7 +66,7 @@ public class HarvesterGroup : MonoBehaviour
     private void SetHarvesterSettings()
     {
         harvesterSpeed = HARVESTER_MIN_SPEED_CONST * harvesterSpeedMult;
-        BoxCollider bladesCollider = harvesterRef.GetComponent<BoxCollider>();
+        BoxCollider bladesCollider = harvesterPrefab.GetComponent<BoxCollider>();
         bladesCollider.size = new(
             BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidthMult, 
             bladesCollider.size.y, 
@@ -114,11 +116,11 @@ public class HarvesterGroup : MonoBehaviour
     {
         if (inputDirection != Vector2.zero)
         {
-            vehicleAngles.x = harvesterRef.transform.localEulerAngles.x;
+            vehicleAngles.x = harvesterPrefab.transform.localEulerAngles.x;
             vehicleAngles.y = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg;
-            vehicleAngles.z = harvesterRef.transform.localEulerAngles.z;
+            vehicleAngles.z = harvesterPrefab.transform.localEulerAngles.z;
 
-            harvesterRef.transform.localEulerAngles = vehicleAngles;
+            harvesterPrefab.transform.localEulerAngles = vehicleAngles;
         }
     }
 
@@ -135,17 +137,17 @@ public class HarvesterGroup : MonoBehaviour
         if (GameManager.Instance.IsGameWaitingToStart())
         {            
             transform.localEulerAngles = Vector3.zero;
-            harvesterRef.transform.position = new(transform.position.x, 5.381f, 0.726f);
-            harvesterRef.transform.localEulerAngles = Vector3.zero;
+            harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
+            harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterBodyRef.transform.localEulerAngles = Vector3.zero;
-            harvesterRef.SetParent(rotationTable);
+            harvesterPrefab.SetParent(rotationTable);
         }
 
         if (GameManager.Instance.IsGamePlaying())
         {
-            harvesterRef.transform.localEulerAngles = Vector3.zero;
-            harvesterRef.transform.position = new(transform.position.x, 5.381f, 0.726f);
-            harvesterRef.SetParent(transform);
+            harvesterPrefab.transform.localEulerAngles = Vector3.zero;
+            harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
+            harvesterPrefab.SetParent(transform);
             SetHarvesterSettings();
         }
     }

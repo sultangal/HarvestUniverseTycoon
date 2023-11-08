@@ -9348,8 +9348,8 @@ MonoBehaviour:
     type: 3}
   respawnPointRemoteness: 30
   asteroidMoveSpeed: 9
-  minSecBetweenRespawn: 2
-  maxSecBetweenRespawn: 3
+  minSecBetweenRespawn: 3
+  maxSecBetweenRespawn: 5
 --- !u!114 &534743018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33060,7 +33060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1deb4ad43b6a27448db4975077fc998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  harvesterRef: {fileID: 1188670071}
+  harvesterPrefab: {fileID: 1188670071}
   rotationTable: {fileID: 415011918}
   harvesterBodyRef: {fileID: 404185332}
   harvesterBladesGroupRef: {fileID: 972174035}

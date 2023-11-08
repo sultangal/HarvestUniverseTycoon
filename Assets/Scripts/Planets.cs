@@ -73,7 +73,7 @@ public class Planets : MonoBehaviour
 
             Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
             planetsSOArr[i].planetPrefab.position += newPos;
-            PlanetVisual planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisual>();
+            PlanetVisuals planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisuals>();
             planetVisual.planetId = i;
             planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
             if (i <= GameManager.Instance.GlobalData_.level)
@@ -213,5 +213,13 @@ public class Planets : MonoBehaviour
                 return false;
         }
         return true;
+    }
+
+    public bool IsCurrentPlanetAvailable()
+    {
+        if (CurrentPlanetIndex > GameManager.Instance.GlobalData_.level) 
+            return false;
+        else
+            return true;
     }
 }

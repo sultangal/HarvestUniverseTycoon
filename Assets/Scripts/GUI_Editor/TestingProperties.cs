@@ -27,6 +27,7 @@ public class TestingProperties : EditorWindow
     private FieldItemSO[] fieldItemSOs = null;
     public int[] collectedFieldItemSOs;
     private Vector3 curentPlanetPosition = Vector3.zero;
+    private int currentPlanetIndex = 0;
 
     public List<GameObject> cratersList;
     public List<GameObject> asteroidsList;
@@ -103,22 +104,22 @@ public class TestingProperties : EditorWindow
 
 
         EditorGUILayout.LabelField("Planets data: ", EditorStyles.boldLabel);
-
+        EditorGUILayout.LabelField("    Current Planet Index: " + currentPlanetIndex.ToString());
         //EditorGUILayout.LabelField("    : ");
 
-        if (planetsData != null)
-        {          
-            for (var i = 0; i < planetsData.Length; i++)
-            {
-                EditorGUILayout.LabelField("Planet: " + i);
-                for (global::System.Int32 j = 0; j < planetsData[i].amountOfCollectedFieldItemsOnPlanet.Length; j++)
-                {
-                    EditorGUILayout.LabelField("        " + planetsData[i].amountOfCollectedFieldItemsOnPlanet[j].ToString());
-                }
-                EditorGUILayout.LabelField("-------");
-            }
-            
-        }
+        //if (planetsData != null)
+        //{          
+        //    for (var i = 0; i < planetsData.Length; i++)
+        //    {
+        //        EditorGUILayout.LabelField("Planet: " + i);
+        //        for (global::System.Int32 j = 0; j < planetsData[i].amountOfCollectedFieldItemsOnPlanet.Length; j++)
+        //        {
+        //            EditorGUILayout.LabelField("        " + planetsData[i].amountOfCollectedFieldItemsOnPlanet[j].ToString());
+        //        }
+        //        EditorGUILayout.LabelField("-------");
+        //    }
+        //    
+        //}
 
         //if (fieldItemsOnLevel != null)
         //{
@@ -194,7 +195,7 @@ public class TestingProperties : EditorWindow
             //fieldItemsOnLevel = GameManager.Instance.LevelData_.FieldItemsOnLevel;
             //amountOfCollectedFieldItemsOnLevel = GameManager.Instance.LevelData_.AmountOfCollectedFieldItemsOnPlanet;
             //goalAchievedFlags = GameManager.Instance.LevelData_.GoalAchievedFlags;
-
+            currentPlanetIndex = Planets.Instance.CurrentPlanetIndex;
             currState = GameManager.Instance.State;
         }
     }

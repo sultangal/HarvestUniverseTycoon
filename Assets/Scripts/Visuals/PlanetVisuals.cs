@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlanetVisual : MonoBehaviour
+public class PlanetVisuals : MonoBehaviour
 {
     public int planetId;
     private bool isAvailable = false;

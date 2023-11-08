@@ -7,44 +7,24 @@ public class FieldItemVisuals : MonoBehaviour
     [SerializeField] private Transform itemPlane;
     public Color ColorForVehicleParticles;
     private bool isAvailable = false;
-    private Material itemMaterial;
-
 
     public void SetAvailabilityVisual(bool isAvalable)
     {
         isAvailable = isAvalable;
-        if (isAvailable)
-        {
-            ApplyColorToPlanet();
-        }
-        else
-        {
-            ApplyGreyToPlanet();
-        }
+        if (isAvailable)        
+            SetBaseColorToObjectsMat(itemPlane, new(0.443f, 0.443f, 0.443f));        
+        else       
+            SetBaseColorToObjectsMat(itemPlane, Color.black);        
     }
 
-    private void ApplyGreyToPlanet()
+    private void SetBaseColorToObjectsMat(Transform gameObject, Color color)
     {
-        List<Material> matList = new List<Material>();
-        var comp = itemPlane.GetComponent<MeshRenderer>();
-        comp.GetMaterials(matList);
-        foreach ( Material mat in matList ) 
-            mat.SetColor("_BaseColor", new Color(0.0f, 0.0f, 0.0f));
-        
-
-        //itemMaterial.SetColor("_EmissionColor", new Color(0.5f, 0.5f, 0.5f));
-        //planetMaterial.SetColor("_FresnelColor", new Color(0.0f, 0.0f, 0.0f));
-    }
-
-    private void ApplyColorToPlanet()
-    {
-        List<Material> matList = new List<Material>();
-        var comp = itemPlane.GetComponent<MeshRenderer>();
+        List<Material> matList = new();
+        var comp = gameObject.GetComponent<MeshRenderer>();
         comp.GetMaterials(matList);
         foreach (Material mat in matList)
-            mat.SetColor("_BaseColor", new Color(0.443f, 0.443f, 0.443f));
-        //itemMaterial.SetColor("_Emission", new Color(0.0f, 0.0f, 0.0f));
-        //planetMaterial.SetColor("_FresnelColor", planetColor);
+        {
+            mat.SetColor("_BaseColor", color);
+        }
     }
-
 }
