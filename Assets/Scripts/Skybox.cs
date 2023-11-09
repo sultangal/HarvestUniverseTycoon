@@ -6,7 +6,6 @@ public class Skybox : MonoBehaviour
     [SerializeField] AnimationCurve animCurve;
     private Material skyboxMat;
     private readonly float ROTATION_MULT = 5f;
-    private readonly float ANIM_DURATION = 1f;
 
     private Color colorAvailable;
     private Color colorNotAvailable;
@@ -29,7 +28,7 @@ public class Skybox : MonoBehaviour
                 () => skyboxMat.GetFloat("_Rotation"),
                 x => skyboxMat.SetFloat("_Rotation", x),
                 skyboxMat.GetFloat("_Rotation") + ROTATION_MULT,
-                ANIM_DURATION);
+                e.shiftSpeed);
 
         }
         else
@@ -38,7 +37,7 @@ public class Skybox : MonoBehaviour
                 () => skyboxMat.GetFloat("_Rotation"),
                 x => skyboxMat.SetFloat("_Rotation", x),
                 skyboxMat.GetFloat("_Rotation") - ROTATION_MULT,
-                ANIM_DURATION);
+                e.shiftSpeed);
         }
 
         SetSkyboxTint();
