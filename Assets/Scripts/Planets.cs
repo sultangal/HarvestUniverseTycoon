@@ -200,7 +200,7 @@ public class Planets : MonoBehaviour
         {
             collectedItems[i] += itemsCountArr[i];
 
-            if (collectedItems[i] > planetsSOArr[CurrentPlanetIndex].fieldItemAmountGoal[i])
+            if (collectedItems[i] >= planetsSOArr[CurrentPlanetIndex].fieldItemAmountGoal[i])
             {
                 //collectedItems[i] = itemAmountForNextLevel;
                 PlanetData[CurrentPlanetIndex].goalAchievedFlags[i] = true;

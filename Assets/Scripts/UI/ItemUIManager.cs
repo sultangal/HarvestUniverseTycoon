@@ -8,8 +8,8 @@ public class ItemUIManager : MonoBehaviour
     [SerializeField] private Transform container;
     [SerializeField] private Transform itemUITemplate;
     private bool startCountFlag = false;
-    private float Y_POSITION_GAMEPLAY = 757.69f;
-    private float Y_POSITION_MENU = 495f;
+    private readonly float Y_POSITION_GAMEPLAY = 757.69f;
+    private readonly float Y_POSITION_MENU = 495f;
     private Color achieved;
 
     private void Start()
