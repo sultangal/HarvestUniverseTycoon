@@ -19,6 +19,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdfd672047987a148b112a523baf0e67, type: 2}
   - {fileID: 11400000, guid: 8005196097ab65041876d67bbcc2f7a3, type: 2}
   - {fileID: 11400000, guid: 524c971352fbea5448e185f8fbee43d1, type: 2}
-  fieldItemAmountForNextLevel: 0000000000000000000000000000000000000000
+  fieldItemAmountGoal: 0000000000000000000000000000000000000000
   planetColor: {r: 0.9339623, g: 0.13656995, b: 0.13656995, a: 0}
   planetPrefab: {fileID: 0}

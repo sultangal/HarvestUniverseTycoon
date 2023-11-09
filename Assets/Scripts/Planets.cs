@@ -180,6 +180,11 @@ public class Planets : MonoBehaviour
         return PlanetData[CurrentPlanetIndex].amountOfCollectedFieldItemsOnPlanet;
     }
 
+    public int[] GetCurrentLevelAmountOfCollectedItems()
+    {
+        return PlanetData[GameManager.Instance.GlobalData_.level].amountOfCollectedFieldItemsOnPlanet;
+    }
+
     public void AddCollectedAmountOfItems(int[] itemsCountArr)
     {
         //if (!Planets.Instance.IsCurrPlanetActualLevel()) return;
@@ -195,7 +200,7 @@ public class Planets : MonoBehaviour
         {
             collectedItems[i] += itemsCountArr[i];
 
-            if (collectedItems[i] > planetsSOArr[CurrentPlanetIndex].fieldItemAmountForNextLevel[i])
+            if (collectedItems[i] > planetsSOArr[CurrentPlanetIndex].fieldItemAmountGoal[i])
             {
                 //collectedItems[i] = itemAmountForNextLevel;
                 PlanetData[CurrentPlanetIndex].goalAchievedFlags[i] = true;

@@ -14,7 +14,7 @@ public class Skybox : MonoBehaviour
     private void Start()
     {
         colorAvailable = Color.gray;
-        colorNotAvailable = new(0.1f, 0.1f, 0.1f);
+        colorNotAvailable = new(0.3f, 0.3f, 0.3f);
 
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
         skyboxMat = RenderSettings.skybox;
