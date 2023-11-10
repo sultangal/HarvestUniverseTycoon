@@ -8,6 +8,9 @@ public class PlanetSO : ScriptableObject
     public string planetName;
     public FieldItemSO[] fieldItemSOs;
     public int[] fieldItemAmountGoal;
+    public int speedEnhanceCost;
+    public int bladesEnhanceCost;
+    public int spmethingEnhanceCost;
     public Color planetColor;
     public Transform planetPrefab;
 }

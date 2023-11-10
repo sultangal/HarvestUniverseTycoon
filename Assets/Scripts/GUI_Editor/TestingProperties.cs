@@ -9,13 +9,13 @@ public class TestingProperties : EditorWindow
 {
     private GameState testState;
     private GameState currState;
-
+    /*
     private float speedMult = 1f;
     private float bladesWidthMult = 1.5f;
     private HarvesterGroup harvesterGroupRef;
     private GameManager gm;
     private float countdown = 59f;
-
+    */
     public float respawnPointRemoteness = 30f;
     public float asteroidMoveSpeed = 9f;
     public int minSecBetweenRespawn = 3;
@@ -68,13 +68,13 @@ public class TestingProperties : EditorWindow
         EditorGUILayout.Space(20);
         GuiLine();
 
-        EditorGUILayout.LabelField("Harvester settings: ", EditorStyles.boldLabel);
+        /*EditorGUILayout.LabelField("Harvester settings: ", EditorStyles.boldLabel);
         harvesterGroupRef = FindFirstObjectByType<HarvesterGroup>();
         speedMult = EditorGUILayout.Slider("    Speed mult:", speedMult, 1f, 1.5f);
         harvesterGroupRef.harvesterSpeedMult = speedMult;
         bladesWidthMult = EditorGUILayout.Slider("    Blades mult:", bladesWidthMult, 1f, 4.5f);
         harvesterGroupRef.bladesWidthMult = bladesWidthMult;
-
+        */
         EditorGUILayout.Space(20);
         GuiLine();
 

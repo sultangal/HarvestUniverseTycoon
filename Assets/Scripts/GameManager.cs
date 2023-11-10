@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     public GameState State { get; private set; }
 
     public GlobalData GlobalData_ { get; private set; } = new();
-    //public PlanetData LevelData_ { get; private set; }
     private readonly float COUNTDOWN_TIME = 15f;
     
     private bool countdownRunning = false;
@@ -243,5 +242,18 @@ public class GameManager : MonoBehaviour
     {
         GameSessionData_.collectedGold++;
         OnGoldAmountChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool TryWithdrawBladesCost()
+    {
+        int cost = Planets.Instance.GetBladesEnhanceCost();
+        if (GlobalData_.amountOfCash >= cost)
+        {
+            GlobalData_.amountOfCash -= cost;
+            OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+        else 
+            return false;
     }
 }

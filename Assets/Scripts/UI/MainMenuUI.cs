@@ -15,6 +15,7 @@ public class MainMenuUI : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
 
         btnPlay.onClick.AddListener(() =>
         {
@@ -32,6 +33,11 @@ public class MainMenuUI : MonoBehaviour
             Planets.Instance.ShiftPlanetRight();
             SetButtonInteractivity();
         });
+        UpdateVisuals();
+    }
+
+    private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
+    {
         UpdateVisuals();
     }
 

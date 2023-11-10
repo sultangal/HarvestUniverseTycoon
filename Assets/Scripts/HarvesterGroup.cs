@@ -1,10 +1,10 @@
 using DG.Tweening;
-using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class HarvesterGroup : MonoBehaviour
-{       
+{
+    public static HarvesterGroup Instance { get; private set; }
+
     [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
@@ -19,7 +19,8 @@ public class HarvesterGroup : MonoBehaviour
     public float harvesterSpeedMult = 1f;
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
-    public float bladesWidthMult = 1f;
+    private readonly float bladesWidthNormal = 1.5f;
+    private readonly float bladesWidthEnhanced = 2f;
     private readonly float PARTICLE_MIN_EMITTER_WIDTH = 8f;
     private readonly float timeZeroToMax = 0.5f;
     private readonly float timeMaxToZero = 0.5f;
@@ -32,10 +33,21 @@ public class HarvesterGroup : MonoBehaviour
 
     private readonly float Y_HARVESTER_HEIGHT = 5.381f;
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one HarvesterGroup!");
+            return;
+        }
+        Instance = this;
+    }
+
     private void Start()
     {
         SetHarvesterGroupStartPosition();
-        SetHarvesterSettings();
+        SetHarvesterSpeed();
+        SetHarvesterBladesWidth(bladesWidthNormal);
         harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
@@ -73,23 +85,26 @@ public class HarvesterGroup : MonoBehaviour
         }
     }
 
-    private void SetHarvesterSettings()
+    private void SetHarvesterSpeed()
     {
         harvesterSpeed = HARVESTER_MIN_SPEED_CONST * harvesterSpeedMult;
+    }
+
+    private void SetHarvesterBladesWidth(float bladesWidth)
+    {
         BoxCollider bladesCollider = harvesterPrefab.GetComponent<BoxCollider>();
         bladesCollider.size = new(
-            BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidthMult, 
-            bladesCollider.size.y, 
+            BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidth,
+            bladesCollider.size.y,
             bladesCollider.size.z);
         harvesterBladesGroupRef.transform.localScale = new(
-            BLADES_MIN_WIDTH_CONST * bladesWidthMult,
+            BLADES_MIN_WIDTH_CONST * bladesWidth,
             harvesterBladesGroupRef.transform.localScale.y,
             harvesterBladesGroupRef.transform.localScale.z);
         var shape = partSystem.shape;
-        shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidthMult,
+        shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidth,
             partSystem.shape.scale.y,
             partSystem.shape.scale.z);
-
     }
 
     private void MoveVehicle()
@@ -151,6 +166,7 @@ public class HarvesterGroup : MonoBehaviour
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterBodyRef.transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.SetParent(rotationTable);
+            SetHarvesterBladesWidth(bladesWidthNormal);
         }
 
         if (GameManager.Instance.IsGamePlaying())
@@ -158,7 +174,8 @@ public class HarvesterGroup : MonoBehaviour
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterPrefab.SetParent(transform);
-            SetHarvesterSettings();
+            SetHarvesterSpeed();
+            
         }
     }
 
@@ -169,4 +186,16 @@ public class HarvesterGroup : MonoBehaviour
             harvesterBodyRef.localRotation.y,
             wiggle * wiggleAmount);
     }
+
+    public bool TryEnhanceBlades()
+    {
+        if (GameManager.Instance.TryWithdrawBladesCost())
+        {
+            SetHarvesterBladesWidth(bladesWidthEnhanced);
+            return true;
+        }
+        return false;       
+    }
+
+
 }

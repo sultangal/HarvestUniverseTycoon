@@ -40,7 +40,6 @@ public class Planets : MonoBehaviour
         CurrentPlanetIndex = GameManager.Instance.GlobalData_.level;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         CreatePlanets();
-        //MakeCurrAndAdjasentPlanetsVisible();
     }
 
     private void GameManager_OnGameStateChanged(object sender, EventArgs e)
@@ -82,15 +81,6 @@ public class Planets : MonoBehaviour
             else 
                 planetVisual.SetAvalabilityVisual(false);    
         }
-    }
-
-    private void MakeCurrAndAdjasentPlanetsVisible()
-    {
-        MakeOnlyCurrPlanetVisible();
-        if (CurrentPlanetIndex > 0)
-            SetVisibilityOfPlanet(CurrentPlanetIndex - 1, true);
-        if (CurrentPlanetIndex < planetsSOArr.Length - 1)
-            SetVisibilityOfPlanet(CurrentPlanetIndex + 1, true);
     }
 
     private void MakeOnlyCurrPlanetVisible()
@@ -227,5 +217,18 @@ public class Planets : MonoBehaviour
             return false;
         else
             return true;
+    }
+
+    public int GetSpeedEnhanceCost()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].speedEnhanceCost;
+    }
+    public int GetBladesEnhanceCost()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].bladesEnhanceCost;
+    }
+    public int GetSomethingEnhanceCost()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].spmethingEnhanceCost;
     }
 }

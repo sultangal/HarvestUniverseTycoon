@@ -19,5 +19,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdfd672047987a148b112a523baf0e67, type: 2}
   - {fileID: 11400000, guid: 8005196097ab65041876d67bbcc2f7a3, type: 2}
   fieldItemAmountGoal: 00000000000000000000000000000000
+  speedEnhanceCost: 10
+  bladesEnhanceCost: 30
+  spmethingEnhanceCost: 8
   planetColor: {r: 0.6698113, g: 0, b: 0, a: 0}
   planetPrefab: {fileID: 0}
