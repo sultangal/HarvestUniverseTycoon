@@ -58,10 +58,14 @@ public class MenuFields : MonoBehaviour
 
     private void SetMenuItemsAvailability()
     {
-        foreach (Transform item in menuFieldPlanets[GameManager.Instance.GlobalData_.level])
+        for (int i = 0; i <= GameManager.Instance.GlobalData_.level; i++)
         {
-            var comp = item.GetChild(0).GetComponent<FieldItemVisuals>();
-            comp.SetAvailabilityVisual(true);
+            foreach (Transform item in menuFieldPlanets[i])
+            {
+                var comp = item.GetChild(0).GetComponent<FieldItemVisuals>();
+                comp.SetAvailabilityVisual(true);
+            }
         }
+
     }
 }

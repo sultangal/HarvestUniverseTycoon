@@ -53,6 +53,12 @@ public class GameManager : MonoBehaviour
         Instance = this;
         //ReadScoreFromFile();
 
+#if UNITY_EDITOR
+        GlobalData_.amountOfCash = 370;
+        GlobalData_.amountOfGold = 50;
+        GlobalData_.level = 3;
+#endif
+
     }
     private void Start()
     {

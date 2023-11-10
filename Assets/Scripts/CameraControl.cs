@@ -16,48 +16,18 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] AnimationCurve cameraCurve;
     private const float MIN_ASPECT_RATIO = 0.5625f;
+    private readonly Vector3 CAMERA_MENU_ROTATION = new(5f, 0f, 0f);
 
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         accelRatePerSec = 1f / timeToAjust;
         decelRatePerSec = -1f / timeToAjust;
-        //cameraRef = GetComponent<Camera>();
 #if !UNITY_EDITOR
         float aspectRatio = (float)Screen.currentResolution.width / (float)Screen.currentResolution.height;
-        Debug.Log("Game View Aspect Ratio: " + aspectRatio);
-        if (aspectRatio < MIN_ASPECT_RATIO)
-        {
-            /*this formula was calculated with mathway, to find correlation
-            between aspectRatio and fieldOfView to keep planet in screen borders 
-            for different screens*/
-            cameraRef.fieldOfView = -100.79892481f * aspectRatio + 112.1993952f;
-        }
-        else
-        {
-            cameraRef.fieldOfView = 55.5f;
-        }
-
+        CorrectCameraFOV(aspectRatio);
         CameraMotion();
 #endif
-    }
-
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
-    {
-        if (GameManager.Instance.IsGamePlaying())
-        {
-            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 20.6f, -3f)), 1);
-            cameraRef.transform.DORotate((new(78.71f, 0f, 0f)), 1);
-        }
-        if (GameManager.Instance.IsGameWaitingToStart())
-        {
-            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 6.04f, -4.31f)), 1);
-            if (GameManager.Instance.IsNewLevelFlag)
-                cameraRef.transform.DORotate((new(0f, 0f, 0f)), 1).OnComplete(
-                    () => Planets.Instance.ShiftPlanetRight(2f)
-                    );
-            else cameraRef.transform.DORotate((new(0f, 0f, 0f)), 1);
-        }
     }
 
 #if UNITY_EDITOR
@@ -65,7 +35,15 @@ public class CameraControl : MonoBehaviour
     {
         Vector2 gameViewSize = GetMainGameViewSize();
         float aspectRatio = gameViewSize.x / gameViewSize.y;
-        //Debug.Log("Game View Aspect Ratio: " + aspectRatio);
+        CorrectCameraFOV(aspectRatio);
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            CameraMotion();
+        }
+    }
+
+    private void CorrectCameraFOV(float aspectRatio)
+    {
         if (aspectRatio < MIN_ASPECT_RATIO)
         {
             /*this formula was calculated with mathway, to find correlation
@@ -77,9 +55,23 @@ public class CameraControl : MonoBehaviour
         {
             cameraRef.fieldOfView = 55.5f;
         }
+    }
+
+    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    {
         if (GameManager.Instance.IsGamePlaying())
         {
-            CameraMotion();
+            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 20.6f, -3f)), 1f);
+            cameraRef.transform.DORotate((new(78.71f, 0f, 0f)), 1f);
+        }
+        if (GameManager.Instance.IsGameWaitingToStart())
+        {
+            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 6.04f, -4.31f)), 1f);
+            if (GameManager.Instance.IsNewLevelFlag)
+                cameraRef.transform.DORotate(CAMERA_MENU_ROTATION, 1f).OnComplete(
+                    () => Planets.Instance.ShiftPlanetRight(2f)
+                    );
+            else cameraRef.transform.DORotate(CAMERA_MENU_ROTATION, 1f);
         }
     }
 
@@ -120,8 +112,6 @@ public class CameraControl : MonoBehaviour
         }
 
         transform.localEulerAngles = new(cameraCurve.Evaluate(horizVelocity), 0f, cameraCurve.Evaluate(vertVelocity));
-
-        // Debug.Log("cameraCurve.Evaluate(forwardHorizVelocity) " + cameraCurve.Evaluate(forwardHorizVelocity));
     }
 
 }

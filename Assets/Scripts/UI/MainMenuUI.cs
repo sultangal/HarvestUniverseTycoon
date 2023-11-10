@@ -32,6 +32,7 @@ public class MainMenuUI : MonoBehaviour
             Planets.Instance.ShiftPlanetRight();
             SetButtonInteractivity();
         });
+        UpdateVisuals();
     }
 
     private void SetButtonInteractivity()
@@ -46,9 +47,7 @@ public class MainMenuUI : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            level.text = GameManager.Instance.GlobalData_.level.ToString();
-            gold.text = GameManager.Instance.GlobalData_.amountOfGold.ToString();
-            cash.text = "$ " + GameManager.Instance.GlobalData_.amountOfCash.ToString();
+            UpdateVisuals();
             btnPlay.gameObject.SetActive(true);
             btnShiftLeft.gameObject.SetActive(true);
             btnShiftRight.gameObject.SetActive(true);
@@ -61,5 +60,12 @@ public class MainMenuUI : MonoBehaviour
             btnShiftRight.gameObject.SetActive(false);
             textsGroup.gameObject.SetActive(false);
         }
+    }
+
+    private void UpdateVisuals()
+    {
+        level.text = GameManager.Instance.GlobalData_.level.ToString();
+        gold.text = GameManager.Instance.GlobalData_.amountOfGold.ToString();
+        cash.text = "$ " + GameManager.Instance.GlobalData_.amountOfCash.ToString();
     }
 }
