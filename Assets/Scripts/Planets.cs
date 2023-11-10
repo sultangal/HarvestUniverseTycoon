@@ -23,7 +23,7 @@ public class Planets : MonoBehaviour
 
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
-    private const float SPACE_BETWEEN_PLANETS = 6f;
+    public readonly float SPACE_BETWEEN_PLANETS  = 6f;
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class Planets : MonoBehaviour
 
     private void Start()
     {
+        CurrentPlanetIndex = GameManager.Instance.GlobalData_.level;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         CreatePlanets();
         //MakeCurrAndAdjasentPlanetsVisible();

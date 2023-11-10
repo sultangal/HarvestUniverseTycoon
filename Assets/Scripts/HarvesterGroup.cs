@@ -34,12 +34,22 @@ public class HarvesterGroup : MonoBehaviour
 
     private void Start()
     {
+        SetHarvesterGroupStartPosition();
         SetHarvesterSettings();
         harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
+        HarvesterAppearence();
+    }
+
+    private void SetHarvesterGroupStartPosition()
+    {
+        transform.position = new(
+            GameManager.Instance.GlobalData_.level*Planets.Instance.SPACE_BETWEEN_PLANETS,
+            0f,
+            0f);
     }
 
     private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)

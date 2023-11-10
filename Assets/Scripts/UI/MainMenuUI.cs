@@ -64,7 +64,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void UpdateVisuals()
     {
-        level.text = GameManager.Instance.GlobalData_.level.ToString();
+        level.text = (GameManager.Instance.GlobalData_.level + 1).ToString();
         gold.text = GameManager.Instance.GlobalData_.amountOfGold.ToString();
         cash.text = "$ " + GameManager.Instance.GlobalData_.amountOfCash.ToString();
     }
