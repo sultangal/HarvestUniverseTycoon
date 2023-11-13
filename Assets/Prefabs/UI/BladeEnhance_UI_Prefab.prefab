@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 6976691940964385846}
   - component: {fileID: 3253741277149684997}
   - component: {fileID: 7618503352856082232}
+  - component: {fileID: 7387279133248866495}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -345,6 +346,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7387279133248866495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3118837019578276254}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0.924858, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &4390924984901868639
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bladeGroup: {fileID: 4390924984901868639}
-  button: {fileID: 7618503352856082232}
-  cost: {fileID: 2403677310083576966}
-  image: {fileID: 6800088534209290210}
+  bladeButton: {fileID: 7618503352856082232}
+  bladeCost: {fileID: 2403677310083576966}
+  bladeImage: {fileID: 6800088534209290210}

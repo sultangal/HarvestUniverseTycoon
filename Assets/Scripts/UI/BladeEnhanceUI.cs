@@ -5,54 +5,114 @@ using UnityEngine.UI;
 public class BladeEnhanceUI : MonoBehaviour
 {
     [SerializeField] private GameObject bladeGroup;
-    [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI cost;
-    [SerializeField] private Image image;
+    [SerializeField] private Button bladeButton;
+    [SerializeField] private TextMeshProUGUI bladeCost;
+    [SerializeField] private Image bladeImage;
+    [SerializeField] private float enhanceTimeSec;
+    private Outline outline;
+    private bool isUnlockedflag;
+    private bool startCountdown;
+    private float timeCountdown;
 
     private void Start()
     {
-        button.onClick.AddListener(() =>
+        outline = bladeButton.gameObject.GetComponent<Outline>();
+        outline.enabled = false;
+        isUnlockedflag = false;
+        ResetCountdown();
+        bladeButton.onClick.AddListener(() =>
         {
-            HarvesterGroup.Instance.TryEnhanceBlades();
-            UpdateBladeEnhanceAvailability();
+            SetUnlocked(true);
+            HarvesterGroup.Instance.TryEnhanceBlades();       
+                          
         });
 
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        UpdateBladeEnhanceAvailability();
+        GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
+        UpdateAvailableVisibility();
+    }
+
+    private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
+    {
+        if (!isUnlockedflag)
+            UpdateAvailableVisibility();
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
+            ResetCountdown();
             bladeGroup.SetActive(true);
-            UpdateBladeEnhanceAvailability();
-            cost.text = Planets.Instance.GetBladesEnhanceCost().ToString();
+            SetUnlocked(false);
+            UpdateAvailableVisibility();
+            bladeCost.text = Planets.Instance.GetBladesEnhanceCost().ToString();
         } else
             bladeGroup.SetActive(false);
+
+        if (GameManager.Instance.IsGamePlaying() && isUnlockedflag)
+        {
+            startCountdown = true;
+        }
     }
 
-    private void UpdateBladeEnhanceAvailability()
+    private void UpdateAvailableVisibility()
     {
         if (GameManager.Instance.GlobalData_.amountOfCash >= Planets.Instance.GetBladesEnhanceCost())
-            SetButtonInteractivity(true);
+            SetAvailable(true);
         else
-            SetButtonInteractivity(false);
+            SetAvailable(false);
     }
 
-    private void SetButtonInteractivity(bool isInteractable)
+    private void SetAvailable(bool isAvailable)
     {
-        if (isInteractable)
+        if (isAvailable)
         {
-            button.interactable = true;
-            image.color = Color.white;
-            cost.color = Color.green;
+            bladeButton.interactable = true;
+            bladeImage.color = Color.white;
+            bladeCost.color = Color.green;
         }
         else
         {
-            button.interactable = false;
-            image.color = Color.gray;
-            cost.color = Color.gray;
+            bladeButton.interactable = false;
+            bladeImage.color = Color.gray;
+            bladeCost.color = Color.gray;
+        }
+    }
+
+    private void SetUnlocked(bool isVisible)
+    {
+        if (isVisible)
+        {
+            bladeButton.enabled = false;
+            outline.enabled = true;
+            isUnlockedflag = true;
+        }
+        else
+        {
+            bladeButton.enabled = true;
+            outline.enabled = false;
+            isUnlockedflag = false;
+        }
+    }
+
+    private void ResetCountdown()
+    {
+        startCountdown = false;
+        timeCountdown = enhanceTimeSec;
+    }
+
+    private void Update()
+    {
+        if (startCountdown)
+        {
+            timeCountdown -= Time.deltaTime;
+            if (timeCountdown <= 0)
+            {
+                startCountdown = false;
+                HarvesterGroup.Instance.DehanceBlades();
+
+            }
         }
     }
 }

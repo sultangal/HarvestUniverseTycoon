@@ -16,7 +16,7 @@ public class HarvesterGroup : MonoBehaviour
     private Vector3 vehicleAngles;   
     private float harvesterSpeed;  // Rotation speed in degrees per second
     private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
-    public float harvesterSpeedMult = 1f;
+    private float harvesterSpeedMult = 1f;
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
     private readonly float bladesWidthNormal = 1.5f;
@@ -197,5 +197,8 @@ public class HarvesterGroup : MonoBehaviour
         return false;       
     }
 
-
+    public void DehanceBlades()
+    {
+        SetHarvesterBladesWidth(bladesWidthNormal);
+    }
 }
