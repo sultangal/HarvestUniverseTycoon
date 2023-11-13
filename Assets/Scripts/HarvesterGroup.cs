@@ -11,12 +11,15 @@ public class HarvesterGroup : MonoBehaviour
     [SerializeField] private Transform harvesterBladesGroupRef;   
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private ParticleSystem partSystem;
+    [SerializeField] private float enhanceBladesTimeSec;
+    [SerializeField] private float enhanceSpeedTimeSec;
 
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;   
     private float harvesterSpeed;  // Rotation speed in degrees per second
     private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
-    private float harvesterSpeedMult = 1f;
+    private readonly float speedMultNormal = 1f;
+    private readonly float speedMultEnhanced = 2f;
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
     private readonly float bladesWidthNormal = 1.5f;
@@ -33,6 +36,11 @@ public class HarvesterGroup : MonoBehaviour
 
     private readonly float Y_HARVESTER_HEIGHT = 5.381f;
 
+    private bool startBladesCountdown;
+    private float timeBladesCountdown;
+    private bool startSpeedCountdown;
+    private float timeSpeedCountdown;
+
     private void Awake()
     {
         if (Instance != null)
@@ -45,8 +53,10 @@ public class HarvesterGroup : MonoBehaviour
 
     private void Start()
     {
+        ResetBlades();
+        ResetSpeed();
         SetHarvesterGroupStartPosition();
-        SetHarvesterSpeed();
+        SetHarvesterSpeed(speedMultNormal);
         SetHarvesterBladesWidth(bladesWidthNormal);
         harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
@@ -81,13 +91,32 @@ public class HarvesterGroup : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
+            if (startBladesCountdown)
+            {
+                timeBladesCountdown -= Time.deltaTime;
+                if (timeBladesCountdown <= 0)
+                {
+                    startBladesCountdown = false;
+                    SetHarvesterBladesWidth(bladesWidthNormal);
+                }
+            }
+            if (startSpeedCountdown)
+            {
+                timeSpeedCountdown -= Time.deltaTime;
+                if (timeSpeedCountdown <= 0)
+                {
+                    startSpeedCountdown = false;
+                    SetHarvesterSpeed(speedMultNormal);
+                }
+            }
             MoveVehicle();
         }
     }
 
-    private void SetHarvesterSpeed()
+    private void SetHarvesterSpeed(float speed)
     {
-        harvesterSpeed = HARVESTER_MIN_SPEED_CONST * harvesterSpeedMult;
+        harvesterSpeed = HARVESTER_MIN_SPEED_CONST * speed;
+        Debug.Log("harvesterSpeed" + harvesterSpeed);
     }
 
     private void SetHarvesterBladesWidth(float bladesWidth)
@@ -160,13 +189,14 @@ public class HarvesterGroup : MonoBehaviour
         }
 
         if (GameManager.Instance.IsGameWaitingToStart())
-        {            
+        {
+            ResetBlades();
+            ResetSpeed();
             transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterBodyRef.transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.SetParent(rotationTable);
-            SetHarvesterBladesWidth(bladesWidthNormal);
         }
 
         if (GameManager.Instance.IsGamePlaying())
@@ -174,8 +204,6 @@ public class HarvesterGroup : MonoBehaviour
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterPrefab.SetParent(transform);
-            SetHarvesterSpeed();
-            
         }
     }
 
@@ -185,6 +213,20 @@ public class HarvesterGroup : MonoBehaviour
         harvesterBodyRef.localRotation = Quaternion.Euler(0.0f,
             harvesterBodyRef.localRotation.y,
             wiggle * wiggleAmount);
+    }
+
+    private void ResetBlades()
+    {
+        startBladesCountdown = false;
+        timeBladesCountdown = enhanceBladesTimeSec;
+        SetHarvesterBladesWidth(bladesWidthNormal);
+    }
+
+    private void ResetSpeed()
+    {
+        startSpeedCountdown = false;
+        timeSpeedCountdown = enhanceSpeedTimeSec;
+        SetHarvesterSpeed(speedMultNormal);
     }
 
     public bool TryEnhanceBlades()
@@ -197,8 +239,27 @@ public class HarvesterGroup : MonoBehaviour
         return false;       
     }
 
-    public void DehanceBlades()
+    public bool TryEnhanceSpeed()
     {
-        SetHarvesterBladesWidth(bladesWidthNormal);
+        if (GameManager.Instance.TryWithdrawSpeedCost())
+        {
+            SetHarvesterSpeed(speedMultEnhanced);
+            return true;
+        }
+        return false;
     }
+
+    public void StartBladesCountdown()
+    {
+        startBladesCountdown = true;
+    }
+
+    public void StartSpeedCountdown()
+    {
+        startSpeedCountdown = true;
+    }
+
+
+
+
 }

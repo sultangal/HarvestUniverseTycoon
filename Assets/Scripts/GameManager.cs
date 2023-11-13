@@ -143,6 +143,17 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
+    private bool TryWithdraw(int amount)
+    {
+        if (GlobalData_.amountOfCash >= amount)
+        {
+            GlobalData_.amountOfCash -= amount;
+            OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+        else
+            return false;
+    }
 
     private void Update()
     {
@@ -247,13 +258,20 @@ public class GameManager : MonoBehaviour
     public bool TryWithdrawBladesCost()
     {
         int cost = Planets.Instance.GetBladesEnhanceCost();
-        if (GlobalData_.amountOfCash >= cost)
-        {
-            GlobalData_.amountOfCash -= cost;
-            OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+        if (TryWithdraw(cost))
             return true;
-        }
+        else
+            return false;
+    }
+
+    public bool TryWithdrawSpeedCost()
+    {
+        int cost = Planets.Instance.GetSpeedEnhanceCost();
+        if (TryWithdraw(cost))
+            return true;
         else 
             return false;
     }
+
+
 }
