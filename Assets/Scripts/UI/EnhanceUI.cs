@@ -55,7 +55,7 @@ public class EnhanceUI : MonoBehaviour
 
         if (GameManager.Instance.IsGamePlaying() && isUnlockedflag)
         {
-            HarvesterGroup.Instance.StartSpeedCountdown();
+            HarvesterMovementControl.Instance.StartSpeedCountdown();
         }
     }
 
@@ -120,11 +120,11 @@ public class EnhanceUI : MonoBehaviour
     {
         if (enhanceType == EnhanceType.Blades)
         {
-            HarvesterGroup.Instance.TryEnhanceBlades();
+            BladesEnhanceControl.Instance.TryEnhanceBlades();
         }
         else if (enhanceType == EnhanceType.Speed)
         {
-            HarvesterGroup.Instance.TryEnhanceSpeed();
+            HarvesterMovementControl.Instance.TryEnhanceSpeed();
         }
         else if (enhanceType == EnhanceType.Something)
         {
@@ -136,11 +136,11 @@ public class EnhanceUI : MonoBehaviour
     {
         if (enhanceType == EnhanceType.Blades)
         {
-            HarvesterGroup.Instance.StartBladesCountdown();
+            BladesEnhanceControl.Instance.StartBladesCountdown();
         }
         else if (enhanceType == EnhanceType.Speed)
         {
-            HarvesterGroup.Instance.StartSpeedCountdown();
+            HarvesterMovementControl.Instance.StartSpeedCountdown();
         }
         else if (enhanceType == EnhanceType.Something)
         {

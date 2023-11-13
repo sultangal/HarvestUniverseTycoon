@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7886498911938334279}
-  - component: {fileID: 4561750219419094892}
-  - component: {fileID: 2518884969235961074}
-  - component: {fileID: 7538925740985064710}
+  - component: {fileID: 2470297361917856573}
+  - component: {fileID: 494006817523722811}
+  - component: {fileID: 7603753504765218644}
   - component: {fileID: 768422518619243552}
   m_Layer: 7
   m_Name: Harvester_Prefab
@@ -39,7 +39,7 @@ Transform:
   - {fileID: 7709643772055339101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4561750219419094892
+--- !u!65 &2470297361917856573
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,7 +60,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.15, y: 0.1, z: 0.08}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2518884969235961074
+--- !u!54 &494006817523722811
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,7 +87,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7538925740985064710
+--- !u!114 &7603753504765218644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,17 +1,14 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class HarvesterGroup : MonoBehaviour
+public class HarvesterMovementControl : MonoBehaviour
 {
-    public static HarvesterGroup Instance { get; private set; }
+    public static HarvesterMovementControl Instance { get; private set; }
 
     [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
-    [SerializeField] private Transform harvesterBladesGroupRef;   
     [SerializeField] private FloatingJoystick joystick;
-    [SerializeField] private ParticleSystem partSystem;
-    [SerializeField] private float enhanceBladesTimeSec;
     [SerializeField] private float enhanceSpeedTimeSec;
 
     private Vector2 inputDirection;
@@ -19,25 +16,15 @@ public class HarvesterGroup : MonoBehaviour
     private float harvesterSpeed;  // Rotation speed in degrees per second
     private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
     private readonly float speedMultNormal = 1f;
-    private readonly float speedMultEnhanced = 2f;
-    private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
-    private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
-    private readonly float bladesWidthNormal = 1.5f;
-    private readonly float bladesWidthEnhanced = 2f;
-    private readonly float PARTICLE_MIN_EMITTER_WIDTH = 8f;
+    private readonly float speedMultEnhanced = 2f;  
     private readonly float timeZeroToMax = 0.5f;
     private readonly float timeMaxToZero = 0.5f;
     private float accelRatePerSec;
     private float decelRatePerSec;
     private float forwardVelocity = 0.0f;
-
     private readonly float wiggleFrequency = 5.0f;
     private readonly float wiggleAmount = 10.0f;
-
     private readonly float Y_HARVESTER_HEIGHT = 5.381f;
-
-    private bool startBladesCountdown;
-    private float timeBladesCountdown;
     private bool startSpeedCountdown;
     private float timeSpeedCountdown;
 
@@ -52,12 +39,10 @@ public class HarvesterGroup : MonoBehaviour
     }
 
     private void Start()
-    {
-        ResetBlades();
+    {        
         ResetSpeed();
         SetHarvesterGroupStartPosition();
-        SetHarvesterSpeed(speedMultNormal);
-        SetHarvesterBladesWidth(bladesWidthNormal);
+        SetHarvesterSpeed(speedMultNormal);       
         harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
@@ -69,7 +54,7 @@ public class HarvesterGroup : MonoBehaviour
     private void SetHarvesterGroupStartPosition()
     {
         transform.position = new(
-            GameManager.Instance.GlobalData_.level*Planets.Instance.SPACE_BETWEEN_PLANETS,
+            GameManager.Instance.GlobalData_.level * Planets.Instance.SPACE_BETWEEN_PLANETS,
             0f,
             0f);
     }
@@ -89,51 +74,24 @@ public class HarvesterGroup : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.IsGamePlaying())
+        if (!GameManager.Instance.IsGamePlaying()) return;
+        if (startSpeedCountdown)
         {
-            if (startBladesCountdown)
+            timeSpeedCountdown -= Time.deltaTime;
+            if (timeSpeedCountdown <= 0)
             {
-                timeBladesCountdown -= Time.deltaTime;
-                if (timeBladesCountdown <= 0)
-                {
-                    startBladesCountdown = false;
-                    SetHarvesterBladesWidth(bladesWidthNormal);
-                }
+                startSpeedCountdown = false;
+                SetHarvesterSpeed(speedMultNormal);
             }
-            if (startSpeedCountdown)
-            {
-                timeSpeedCountdown -= Time.deltaTime;
-                if (timeSpeedCountdown <= 0)
-                {
-                    startSpeedCountdown = false;
-                    SetHarvesterSpeed(speedMultNormal);
-                }
-            }
-            MoveVehicle();
         }
+
+        MoveVehicle();
+
     }
 
     private void SetHarvesterSpeed(float speed)
     {
         harvesterSpeed = HARVESTER_MIN_SPEED_CONST * speed;
-        Debug.Log("harvesterSpeed" + harvesterSpeed);
-    }
-
-    private void SetHarvesterBladesWidth(float bladesWidth)
-    {
-        BoxCollider bladesCollider = harvesterPrefab.GetComponent<BoxCollider>();
-        bladesCollider.size = new(
-            BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidth,
-            bladesCollider.size.y,
-            bladesCollider.size.z);
-        harvesterBladesGroupRef.transform.localScale = new(
-            BLADES_MIN_WIDTH_CONST * bladesWidth,
-            harvesterBladesGroupRef.transform.localScale.y,
-            harvesterBladesGroupRef.transform.localScale.z);
-        var shape = partSystem.shape;
-        shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidth,
-            partSystem.shape.scale.y,
-            partSystem.shape.scale.z);
     }
 
     private void MoveVehicle()
@@ -190,7 +148,7 @@ public class HarvesterGroup : MonoBehaviour
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            ResetBlades();
+           
             ResetSpeed();
             transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
@@ -215,28 +173,11 @@ public class HarvesterGroup : MonoBehaviour
             wiggle * wiggleAmount);
     }
 
-    private void ResetBlades()
-    {
-        startBladesCountdown = false;
-        timeBladesCountdown = enhanceBladesTimeSec;
-        SetHarvesterBladesWidth(bladesWidthNormal);
-    }
-
     private void ResetSpeed()
     {
         startSpeedCountdown = false;
         timeSpeedCountdown = enhanceSpeedTimeSec;
         SetHarvesterSpeed(speedMultNormal);
-    }
-
-    public bool TryEnhanceBlades()
-    {
-        if (GameManager.Instance.TryWithdrawBladesCost())
-        {
-            SetHarvesterBladesWidth(bladesWidthEnhanced);
-            return true;
-        }
-        return false;       
     }
 
     public bool TryEnhanceSpeed()
@@ -245,21 +186,13 @@ public class HarvesterGroup : MonoBehaviour
         {
             SetHarvesterSpeed(speedMultEnhanced);
             return true;
-        }
-        return false;
-    }
-
-    public void StartBladesCountdown()
-    {
-        startBladesCountdown = true;
+        } else
+            return false;
     }
 
     public void StartSpeedCountdown()
     {
         startSpeedCountdown = true;
     }
-
-
-
 
 }

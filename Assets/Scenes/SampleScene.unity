@@ -7553,7 +7553,7 @@ GameObject:
   - component: {fileID: 415011918}
   - component: {fileID: 415011919}
   m_Layer: 0
-  m_Name: RotationTable
+  m_Name: HarvesterMenuParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15663,6 +15663,11 @@ PrefabInstance:
     - target: {fileID: 3748561653870435611, guid: 12513b2c405edde4ba635f28e68a7b2e,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4561750219419094892, guid: 12513b2c405edde4ba635f28e68a7b2e,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7672513010279168787, guid: 12513b2c405edde4ba635f28e68a7b2e,
@@ -35113,8 +35118,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1825356968}
   - component: {fileID: 1825356967}
+  - component: {fileID: 1825356969}
   m_Layer: 0
-  m_Name: HarvesterGroup
+  m_Name: HarvesterGameplayParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35129,16 +35135,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1825356966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1deb4ad43b6a27448db4975077fc998, type: 3}
+  m_Script: {fileID: 11500000, guid: 385110bac7768a94b85a0492438dbc06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   harvesterPrefab: {fileID: 1188670071}
   rotationTable: {fileID: 415011918}
   harvesterBodyRef: {fileID: 404185332}
-  harvesterBladesGroupRef: {fileID: 972174035}
   joystick: {fileID: 504293519}
-  partSystem: {fileID: 1105347783}
-  enhanceBladesTimeSec: 5
   enhanceSpeedTimeSec: 5
 --- !u!4 &1825356968
 Transform:
@@ -35156,6 +35159,22 @@ Transform:
   - {fileID: 832190558}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1825356969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825356966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e210ac148608f304db404204021a65d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  harvesterPrefab: {fileID: 1188670071}
+  harvesterBladesGroupRef: {fileID: 972174035}
+  partSystem: {fileID: 1105347783}
+  enhanceBladesTimeSec: 5
 --- !u!1 &1826501688
 GameObject:
   m_ObjectHideFlags: 0
