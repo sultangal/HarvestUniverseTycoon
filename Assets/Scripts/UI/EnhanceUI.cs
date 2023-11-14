@@ -21,9 +21,7 @@ public class EnhanceUI : MonoBehaviour
 
     private void Start()
     {
-        outline = button.gameObject.GetComponent<Outline>();
-        outline.enabled = false;
-        isUnlockedflag = false;
+        outline = button.gameObject.GetComponent<Outline>();      
         button.onClick.AddListener(() =>
         {
             SetUnlocked(true);
@@ -32,7 +30,7 @@ public class EnhanceUI : MonoBehaviour
 
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
-        UpdateAvailableVisibility();
+        InitializeUI();
     }
 
     private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
@@ -45,18 +43,23 @@ public class EnhanceUI : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            group.SetActive(true);
-            SetUnlocked(false);
-            UpdateAvailableVisibility();
-            cost.text = GetEnhanceCost().ToString();
+            InitializeUI();
         }
         else
             group.SetActive(false);
 
         if (GameManager.Instance.IsGamePlaying() && isUnlockedflag)
         {
-            HarvesterMovementControl.Instance.StartSpeedCountdown();
+            StartCountdown();
         }
+    }
+
+    private void InitializeUI()
+    {
+        group.SetActive(true);
+        SetUnlocked(false);
+        UpdateAvailableVisibility();
+        cost.text = GetEnhanceCost().ToString();
     }
 
     private void UpdateAvailableVisibility()
