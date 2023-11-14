@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.49276805, g: 0.58943015, b: 0.79596967, a: 1}
+  m_IndirectSpecularColor: {r: 0.49276847, g: 0.5894299, b: 0.7959684, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7588,7 +7588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationMultiplier: 20
   xAxis: 0
-  yAxis: 1
+  yAxis: 0
   zAxis: 0
 --- !u!1 &416136444
 GameObject:
@@ -16344,7 +16344,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: -4
+      value: -8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -16353,7 +16353,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 4
+      value: 8
       inSlope: 0
       outSlope: 0
       tangentMode: 0

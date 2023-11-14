@@ -15,6 +15,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private Transform harvesterGroup;
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] AnimationCurve cameraCurve;
+    private readonly float correctionCoeff = 8f;
     private const float MIN_ASPECT_RATIO = 0.5625f;
     private readonly Vector3 CAMERA_MENU_ROTATION = new(5f, 0f, 0f);
 
@@ -30,18 +31,21 @@ public class CameraControl : MonoBehaviour
 #endif
     }
 
-#if UNITY_EDITOR
     private void Update()
     {
+
+#if UNITY_EDITOR
         Vector2 gameViewSize = GetMainGameViewSize();
         float aspectRatio = gameViewSize.x / gameViewSize.y;
         CorrectCameraFOV(aspectRatio);
+#endif
         if (GameManager.Instance.IsGamePlaying())
         {
             CameraMotion();
         }
-    } 
+    }
 
+#if UNITY_EDITOR
     public static Vector2 GetMainGameViewSize()
     {
         System.Type T = System.Type.GetType("UnityEditor.GameView,UnityEditor");
@@ -71,12 +75,24 @@ public class CameraControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 20.6f, -3f)), 1f);
-            cameraRef.transform.DORotate((new(78.71f, 0f, 0f)), 1f);
+            //cameraRef.transform.DOMove(new(harvesterGroup.transform.position.x, 20.6f, -3f), 1f);
+            //cameraRef.transform.DORotate(new(78.71f, 0f, 0f), 1f);
+
+            DOTween.To(
+                () => cameraRef.transform.localPosition,
+                x => cameraRef.transform.localPosition = x,
+                new(0f, 20.6f, -3f),
+                1f);
+
+            DOTween.To(
+                () => cameraRef.transform.localRotation,
+                x => cameraRef.transform.localRotation = x,
+                new(78.71f, 0f, 0f),
+                1f);
         }
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            cameraRef.transform.DOMove((new(harvesterGroup.transform.position.x, 6.04f, -4.31f)), 1f);
+            cameraRef.transform.DOMove(new(harvesterGroup.transform.position.x, 6.04f, -4.31f), 1f);
             if (GameManager.Instance.IsNewLevelFlag)
                 cameraRef.transform.DORotate(CAMERA_MENU_ROTATION, 1f).OnComplete(
                     () => Planets.Instance.ShiftPlanetRight(2f)
@@ -110,7 +126,7 @@ public class CameraControl : MonoBehaviour
             vertVelocity = Mathf.Max(vertVelocity, 0f);
         }
 
-        transform.localEulerAngles = new(cameraCurve.Evaluate(horizVelocity), 0f, cameraCurve.Evaluate(vertVelocity));
+        transform.localEulerAngles = new(cameraCurve.Evaluate(horizVelocity) + correctionCoeff, 0f, cameraCurve.Evaluate(vertVelocity));
     }
 
 }
