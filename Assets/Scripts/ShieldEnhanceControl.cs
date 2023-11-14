@@ -24,6 +24,7 @@ public class ShieldEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        ResetEnhance();
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
