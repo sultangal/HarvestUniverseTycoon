@@ -9,7 +9,7 @@ public class HarvesterMovementControl : MonoBehaviour
     [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
     [SerializeField] private FloatingJoystick joystick;
-    [SerializeField] private float enhanceSpeedTimeSec;
+    [SerializeField] private float speedEnhanceDurationSec;
 
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;   
@@ -176,7 +176,7 @@ public class HarvesterMovementControl : MonoBehaviour
     private void ResetSpeed()
     {
         startSpeedCountdown = false;
-        timeSpeedCountdown = enhanceSpeedTimeSec;
+        timeSpeedCountdown = speedEnhanceDurationSec;
         SetHarvesterSpeed(speedMultNormal);
     }
 

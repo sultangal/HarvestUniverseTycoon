@@ -227,8 +227,8 @@ public class Planets : MonoBehaviour
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level].bladesEnhanceCost;
     }
-    public int GetSomethingEnhanceCost()
+    public int GetShieldEnhanceCost()
     {
-        return planetsSOArr[GameManager.Instance.GlobalData_.level].spmethingEnhanceCost;
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].shieldEnhanceCost;
     }
 }

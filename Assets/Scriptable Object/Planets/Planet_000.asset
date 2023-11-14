@@ -19,6 +19,6 @@ MonoBehaviour:
   fieldItemAmountGoal: 0f00000023000000
   speedEnhanceCost: 50
   bladesEnhanceCost: 10
-  spmethingEnhanceCost: 60
+  shieldEnhanceCost: 30
   planetColor: {r: 0, g: 0.44912076, b: 1, a: 0}
   planetPrefab: {fileID: 0}

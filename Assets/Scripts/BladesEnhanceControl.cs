@@ -7,7 +7,7 @@ public class BladesEnhanceControl : MonoBehaviour
     [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform harvesterBladesGroupRef;
     [SerializeField] private ParticleSystem partSystem;
-    [SerializeField] private float enhanceBladesTimeSec;
+    [SerializeField] private float durationSec;
 
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
@@ -16,8 +16,8 @@ public class BladesEnhanceControl : MonoBehaviour
     private readonly float bladesWidthEnhanced = 2f;
     private readonly float PARTICLE_MIN_EMITTER_WIDTH = 8f;
 
-    private bool startBladesCountdown;
-    private float timeBladesCountdown;
+    private bool startCountdown;
+    private float timeCountdown;
 
     private void Awake()
     {
@@ -62,8 +62,8 @@ public class BladesEnhanceControl : MonoBehaviour
 
     private void ResetBlades()
     {
-        startBladesCountdown = false;
-        timeBladesCountdown = enhanceBladesTimeSec;
+        startCountdown = false;
+        timeCountdown = durationSec;
         SetHarvesterBladesWidth(bladesWidthNormal);
     }
 
@@ -79,18 +79,18 @@ public class BladesEnhanceControl : MonoBehaviour
 
     public void StartBladesCountdown()
     {
-        startBladesCountdown = true;
+        startCountdown = true;
     }
 
     private void Update()
     {
         if (!GameManager.Instance.IsGamePlaying()) return;
-        if (startBladesCountdown)
+        if (startCountdown)
         {
-            timeBladesCountdown -= Time.deltaTime;
-            if (timeBladesCountdown <= 0)
+            timeCountdown -= Time.deltaTime;
+            if (timeCountdown <= 0)
             {
-                startBladesCountdown = false;
+                startCountdown = false;
                 SetHarvesterBladesWidth(bladesWidthNormal);
             }
         }

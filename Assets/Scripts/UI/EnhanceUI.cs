@@ -15,7 +15,7 @@ public class EnhanceUI : MonoBehaviour
 
     public enum EnhanceType
     {
-        Blades, Speed, Something
+        Blades, Speed, Shield
     }
     public EnhanceType enhanceType;
 
@@ -112,9 +112,9 @@ public class EnhanceUI : MonoBehaviour
         {
             return Planets.Instance.GetSpeedEnhanceCost();
         } 
-        else if (enhanceType == EnhanceType.Something)
+        else if (enhanceType == EnhanceType.Shield)
         {
-            throw new NotImplementedException();
+            return Planets.Instance.GetShieldEnhanceCost();
         }
         return int.MaxValue;
     }
@@ -129,9 +129,9 @@ public class EnhanceUI : MonoBehaviour
         {
             HarvesterMovementControl.Instance.TryEnhanceSpeed();
         }
-        else if (enhanceType == EnhanceType.Something)
+        else if (enhanceType == EnhanceType.Shield)
         {
-            throw new NotImplementedException();
+            ShieldEnhanceControl.Instance.TryShiledEnhance();
         }
     }
 
@@ -145,9 +145,9 @@ public class EnhanceUI : MonoBehaviour
         {
             HarvesterMovementControl.Instance.StartSpeedCountdown();
         }
-        else if (enhanceType == EnhanceType.Something)
+        else if (enhanceType == EnhanceType.Shield)
         {
-            throw new NotImplementedException();
+            ShieldEnhanceControl.Instance.StartCountdown();
         }
     }
 }

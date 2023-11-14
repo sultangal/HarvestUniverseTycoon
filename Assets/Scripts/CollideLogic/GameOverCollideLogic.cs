@@ -9,9 +9,9 @@ public class GameOverCollideLogic : MonoBehaviour
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
-        if (GameManager.Instance.IsGamePlaying())        
+        if (GameManager.Instance.IsGamePlaying())
             gameObject.SetActive(true);
-        else 
+        else
             gameObject.SetActive(false);
     }
 

@@ -273,5 +273,14 @@ public class GameManager : MonoBehaviour
             return false;
     }
 
+    public bool TryWithdrawShieldCost()
+    {
+        int cost = Planets.Instance.GetShieldEnhanceCost();
+        if (TryWithdraw(cost))
+            return true;
+        else
+            return false;
+    }
+
 
 }

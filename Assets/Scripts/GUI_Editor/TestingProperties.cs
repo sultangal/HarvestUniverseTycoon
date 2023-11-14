@@ -74,10 +74,10 @@ public class TestingProperties : EditorWindow
         harvesterGroupRef.harvesterSpeedMult = speedMult;
         bladesWidthMult = EditorGUILayout.Slider("    Blades mult:", bladesWidthMult, 1f, 4.5f);
         harvesterGroupRef.bladesWidthMult = bladesWidthMult;
-        */
+        
         EditorGUILayout.Space(20);
         GuiLine();
-
+        
         EditorGUIUtility.labelWidth = 200;
         EditorGUILayout.LabelField("Asteroid settings: ", EditorStyles.boldLabel);
         asteroidsRef = FindFirstObjectByType<Asteroids>();
@@ -89,10 +89,10 @@ public class TestingProperties : EditorWindow
         asteroidsRef.minSecBetweenRespawn = minSecBetweenRespawn;
         maxSecBetweenRespawn = EditorGUILayout.IntField("    Max sec between respawn:", maxSecBetweenRespawn);
         asteroidsRef.maxSecBetweenRespawn = maxSecBetweenRespawn;
-
+        
         EditorGUILayout.Space(20);
         GuiLine();
-
+        */
         EditorGUILayout.LabelField("Global data: ", EditorStyles.boldLabel);
         EditorGUILayout.LabelField("    Points quantity: " + pointsQuantity.ToString());
         EditorGUILayout.LabelField("    Amount of gold: " + amountOfGold.ToString());
@@ -181,11 +181,11 @@ public class TestingProperties : EditorWindow
             fieldItemSOs = GameManager.Instance.GameSessionData_.FieldItemsSOonLevel;
             collectedFieldItemSOs = GameManager.Instance.GameSessionData_.CollectedFieldItems;
             curentPlanetPosition = GameManager.Instance.GameSessionData_.CurentPlanetPosition;
-
+            /*
             cratersList = Asteroids.Instance.CratersList;
             asteroidsList = Asteroids.Instance.AsteroidsList;
             goldsList = Asteroids.Instance.GoldsList;
-
+            */
             pointsQuantity = GameManager.Instance.GlobalData_.pointsQuantity;
             amountOfGold = GameManager.Instance.GlobalData_.amountOfGold;
             amountOfCash = GameManager.Instance.GlobalData_.amountOfCash;
