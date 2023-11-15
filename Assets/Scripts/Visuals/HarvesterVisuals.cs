@@ -12,7 +12,7 @@ public class HarvesterVisuals : MonoBehaviour
     private List<Material> bladesHolderMats;
     private List<Material> bladesMats;
 
-    private void Start()
+    private void Awake()
     {
         bodyMats = new();
         bladesHolderMats = new();
