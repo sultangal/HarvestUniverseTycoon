@@ -257,7 +257,7 @@ public class GameManager : MonoBehaviour
 
     public bool TryWithdrawBladesCost()
     {
-        int cost = Planets.Instance.GetBladesEnhanceCost();
+        int cost = Planets.Instance.GetCurrLevelBladesEnhanceCost();
         if (TryWithdraw(cost))
             return true;
         else
@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
 
     public bool TryWithdrawSpeedCost()
     {
-        int cost = Planets.Instance.GetSpeedEnhanceCost();
+        int cost = Planets.Instance.GetCurrLevelSpeedEnhanceCost();
         if (TryWithdraw(cost))
             return true;
         else 
@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
 
     public bool TryWithdrawShieldCost()
     {
-        int cost = Planets.Instance.GetShieldEnhanceCost();
+        int cost = Planets.Instance.GetCurrLevelShieldEnhanceCost();
         if (TryWithdraw(cost))
             return true;
         else

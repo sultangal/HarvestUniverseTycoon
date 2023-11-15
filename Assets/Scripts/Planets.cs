@@ -219,16 +219,31 @@ public class Planets : MonoBehaviour
             return true;
     }
 
-    public int GetSpeedEnhanceCost()
+    public int GetCurrLevelSpeedEnhanceCost()
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level].speedEnhanceCost;
     }
-    public int GetBladesEnhanceCost()
+    public int GetCurrLevelBladesEnhanceCost()
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level].bladesEnhanceCost;
     }
-    public int GetShieldEnhanceCost()
+    public int GetCurrLevelShieldEnhanceCost()
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level].shieldEnhanceCost;
+    }
+
+    public float GetCurrLevelAsteriodMoveSpeed()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].asteriodMoveSpeed;
+    }
+
+    public int GetCurrLevelMinSecBetweenAsteriodSpawn()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].minSecBetweenSpawn;
+    }
+
+    public int GetCurrLevelMaxSecBetweenAsteriodSpawn()
+    {
+        return planetsSOArr[GameManager.Instance.GlobalData_.level].maxSecBetweenSpawn;
     }
 }

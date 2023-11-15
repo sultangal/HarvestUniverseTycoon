@@ -9,10 +9,7 @@ public class Asteroids : MonoBehaviour
     [SerializeField] private Transform asteroidPrefab;
     [SerializeField] private Transform cratorPrefab;
     [SerializeField] private Transform goldPrefab;
-    public float respawnPointRemoteness = 30f;
-    public float asteroidMoveSpeed = 9f;
-    public int minSecBetweenRespawn = 0;
-    public int maxSecBetweenRespawn = 1;
+    private float respawnPointRemoteness = 30f;
     
     public List<GameObject> CratersList { get; private set; } = new(); 
     public List<GameObject> AsteroidsList { get; private set; } = new(); 
@@ -45,7 +42,11 @@ public class Asteroids : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
-            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position));
+            float asteroidMoveSpeed = Planets.Instance.GetCurrLevelAsteriodMoveSpeed();
+            int minSecBetweenRespawn = Planets.Instance.GetCurrLevelMinSecBetweenAsteriodSpawn(); ;
+            int maxSecBetweenRespawn = Planets.Instance.GetCurrLevelMaxSecBetweenAsteriodSpawn(); ;
+            StartCoroutine(AsteroidsFallCoroutine(planets.GetCurrentPlanetSO().planetPrefab.position, 
+                asteroidMoveSpeed, minSecBetweenRespawn, maxSecBetweenRespawn));
         }
         else
             StopAllCoroutines();
@@ -58,7 +59,8 @@ public class Asteroids : MonoBehaviour
         }
     }
 
-    private IEnumerator AsteroidsFallCoroutine(Vector3 target)
+    private IEnumerator AsteroidsFallCoroutine(Vector3 target, float asteroidMoveSpeed, 
+        int minSecBetweenRespawn, int maxSecBetweenRespawn)
     {
         while(true)
         {

@@ -106,15 +106,15 @@ public class EnhanceUI : MonoBehaviour
     {
         if (enhanceType == EnhanceType.Blades)
         {
-            return Planets.Instance.GetBladesEnhanceCost();
+            return Planets.Instance.GetCurrLevelBladesEnhanceCost();
         } 
         else if (enhanceType == EnhanceType.Speed)
         {
-            return Planets.Instance.GetSpeedEnhanceCost();
+            return Planets.Instance.GetCurrLevelSpeedEnhanceCost();
         } 
         else if (enhanceType == EnhanceType.Shield)
         {
-            return Planets.Instance.GetShieldEnhanceCost();
+            return Planets.Instance.GetCurrLevelShieldEnhanceCost();
         }
         return int.MaxValue;
     }

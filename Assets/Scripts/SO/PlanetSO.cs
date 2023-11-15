@@ -11,6 +11,9 @@ public class PlanetSO : ScriptableObject
     public int speedEnhanceCost;
     public int bladesEnhanceCost;
     public int shieldEnhanceCost;
+    public float asteriodMoveSpeed;
+    public int minSecBetweenSpawn;
+    public int maxSecBetweenSpawn;
     public Color planetColor;
     public Transform planetPrefab;
 }
