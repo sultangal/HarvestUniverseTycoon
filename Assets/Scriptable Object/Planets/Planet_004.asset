@@ -21,6 +21,9 @@ MonoBehaviour:
   fieldItemAmountGoal: 00000000000000000000000000000000
   speedEnhanceCost: 10
   bladesEnhanceCost: 30
-  spmethingEnhanceCost: 8
+  shieldEnhanceCost: 10
+  asteriodMoveSpeed: 9
+  minSecBetweenSpawn: 3
+  maxSecBetweenSpawn: 5
   planetColor: {r: 0.6698113, g: 0, b: 0, a: 0}
   planetPrefab: {fileID: 0}

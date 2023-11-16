@@ -21,7 +21,7 @@ MonoBehaviour:
   bladesEnhanceCost: 10
   shieldEnhanceCost: 30
   asteriodMoveSpeed: 9
-  minSecBetweenSpawn: 0
-  maxSecBetweenSpawn: 0
+  minSecBetweenSpawn: 3
+  maxSecBetweenSpawn: 5
   planetColor: {r: 0, g: 0.44912076, b: 1, a: 0}
   planetPrefab: {fileID: 0}

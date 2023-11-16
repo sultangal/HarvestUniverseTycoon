@@ -17,5 +17,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
   - {fileID: 11400000, guid: 07666804496b4c54496fdd6b59eb1847, type: 2}
   fieldItemAmountGoal: 0000000000000000
+  speedEnhanceCost: 14
+  bladesEnhanceCost: 14
+  shieldEnhanceCost: 11
+  asteriodMoveSpeed: 9
+  minSecBetweenSpawn: 3
+  maxSecBetweenSpawn: 5
   planetColor: {r: 0.6698113, g: 0, b: 0, a: 0}
   planetPrefab: {fileID: 0}
