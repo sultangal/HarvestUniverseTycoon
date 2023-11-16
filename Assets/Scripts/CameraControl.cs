@@ -20,14 +20,13 @@ public class CameraControl : MonoBehaviour
     private readonly Vector3 CAMERA_MENU_ROTATION = new(5f, 0f, 0f);
 
     private void Start()
-    {
+    {        
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         accelRatePerSec = 1f / timeToAjust;
         decelRatePerSec = -1f / timeToAjust;
 #if !UNITY_EDITOR
         float aspectRatio = (float)Screen.currentResolution.width / (float)Screen.currentResolution.height;
         CorrectCameraFOV(aspectRatio);
-        CameraMotion();
 #endif
     }
 
