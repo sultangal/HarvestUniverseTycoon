@@ -15,6 +15,7 @@ public class PlanetSO : ScriptableObject
     public int minSecBetweenSpawn;
     public int maxSecBetweenSpawn;
     public Color planetColor;
+    public Material planetMaterial;
     public Transform planetPrefab;
 }
 

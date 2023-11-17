@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -75,6 +77,7 @@ public class Planets : MonoBehaviour
             planetsSOArr[i].planetPrefab.position += newPos;
             PlanetVisuals planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisuals>();
             planetVisual.planetId = i;
+            planetVisual.SetPlanetMaterial(planetsSOArr[i].planetMaterial);
             planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
             if (i <= GameManager.Instance.GlobalData_.level)
                 planetVisual.SetAvalabilityVisual(true); 

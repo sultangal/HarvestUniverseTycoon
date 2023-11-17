@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlanetVisuals : MonoBehaviour
@@ -34,6 +35,16 @@ public class PlanetVisuals : MonoBehaviour
         {
             ApplyGreyToPlanet();
         }
+    }
+
+    public void SetPlanetMaterial(Material mat)
+    {
+        List<Material> matList = new()
+            {
+                mat
+            };
+        var comp = GetComponent<MeshRenderer>();
+        comp.SetMaterials(matList);
     }
 
     private void ApplyGreyToPlanet()

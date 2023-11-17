@@ -35203,7 +35203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverCollider: {fileID: 1664683996}
   shieldVisuals: {fileID: 1069849050}
-  durationSec: 555
+  durationSec: 5
 --- !u!1 &1826501688
 GameObject:
   m_ObjectHideFlags: 0
