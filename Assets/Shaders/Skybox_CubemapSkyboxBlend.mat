@@ -27,14 +27,65 @@ Material:
         m_Texture: {fileID: 8900000, guid: 632b3d2788d84bd4ba8e4de28afe0f30, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Tex2:
+    - _Tex0:
+        m_Texture: {fileID: 8900000, guid: 2c635153afe97e74e86e945651a3dc3d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex1:
         m_Texture: {fileID: 8900000, guid: a76010a3afff01c46883e9ca9e613a44, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex10:
+        m_Texture: {fileID: 8900000, guid: a76010a3afff01c46883e9ca9e613a44, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex2:
+        m_Texture: {fileID: 8900000, guid: c9ae319731053b14aad554bd46ca82d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex3:
+        m_Texture: {fileID: 8900000, guid: 0478ea8e26a888946acbea3a9bbfdd71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex4:
+        m_Texture: {fileID: 8900000, guid: a76010a3afff01c46883e9ca9e613a44, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex5:
+        m_Texture: {fileID: 8900000, guid: c9ae319731053b14aad554bd46ca82d8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex6:
+        m_Texture: {fileID: 8900000, guid: 2f0f1234cd0b181459e44c6be595817c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex7:
+        m_Texture: {fileID: 8900000, guid: 7be1a18f36552714899717a1b055b5f1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex8:
+        m_Texture: {fileID: 8900000, guid: 0478ea8e26a888946acbea3a9bbfdd71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Tex9:
+        m_Texture: {fileID: 8900000, guid: 2c635153afe97e74e86e945651a3dc3d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendCubemaps: 1
-    - _Exposure: 1
+    - _BlendCubemaps: 0
+    - _BlendCubemaps0: 0
+    - _BlendCubemaps1: 0
+    - _BlendCubemaps10: 1
+    - _BlendCubemaps2: 0
+    - _BlendCubemaps3: 0
+    - _BlendCubemaps4: 0
+    - _BlendCubemaps5: 0
+    - _BlendCubemaps6: 0
+    - _BlendCubemaps7: 0
+    - _BlendCubemaps8: 0
+    - _BlendCubemaps9: 0
+    - _Exposure: 0.5
     - _Rotation: 0
     m_Colors:
     - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 1}

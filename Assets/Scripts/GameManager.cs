@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         GlobalData_.amountOfCash = 670;
         GlobalData_.amountOfGold = 50;
-        GlobalData_.level = 10;
+        GlobalData_.level = 5;
 #endif
 
     }
