@@ -14,6 +14,7 @@ public class PlanetSO : ScriptableObject
     public float asteriodMoveSpeed;
     public int minSecBetweenSpawn;
     public int maxSecBetweenSpawn;
+    public int skyboxIndex;
     public Color planetColor;
     public Material planetMaterial;
     public Transform planetPrefab;

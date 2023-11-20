@@ -76,7 +76,7 @@ Material:
     - _BlendCubemaps: 0
     - _BlendCubemaps0: 0
     - _BlendCubemaps1: 0
-    - _BlendCubemaps10: 1
+    - _BlendCubemaps10: 0
     - _BlendCubemaps2: 0
     - _BlendCubemaps3: 0
     - _BlendCubemaps4: 0
@@ -88,6 +88,6 @@ Material:
     - _Exposure: 0.5
     - _Rotation: 0
     m_Colors:
-    - _Tint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}
     - _Tint2: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_BuildTextureStacks: []

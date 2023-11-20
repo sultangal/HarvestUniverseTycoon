@@ -2,20 +2,20 @@
 
 Shader "Skybox/CubemapSkyboxBlend" {
 	Properties {
-	    //_Tint ("Tint Color", Color) = (.5, .5, .5, 1)
+	    _Tint ("Tint Color", Color) = (.1, .1, .1, 1)
 	    //_Tint2 ("Tint Color 2", Color) = (.5, .5, .5, 1)
 	    //[Gamma] _Exposure ("Exposure", Range(0, 8)) = 0.5
 	    _Rotation ("Rotation", Range(0, 360)) = 0
-	    _BlendCubemaps0 ("Blend Cubemap 1", Range(0, 1)) = 0.5
-	    _BlendCubemaps1 ("Blend Cubemap 2", Range(0, 1)) = 0.5
-	    _BlendCubemaps2 ("Blend Cubemap 3", Range(0, 1)) = 0.5
-	    _BlendCubemaps3 ("Blend Cubemap 4", Range(0, 1)) = 0.5
-	    _BlendCubemaps4 ("Blend Cubemap 5", Range(0, 1)) = 0.5
-	    _BlendCubemaps5 ("Blend Cubemap 6", Range(0, 1)) = 0.5
-	    _BlendCubemaps6 ("Blend Cubemap 7", Range(0, 1)) = 0.5
-	    _BlendCubemaps7 ("Blend Cubemap 8", Range(0, 1)) = 0.5
-	    _BlendCubemaps8 ("Blend Cubemap 9", Range(0, 1)) = 0.5
-	    _BlendCubemaps9 ("Blend Cubemap 10", Range(0, 1)) = 0.5
+	    _BlendCubemaps0 ("Blend Cubemap 0", Range(0, 1)) = 0.5
+	    _BlendCubemaps1 ("Blend Cubemap 1", Range(0, 1)) = 0.5
+	    _BlendCubemaps2 ("Blend Cubemap 2", Range(0, 1)) = 0.5
+	    _BlendCubemaps3 ("Blend Cubemap 3", Range(0, 1)) = 0.5
+	    _BlendCubemaps4 ("Blend Cubemap 4", Range(0, 1)) = 0.5
+	    _BlendCubemaps5 ("Blend Cubemap 5", Range(0, 1)) = 0.5
+	    _BlendCubemaps6 ("Blend Cubemap 6", Range(0, 1)) = 0.5
+	    _BlendCubemaps7 ("Blend Cubemap 7", Range(0, 1)) = 0.5
+	    _BlendCubemaps8 ("Blend Cubemap 8", Range(0, 1)) = 0.5
+	    _BlendCubemaps9 ("Blend Cubemap 9", Range(0, 1)) = 0.5
 	    _BlendCubemaps10 ("Blend Cubemap 10", Range(0, 1)) = 0.5
 	    [NoScaleOffset] _Tex0 ("Cubemap 0", Cube) = "grey" {}
 	    [NoScaleOffset] _Tex1 ("Cubemap 1", Cube) = "grey" {}
@@ -65,7 +65,7 @@ Shader "Skybox/CubemapSkyboxBlend" {
 	        float _BlendCubemaps9;
 	        float _BlendCubemaps10;
 	        //half4 _Tex_HDR;
-	        //half4 _Tint;
+	        half4 _Tint;
 	        //half4 _Tint2;
 	        //half _Exposure;
 	        float _Rotation;
@@ -123,11 +123,11 @@ Shader "Skybox/CubemapSkyboxBlend" {
 				float4 res_0_7_8 = lerp( res_0_6_7, env8,	_BlendCubemaps8	);
 				float4 res_0_8_9 = lerp( res_0_7_8, env9,	_BlendCubemaps9	);
 				float4 res_0_9_10 = lerp( res_0_8_9, env10, _BlendCubemaps10	 );
-				//float4 tint = lerp( _Tint, _Tint2, _BlendCubemaps );
+				//float4 result = lerp( _Tint, res_0_9_10, _BlendCubemaps );
 	            //half3 c = DecodeHDR (res1, _Tex_HDR);
 	            //half4 c = res * unity_ColorSpaceDouble;
 	            //c *= _Exposure;
-	            return res_0_9_10;
+	            return res_0_9_10 * _Tint;
 	        }
 	        ENDCG
 	    }

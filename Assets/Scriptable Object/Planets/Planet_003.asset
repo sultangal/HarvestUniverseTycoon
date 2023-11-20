@@ -26,6 +26,7 @@ MonoBehaviour:
   asteriodMoveSpeed: 15
   minSecBetweenSpawn: 1
   maxSecBetweenSpawn: 2
+  skyboxIndex: 7
   planetColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
   planetMaterial: {fileID: 2100000, guid: 83d5c88659018c3408e3b80e43337971, type: 2}
   planetPrefab: {fileID: 0}
