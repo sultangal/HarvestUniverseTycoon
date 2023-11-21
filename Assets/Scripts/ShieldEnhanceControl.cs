@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ShieldEnhanceControl : MonoBehaviour
@@ -10,6 +11,8 @@ public class ShieldEnhanceControl : MonoBehaviour
 
     private bool startCountdown;
     private float timeCountdown;
+
+    public Action<float, float, bool> callbackVisuals;
 
     private void Awake()
     {
@@ -41,10 +44,12 @@ public class ShieldEnhanceControl : MonoBehaviour
         if (startCountdown)
         {
             timeCountdown -= Time.deltaTime;
+            callbackVisuals(Time.deltaTime, durationSec, true);
             if (timeCountdown <= 0)
             {
                 DeactivateShield();
                 startCountdown = false;
+                callbackVisuals(Time.deltaTime, durationSec, false);
             }
         }
     }
@@ -67,7 +72,7 @@ public class ShieldEnhanceControl : MonoBehaviour
         return false;
     }
 
-    public void StartCountdown()
+    public void StartShieldCountdown()
     {
         startCountdown = true;
     }

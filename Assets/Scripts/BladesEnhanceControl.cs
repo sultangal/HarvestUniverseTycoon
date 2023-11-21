@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BladesEnhanceControl : MonoBehaviour
@@ -18,6 +19,8 @@ public class BladesEnhanceControl : MonoBehaviour
 
     private bool startCountdown;
     private float timeCountdown;
+
+    public Action<float, float, bool> callbackVisuals;
 
     private void Awake()
     {
@@ -88,11 +91,13 @@ public class BladesEnhanceControl : MonoBehaviour
         if (startCountdown)
         {
             timeCountdown -= Time.deltaTime;
+            callbackVisuals(Time.deltaTime, durationSec, true);
             if (timeCountdown <= 0)
             {
                 startCountdown = false;
                 SetHarvesterBladesWidth(bladesWidthNormal);
-            }
+                callbackVisuals(Time.deltaTime, durationSec, false);
+            }           
         }
     }
 }

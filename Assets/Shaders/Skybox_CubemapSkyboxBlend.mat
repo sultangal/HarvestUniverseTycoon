@@ -74,7 +74,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BlendCubemaps: 0
-    - _BlendCubemaps0: 0
+    - _BlendCubemaps0: 1
     - _BlendCubemaps1: 0
     - _BlendCubemaps10: 0
     - _BlendCubemaps2: 0

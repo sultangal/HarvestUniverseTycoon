@@ -21,7 +21,12 @@ public class Skybox : MonoBehaviour
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
         skyboxMat = RenderSettings.skybox;
         skyboxMat.SetFloat("_Rotation", 0f);
+        for (int i = 0; i <= 10; i++)
+        {
+            skyboxMat.SetFloat("_BlendCubemaps" + i.ToString(), 0.0f);
+        }
         skyboxMat.SetFloat("_BlendCubemaps" + currIndex.ToString(), 1.0f);
+
     }
 
     private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
@@ -99,7 +104,8 @@ public class Skybox : MonoBehaviour
     {
         skyboxMat.SetFloat("_Rotation", 0f);
         skyboxMat.SetColor("_Tint", colorAvailable);
-        for (int i = 0; i <= 10; i++)
+        skyboxMat.SetFloat("_BlendCubemaps0", 1.0f);
+        for (int i = 1; i <= 10; i++)
         {
             skyboxMat.SetFloat("_BlendCubemaps" + i.ToString(), 0.0f);
         }

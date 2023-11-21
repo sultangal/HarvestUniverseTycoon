@@ -9,8 +9,8 @@ public class EnhanceUI : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private Image image;
+    [SerializeField] private Image unlocked;
 
-    private Outline outline;
     private bool isUnlockedflag;
 
     public enum EnhanceType
@@ -21,13 +21,12 @@ public class EnhanceUI : MonoBehaviour
 
     private void Start()
     {
-        outline = button.gameObject.GetComponent<Outline>();      
+        isUnlockedflag = false;
         button.onClick.AddListener(() =>
         {
             SetUnlocked(true);
             InitiateEnhance();
         });
-
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
         InitializeUI();
@@ -43,20 +42,31 @@ public class EnhanceUI : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
+            GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
             InitializeUI();
         }
         else
-            group.SetActive(false);
-
-        if (GameManager.Instance.IsGamePlaying() && isUnlockedflag)
         {
-            StartCountdown();
+            GameManager.Instance.OnCashAmountChanged -= GameManager_OnCashAmountChanged;
+            cost.gameObject.SetActive(false);
+        }
+
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            if (isUnlockedflag)
+            {
+                StartCountdown();
+            }
+            else
+            {
+                SetAvailable(false);
+            }           
         }
     }
 
     private void InitializeUI()
     {
-        group.SetActive(true);
+        cost.gameObject.SetActive(true);
         SetUnlocked(false);
         UpdateAvailableVisibility();
         cost.text = GetEnhanceCost().ToString();
@@ -91,13 +101,14 @@ public class EnhanceUI : MonoBehaviour
         if (isVisible)
         {
             button.enabled = false;
-            outline.enabled = true;
+            unlocked.enabled = true;
             isUnlockedflag = true;
         }
         else
         {
             button.enabled = true;
-            outline.enabled = false;
+            unlocked.enabled = false;
+            unlocked.fillAmount = 1.0f;
             isUnlockedflag = false;
         }
     }
@@ -139,15 +150,33 @@ public class EnhanceUI : MonoBehaviour
     {
         if (enhanceType == EnhanceType.Blades)
         {
-            BladesEnhanceControl.Instance.StartBladesCountdown();
+            var instance = BladesEnhanceControl.Instance;                     
+            instance.StartBladesCountdown();
+            instance.callbackVisuals = IterateCountdownAnim;
         }
         else if (enhanceType == EnhanceType.Speed)
         {
-            HarvesterMovementControl.Instance.StartSpeedCountdown();
+            var instance = HarvesterMovementControl.Instance;
+            instance.StartSpeedCountdown();
+            instance.callbackVisuals = IterateCountdownAnim;
         }
         else if (enhanceType == EnhanceType.Shield)
         {
-            ShieldEnhanceControl.Instance.StartCountdown();
+            var instance = ShieldEnhanceControl.Instance;
+            instance.StartShieldCountdown();
+            instance.callbackVisuals = IterateCountdownAnim;
+        }
+    }
+
+    private void IterateCountdownAnim(float iterate, float duration, bool isRunning)
+    {
+        if (isRunning)
+        {
+            iterate /= duration;
+            unlocked.fillAmount -= iterate;
+        } else
+        {
+            SetAvailable(false);
         }
     }
 }

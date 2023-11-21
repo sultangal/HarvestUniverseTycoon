@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 8900000, guid: 2c635153afe97e74e86e945651a3dc3d, type: 3}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.99999946, g: 0.99999946, b: 0.99999946, a: 1}
+  m_IndirectSpecularColor: {r: 0.49290115, g: 0.589606, b: 0.79615986, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9935,6 +9935,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4a37ac1b9877447bbd36aec3b4ddb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountOfCash: 500
+  amountOfGold: 0
+  level: 3
 --- !u!114 &534743016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16088,6 +16091,16 @@ PrefabInstance:
       propertyPath: enhanceTimeSec
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3253741277149684997, guid: c505238607387f74287e71b9eb6aee54,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253741277149684997, guid: c505238607387f74287e71b9eb6aee54,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0.835
+      objectReference: {fileID: 0}
     - target: {fileID: 5718207272843203243, guid: c505238607387f74287e71b9eb6aee54,
         type: 3}
       propertyPath: m_Name
@@ -17645,6 +17658,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 615579197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &904835039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8205182350336101646, guid: c505238607387f74287e71b9eb6aee54,
+    type: 3}
+  m_PrefabInstance: {fileID: 823464086}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &906460948
 GameObject:
   m_ObjectHideFlags: 0
@@ -20980,6 +21005,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1377667221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091389802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8205182350336101646, guid: c505238607387f74287e71b9eb6aee54,
+    type: 3}
+  m_PrefabInstance: {fileID: 2002288791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1096265040
 GameObject:
   m_ObjectHideFlags: 0
@@ -23607,6 +23644,7 @@ MonoBehaviour:
   button: {fileID: 1208197581}
   cost: {fileID: 1208197580}
   image: {fileID: 1208197579}
+  unlocked: {fileID: 1277751837}
   enhanceType: 2
 --- !u!1 &1209284317
 GameObject:
@@ -25044,6 +25082,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1136753641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1277751837 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8205182350336101646, guid: c505238607387f74287e71b9eb6aee54,
+    type: 3}
+  m_PrefabInstance: {fileID: 1208197577}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1278770518
 GameObject:
   m_ObjectHideFlags: 0
@@ -35179,7 +35229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverCollider: {fileID: 1664683996}
   shieldVisuals: {fileID: 1069849050}
-  durationSec: 5
+  durationSec: 15
 --- !u!1 &1826501688
 GameObject:
   m_ObjectHideFlags: 0
@@ -38678,6 +38728,7 @@ MonoBehaviour:
   button: {fileID: 1534467415}
   cost: {fileID: 58972934}
   image: {fileID: 437811903}
+  unlocked: {fileID: 904835039}
   enhanceType: 0
 --- !u!1 &1994913849
 GameObject:
@@ -39247,6 +39298,7 @@ MonoBehaviour:
   button: {fileID: 2002288795}
   cost: {fileID: 2002288794}
   image: {fileID: 2002288793}
+  unlocked: {fileID: 1091389802}
   enhanceType: 1
 --- !u!1 &2003445715
 GameObject:

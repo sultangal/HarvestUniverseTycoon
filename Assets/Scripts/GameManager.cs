@@ -7,6 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+#if UNITY_EDITOR
+    public int amountOfCash;
+    public int amountOfGold;
+    public int level;
+#endif
+
     public float CountdownTime { get; private set; }
     public GameSessionData GameSessionData_ { get; private set; } = new();
 
@@ -53,9 +59,9 @@ public class GameManager : MonoBehaviour
         //ReadScoreFromFile();
 
 #if UNITY_EDITOR
-        GlobalData_.amountOfCash = 670;
-        GlobalData_.amountOfGold = 50;
-        GlobalData_.level = 5;
+        GlobalData_.amountOfCash = amountOfCash;
+        GlobalData_.amountOfGold = amountOfGold;
+        GlobalData_.level = level;
 #endif
 
     }

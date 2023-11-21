@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 
 public class HarvesterMovementControl : MonoBehaviour
@@ -27,6 +28,8 @@ public class HarvesterMovementControl : MonoBehaviour
     private readonly float Y_HARVESTER_HEIGHT = 5.381f;
     private bool startSpeedCountdown;
     private float timeSpeedCountdown;
+
+    public Action<float, float, bool> callbackVisuals;
 
     private void Awake()
     {
@@ -78,15 +81,16 @@ public class HarvesterMovementControl : MonoBehaviour
         if (startSpeedCountdown)
         {
             timeSpeedCountdown -= Time.deltaTime;
+            callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, true);
             if (timeSpeedCountdown <= 0)
             {
                 startSpeedCountdown = false;
                 SetHarvesterSpeed(speedMultNormal);
+                callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, false);
             }
         }
 
         MoveVehicle();
-
     }
 
     private void SetHarvesterSpeed(float speed)
@@ -194,5 +198,4 @@ public class HarvesterMovementControl : MonoBehaviour
     {
         startSpeedCountdown = true;
     }
-
 }
