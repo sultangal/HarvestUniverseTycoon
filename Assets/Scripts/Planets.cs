@@ -220,6 +220,22 @@ public class Planets : MonoBehaviour
             return true;
     }
 
+    public bool IsFirstPlanet()
+    {
+        if (CurrentPlanetIndex == 0)
+            return true;
+        else
+            return false;
+    }
+
+    public bool IsLastPlanet()
+    {
+        if (CurrentPlanetIndex == planetsSOArr.Length - 1)
+            return true;
+        else
+            return false;
+    }
+
     public int GetCurrLevelSpeedEnhanceCost()
     {
         return planetsSOArr[GameManager.Instance.GlobalData_.level].speedEnhanceCost;

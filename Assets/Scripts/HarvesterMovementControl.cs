@@ -41,6 +41,7 @@ public class HarvesterMovementControl : MonoBehaviour
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
         HarvesterAppearence();
+
     }
 
     private void SetHarvesterGroupStartPosition()
@@ -66,8 +67,8 @@ public class HarvesterMovementControl : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.IsGamePlaying()) return;
-        MoveVehicle();
+        if (GameManager.Instance.IsGamePlaying()) 
+            MoveVehicle();
     }
 
     private void MoveVehicle()
@@ -131,6 +132,7 @@ public class HarvesterMovementControl : MonoBehaviour
 
         if (GameManager.Instance.IsGamePlaying())
         {
+            transform.position = Planets.Instance.GetCurrentPlanetPosition();
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterPrefab.SetParent(transform);
@@ -145,5 +147,8 @@ public class HarvesterMovementControl : MonoBehaviour
             wiggle * wiggleAmount);
     }
 
-
+    public void MoveToInitialPosition()
+    {
+        transform.DOMove((Planets.Instance.GetCurrentPlanetPosition()), 1.0f);
+    }
 }

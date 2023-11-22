@@ -8,7 +8,7 @@ public class SpeedEnhanceControl : MonoBehaviour
     private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
     private readonly float speedMultNormal = 1f;
     private readonly float speedMultEnhanced = 2f;
-    private bool startSpeedCountdown;
+    private bool startCountdown;
     private float timeSpeedCountdown;
 
     public Action<float, float, bool> callbackVisuals;
@@ -35,13 +35,13 @@ public class SpeedEnhanceControl : MonoBehaviour
     private void Update()
     {
         if (!GameManager.Instance.IsGamePlaying()) return;
-        if (startSpeedCountdown)
+        if (startCountdown)
         {
             timeSpeedCountdown -= Time.deltaTime;
             callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, true);
             if (timeSpeedCountdown <= 0)
             {
-                startSpeedCountdown = false;
+                startCountdown = false;
                 SetHarvesterSpeed(speedMultNormal);
                 callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, false);
             }
@@ -63,7 +63,7 @@ public class SpeedEnhanceControl : MonoBehaviour
 
     private void ResetSpeed()
     {
-        startSpeedCountdown = false;
+        startCountdown = false;
         timeSpeedCountdown = speedEnhanceDurationSec;
         SetHarvesterSpeed(speedMultNormal);
     }
@@ -79,9 +79,9 @@ public class SpeedEnhanceControl : MonoBehaviour
             return false;
     }
 
-    public void StartSpeedCountdown()
+    public void StartCountdown()
     {
-        startSpeedCountdown = true;
+        startCountdown = true;
     }
 
 

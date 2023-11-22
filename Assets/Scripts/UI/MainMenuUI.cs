@@ -1,9 +1,14 @@
+using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    public static MainMenuUI Instance { get; private set; }
+
+    [SerializeField] private GameObject group;
     [SerializeField] private Button btnPlay;
     [SerializeField] private Button btnShiftLeft;
     [SerializeField] private Button btnShiftRight;
@@ -12,6 +17,16 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gold;
     [SerializeField] private TextMeshProUGUI cash;
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one MainMenuUI!");
+            return;
+        }
+        Instance = this;
+    }
+
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
@@ -19,19 +34,27 @@ public class MainMenuUI : MonoBehaviour
 
         btnPlay.onClick.AddListener(() =>
         {
-            GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
+            if (Planets.Instance.IsCurrentPlanetAvailable())
+            {
+                btnPlay.interactable = true;
+                DOTween.CompleteAll();
+                GameManager.Instance.SetGameState(GameManager.GameState.GameSessionPlaying);
+            } else
+            {
+                btnPlay.interactable = false;
+            }
         });
 
         btnShiftLeft.onClick.AddListener(() =>
         {
             Planets.Instance.ShiftPlanetLeft();
-            SetButtonInteractivity();
+            UpdatePlayButtonAvailability();
         });
 
         btnShiftRight.onClick.AddListener(() =>
         {
             Planets.Instance.ShiftPlanetRight();
-            SetButtonInteractivity();
+            UpdatePlayButtonAvailability();
         });
         UpdateVisuals();
     }
@@ -41,12 +64,18 @@ public class MainMenuUI : MonoBehaviour
         UpdateVisuals();
     }
 
-    private void SetButtonInteractivity()
+    public bool UpdatePlayButtonAvailability()
     {
-        if (Planets.Instance.CurrentPlanetIndex <= GameManager.Instance.GlobalData_.level)        
-            btnPlay.interactable = true;        
+        if (Planets.Instance.IsCurrentPlanetAvailable())
+        {
+            btnPlay.interactable = true;
+            return true;
+        }
         else
+        {
             btnPlay.interactable = false;
+            return false;
+        }
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
@@ -54,17 +83,11 @@ public class MainMenuUI : MonoBehaviour
         if (GameManager.Instance.IsGameWaitingToStart())
         {
             UpdateVisuals();
-            btnPlay.gameObject.SetActive(true);
-            btnShiftLeft.gameObject.SetActive(true);
-            btnShiftRight.gameObject.SetActive(true);
-            textsGroup.gameObject.SetActive(true);
+            group.SetActive(true);
         }
         else
         {
-            btnPlay.gameObject.SetActive(false);
-            btnShiftLeft.gameObject.SetActive(false);
-            btnShiftRight.gameObject.SetActive(false);
-            textsGroup.gameObject.SetActive(false);
+            group.SetActive(false);
         }
     }
 

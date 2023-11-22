@@ -157,7 +157,7 @@ public class EnhanceUI : MonoBehaviour
         else if (enhanceType == EnhanceType.Speed)
         {
             var instance = SpeedEnhanceControl.Instance;
-            instance.StartSpeedCountdown();
+            instance.StartCountdown();
             instance.callbackVisuals = IterateCountdownAnim;
         }
         else if (enhanceType == EnhanceType.Shield)
