@@ -138,7 +138,7 @@ public class EnhanceUI : MonoBehaviour
         }
         else if (enhanceType == EnhanceType.Speed)
         {
-            HarvesterMovementControl.Instance.TryEnhanceSpeed();
+            SpeedEnhanceControl.Instance.TryEnhanceSpeed();
         }
         else if (enhanceType == EnhanceType.Shield)
         {
@@ -156,7 +156,7 @@ public class EnhanceUI : MonoBehaviour
         }
         else if (enhanceType == EnhanceType.Speed)
         {
-            var instance = HarvesterMovementControl.Instance;
+            var instance = SpeedEnhanceControl.Instance;
             instance.StartSpeedCountdown();
             instance.callbackVisuals = IterateCountdownAnim;
         }

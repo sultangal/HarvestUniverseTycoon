@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using UnityEngine;
 
 public class HarvesterMovementControl : MonoBehaviour
@@ -9,15 +8,11 @@ public class HarvesterMovementControl : MonoBehaviour
     [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform rotationTable;
     [SerializeField] private Transform harvesterBodyRef;
-    [SerializeField] private FloatingJoystick joystick;
-    [SerializeField] private float speedEnhanceDurationSec;
+    [SerializeField] private FloatingJoystick joystick;   
 
     private Vector2 inputDirection;
     private Vector3 vehicleAngles;   
-    private float harvesterSpeed;  // Rotation speed in degrees per second
-    private readonly float HARVESTER_MIN_SPEED_CONST = 32f;
-    private readonly float speedMultNormal = 1f;
-    private readonly float speedMultEnhanced = 2f;  
+    public float harvesterSpeed;  // Rotation speed in degrees per second 
     private readonly float timeZeroToMax = 0.5f;
     private readonly float timeMaxToZero = 0.5f;
     private float accelRatePerSec;
@@ -26,10 +21,6 @@ public class HarvesterMovementControl : MonoBehaviour
     private readonly float wiggleFrequency = 5.0f;
     private readonly float wiggleAmount = 10.0f;
     private readonly float Y_HARVESTER_HEIGHT = 5.381f;
-    private bool startSpeedCountdown;
-    private float timeSpeedCountdown;
-
-    public Action<float, float, bool> callbackVisuals;
 
     private void Awake()
     {
@@ -43,9 +34,7 @@ public class HarvesterMovementControl : MonoBehaviour
 
     private void Start()
     {        
-        ResetSpeed();
-        SetHarvesterGroupStartPosition();
-        SetHarvesterSpeed(speedMultNormal);       
+        SetHarvesterGroupStartPosition();       
         harvesterPrefab.SetParent(rotationTable);
         accelRatePerSec = harvesterSpeed / timeZeroToMax;
         decelRatePerSec = -harvesterSpeed / timeMaxToZero;
@@ -78,29 +67,11 @@ public class HarvesterMovementControl : MonoBehaviour
     private void Update()
     {
         if (!GameManager.Instance.IsGamePlaying()) return;
-        if (startSpeedCountdown)
-        {
-            timeSpeedCountdown -= Time.deltaTime;
-            callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, true);
-            if (timeSpeedCountdown <= 0)
-            {
-                startSpeedCountdown = false;
-                SetHarvesterSpeed(speedMultNormal);
-                callbackVisuals(Time.deltaTime, speedEnhanceDurationSec, false);
-            }
-        }
-
         MoveVehicle();
-    }
-
-    private void SetHarvesterSpeed(float speed)
-    {
-        harvesterSpeed = HARVESTER_MIN_SPEED_CONST * speed;
     }
 
     private void MoveVehicle()
     {
-
         if (joystick.Horizontal != 0.0f && joystick.Vertical != 0.0f)
         {
             Wiggle();
@@ -135,7 +106,6 @@ public class HarvesterMovementControl : MonoBehaviour
             vehicleAngles.x = harvesterPrefab.transform.localEulerAngles.x;
             vehicleAngles.y = Mathf.Atan2(inputDirection.y, inputDirection.x) * Mathf.Rad2Deg;
             vehicleAngles.z = harvesterPrefab.transform.localEulerAngles.z;
-
             harvesterPrefab.transform.localEulerAngles = vehicleAngles;
         }
     }
@@ -152,8 +122,6 @@ public class HarvesterMovementControl : MonoBehaviour
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-           
-            ResetSpeed();
             transform.localEulerAngles = Vector3.zero;
             harvesterPrefab.transform.position = new(transform.position.x, 5.381f, 0.726f);
             harvesterPrefab.transform.localEulerAngles = Vector3.zero;
@@ -177,25 +145,5 @@ public class HarvesterMovementControl : MonoBehaviour
             wiggle * wiggleAmount);
     }
 
-    private void ResetSpeed()
-    {
-        startSpeedCountdown = false;
-        timeSpeedCountdown = speedEnhanceDurationSec;
-        SetHarvesterSpeed(speedMultNormal);
-    }
 
-    public bool TryEnhanceSpeed()
-    {
-        if (GameManager.Instance.TryWithdrawSpeedCost())
-        {
-            SetHarvesterSpeed(speedMultEnhanced);
-            return true;
-        } else
-            return false;
-    }
-
-    public void StartSpeedCountdown()
-    {
-        startSpeedCountdown = true;
-    }
 }

@@ -116,7 +116,6 @@ public class Planets : MonoBehaviour
         if (CurrentPlanetIndex > 0)
         {
             CurrentPlanetIndex--;
-            //MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs 
             { 
                 currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,
@@ -136,7 +135,6 @@ public class Planets : MonoBehaviour
         if (CurrentPlanetIndex < planetsSOArr.Length - 1)
         {
             CurrentPlanetIndex++;
-            //MakeCurrAndAdjasentPlanetsVisible();
             OnPlanetShift?.Invoke(this, new OnPlanetShiftEventArgs
             {
                 currPlanetTransform = planetsSOArr[CurrentPlanetIndex].planetPrefab,

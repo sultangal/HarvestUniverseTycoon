@@ -35158,6 +35158,7 @@ GameObject:
   - component: {fileID: 1825356968}
   - component: {fileID: 1825356967}
   - component: {fileID: 1825356969}
+  - component: {fileID: 1825356971}
   - component: {fileID: 1825356970}
   m_Layer: 0
   m_Name: HarvesterGameplayParent
@@ -35182,7 +35183,7 @@ MonoBehaviour:
   rotationTable: {fileID: 415011918}
   harvesterBodyRef: {fileID: 404185332}
   joystick: {fileID: 504293519}
-  speedEnhanceDurationSec: 5
+  harvesterSpeed: 0
 --- !u!4 &1825356968
 Transform:
   m_ObjectHideFlags: 0
@@ -35229,7 +35230,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverCollider: {fileID: 1664683996}
   shieldVisuals: {fileID: 1069849050}
-  durationSec: 15
+  durationSec: 7
+--- !u!114 &1825356971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825356966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30390360f19fdd54098d0170a68f9964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedEnhanceDurationSec: 5
 --- !u!1 &1826501688
 GameObject:
   m_ObjectHideFlags: 0
