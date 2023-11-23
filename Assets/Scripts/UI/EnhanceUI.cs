@@ -10,6 +10,7 @@ public class EnhanceUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cost;
     [SerializeField] private Image image;
     [SerializeField] private Image unlocked;
+    private readonly Color imageTint = new (0f, 0.69f, 0f);
 
     private bool isUnlockedflag;
 
@@ -85,13 +86,13 @@ public class EnhanceUI : MonoBehaviour
         if (isAvailable)
         {
             button.interactable = true;
-            image.color = Color.white;
+            image.color = imageTint;
             cost.color = Color.green;
         }
         else
         {
             button.interactable = false;
-            image.color = Color.gray;
+            image.color = imageTint * Color.gray;
             cost.color = Color.gray;
         }
     }

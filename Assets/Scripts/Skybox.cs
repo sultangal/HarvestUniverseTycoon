@@ -4,16 +4,30 @@ using UnityEngine;
 
 public class Skybox : MonoBehaviour
 {
+    public static Skybox Instance { get; private set; }
+
     private Material skyboxMat;
     private readonly float ROTATION_MULT = 5f;
+    private float currRotation;
 
     private Color colorAvailable;
     private Color colorNotAvailable;
     private int currIndex;
     private readonly float DURATION = 0.5f;
 
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one Skybox!");
+            return;
+        }
+        Instance = this;
+    }
+
     private void Start()
     {
+        currRotation = 0f;
         colorAvailable = Color.white;
         colorNotAvailable = new(0.3f, 0.3f, 0.3f);
         currIndex = Planets.Instance.GetCurrentLevelPlanetSO().skyboxIndex;
@@ -33,19 +47,21 @@ public class Skybox : MonoBehaviour
     {      
         if (e.isRight)
         {
+            currRotation += ROTATION_MULT;
             DOTween.To(
                 () => skyboxMat.GetFloat("_Rotation"),
                 x => skyboxMat.SetFloat("_Rotation", x),
                 skyboxMat.GetFloat("_Rotation") + ROTATION_MULT,
-                e.shiftSpeed);
+                e.shiftSpeed).SetId(10);
         }
         else
         {
+            currRotation -= ROTATION_MULT;
             DOTween.To(
                 () => skyboxMat.GetFloat("_Rotation"),
                 x => skyboxMat.SetFloat("_Rotation", x),
                 skyboxMat.GetFloat("_Rotation") - ROTATION_MULT,
-                e.shiftSpeed);           
+                e.shiftSpeed).SetId(10);           
         }
         SetSkybox(Planets.Instance.GetCurrentPlanetSO().skyboxIndex);
         SetSkyboxTint();
@@ -98,6 +114,15 @@ public class Skybox : MonoBehaviour
                 .AppendCallback(
                     () => currIndex = index);
         }
+    }
+
+    public void ReturnRotation()
+    {
+        DOTween.To(
+            () => skyboxMat.GetFloat("_Rotation"),
+            x => skyboxMat.SetFloat("_Rotation", x),
+            currRotation,
+            1f).SetId(10);
     }
 
     private void OnDestroy()

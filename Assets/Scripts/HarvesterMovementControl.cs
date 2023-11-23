@@ -54,7 +54,7 @@ public class HarvesterMovementControl : MonoBehaviour
 
     private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
     {
-        transform.DOMove((e.currPlanetTransform.position), e.shiftSpeed).OnComplete(HarvesterAppearence);
+        transform.DOMove((e.currPlanetTransform.position), e.shiftSpeed).OnComplete(HarvesterAppearence).SetId(10);
     }
 
     private void HarvesterAppearence()
@@ -147,8 +147,8 @@ public class HarvesterMovementControl : MonoBehaviour
             wiggle * wiggleAmount);
     }
 
-    public void MoveToInitialPosition()
+    public void ReturnToInitialPosition()
     {
-        transform.DOMove((Planets.Instance.GetCurrentPlanetPosition()), 1.0f);
+        transform.DOMove((Planets.Instance.GetCurrentPlanetPosition()), 1.0f).SetId(10);
     }
 }

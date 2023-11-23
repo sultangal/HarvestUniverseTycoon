@@ -58,7 +58,7 @@ public class ShieldEnhanceControl : MonoBehaviour
     {
         startCountdown = false;
         timeCountdown = durationSec;
-        gameOverCollider.SetActive(false);
+        gameOverCollider.SetActive(true);
         shieldVisuals.SetActive(false);
     }
 

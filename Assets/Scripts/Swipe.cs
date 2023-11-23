@@ -8,16 +8,27 @@ public class Swipe : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 {
     [SerializeField] private Button btnPlay;
     private bool isRight;
+    private Material skyboxMat; 
+
+    private void Start()
+    {
+        skyboxMat = RenderSettings.skybox;
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        DOTween.KillAll();
+        DOTween.Kill(10);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         var transform = HarvesterMovementControl.Instance.gameObject.transform;
+        float delta = eventData.delta.x * 0.001f;
         transform.localPosition = 
-            new(transform.localPosition.x - eventData.delta.x * 0.001f, transform.localPosition.y, transform.localPosition.z);
+            new(transform.localPosition.x - delta, transform.localPosition.y, transform.localPosition.z);
+
+        
+        float df = skyboxMat.GetFloat("_Rotation");
+        skyboxMat.SetFloat("_Rotation", df - delta);
 
         isRight = eventData.delta.x < 0;
     }
@@ -26,13 +37,15 @@ public class Swipe : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     {
         if (Planets.Instance.IsFirstPlanet() && !isRight)
         {
-            HarvesterMovementControl.Instance.MoveToInitialPosition();
+            HarvesterMovementControl.Instance.ReturnToInitialPosition();
+            Skybox.Instance.ReturnRotation();
             return;
         }
 
         if (Planets.Instance.IsLastPlanet() && isRight)
         {
-            HarvesterMovementControl.Instance.MoveToInitialPosition();
+            HarvesterMovementControl.Instance.ReturnToInitialPosition();
+            Skybox.Instance.ReturnRotation();
             return;
         }
 
