@@ -58,7 +58,7 @@ public class SpeedEnhanceControl : MonoBehaviour
 
     private void SetHarvesterSpeed(float speed)
     {
-        HarvesterMovementControl.Instance.harvesterSpeed = HARVESTER_MIN_SPEED_CONST * speed;
+        HarvesterGameplayControl.Instance.speed = HARVESTER_MIN_SPEED_CONST * speed;
     }
 
     private void ResetSpeed()

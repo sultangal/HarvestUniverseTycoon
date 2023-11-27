@@ -1,6 +1,6 @@
 using DG.Tweening;
+using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +9,21 @@ public class MainMenuUI : MonoBehaviour
     public static MainMenuUI Instance { get; private set; }
 
     [SerializeField] private GameObject group;
+    [SerializeField] private GameObject enhanceGroup;
+    [SerializeField] private GameObject swipeRaycastTarget;
+    [SerializeField] private GameObject rotationRaycastTarget;
     [SerializeField] private Button btnPlay;
     [SerializeField] private Button btnShiftLeft;
     [SerializeField] private Button btnShiftRight;
+    [SerializeField] private Button btnHarvSettings;
+    [SerializeField] private Button btnBack;
     [SerializeField] private Transform textsGroup;
     [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private TextMeshProUGUI gold;
     [SerializeField] private TextMeshProUGUI cash;
+
+    public event EventHandler OnStoreEnter;
+    public event EventHandler OnBackToMainMenuFromStore;
 
     private void Awake()
     {
@@ -45,17 +53,32 @@ public class MainMenuUI : MonoBehaviour
             }
         });
 
-        btnShiftLeft.onClick.AddListener(() =>
+        btnHarvSettings.onClick.AddListener(() =>
         {
-            Planets.Instance.ShiftPlanetLeft();
-            UpdatePlayButtonAvailability();
+            enhanceGroup.SetActive(false);
+            btnPlay.gameObject.SetActive(false);
+            swipeRaycastTarget.SetActive(false);
+            btnBack.gameObject.SetActive(true);
+            btnHarvSettings.gameObject.SetActive(false);
+            btnShiftLeft.gameObject.SetActive(true);
+            btnShiftRight.gameObject.SetActive(true);
+            rotationRaycastTarget.SetActive(true);
+            OnStoreEnter?.Invoke(this, EventArgs.Empty);
         });
 
-        btnShiftRight.onClick.AddListener(() =>
+        btnBack.onClick.AddListener(() =>
         {
-            Planets.Instance.ShiftPlanetRight();
-            UpdatePlayButtonAvailability();
+            enhanceGroup.SetActive(true);
+            btnPlay.gameObject.SetActive(true);
+            swipeRaycastTarget.SetActive(true);
+            btnBack.gameObject.SetActive(false);
+            btnHarvSettings.gameObject.SetActive(true);
+            btnShiftLeft.gameObject.SetActive(false);
+            btnShiftRight.gameObject.SetActive(false);
+            rotationRaycastTarget.SetActive(false);
+            OnBackToMainMenuFromStore?.Invoke(this, EventArgs.Empty);
         });
+
         UpdateVisuals();
     }
 

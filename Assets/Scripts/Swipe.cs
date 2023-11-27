@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Swipe : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private Button btnPlay;
+    [SerializeField] private GameObject gameObjectToAffect;
     private bool isRight;
     private Material skyboxMat; 
 
@@ -21,7 +21,7 @@ public class Swipe : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
 
     public void OnDrag(PointerEventData eventData)
     {
-        var transform = HarvesterMovementControl.Instance.gameObject.transform;
+        var transform = gameObjectToAffect.transform;
         float delta = eventData.delta.x * 0.001f;
         transform.localPosition = 
             new(transform.localPosition.x - delta, transform.localPosition.y, transform.localPosition.z);
@@ -37,14 +37,14 @@ public class Swipe : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHan
     {
         if (Planets.Instance.IsFirstPlanet() && !isRight)
         {
-            HarvesterMovementControl.Instance.ReturnToInitialPosition();
+            MenuControl.Instance.ReturnToInitialPosition();
             Skybox.Instance.ReturnRotation();
             return;
         }
 
         if (Planets.Instance.IsLastPlanet() && isRight)
         {
-            HarvesterMovementControl.Instance.ReturnToInitialPosition();
+            MenuControl.Instance.ReturnToInitialPosition();
             Skybox.Instance.ReturnRotation();
             return;
         }

@@ -6,6 +6,7 @@ using TMPro;
 public class ItemUIManager : MonoBehaviour
 {
     [SerializeField] private Transform container;
+    [SerializeField] private GameObject group;
     [SerializeField] private Transform itemUITemplate;
     private bool startCountFlag = false;
     private readonly float Y_POSITION_GAMEPLAY = 757.69f;
@@ -16,7 +17,19 @@ public class ItemUIManager : MonoBehaviour
     {
         achieved = new(0.0f, 1.0f, 0.0f);
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        MainMenuUI.Instance.OnStoreEnter += MainMenuUI_OnHarvSettingsBtnPressed;
+        MainMenuUI.Instance.OnBackToMainMenuFromStore += MainMenuUI_OnHarvBackBtnPressed;
         ReinitializeMenuVisuals();
+    }
+
+    private void MainMenuUI_OnHarvBackBtnPressed(object sender, System.EventArgs e)
+    {
+        group.SetActive(true);
+    }
+
+    private void MainMenuUI_OnHarvSettingsBtnPressed(object sender, System.EventArgs e)
+    {
+        group.SetActive(false);
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)

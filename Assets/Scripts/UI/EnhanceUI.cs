@@ -30,7 +30,16 @@ public class EnhanceUI : MonoBehaviour
         });
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
+        Planets.Instance.OnPlanetShift += Planets_OnPlanetShift;
         InitializeUI();
+    }
+
+    private void Planets_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
+    {
+        if (Planets.Instance.IsCurrentPlanetAvailable())
+            SetAvailable(true);
+        else
+            SetAvailable(false);
     }
 
     private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
