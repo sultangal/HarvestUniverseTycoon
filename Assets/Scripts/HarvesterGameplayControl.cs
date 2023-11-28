@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class HarvesterGameplayControl : MonoBehaviour
 {
     public static HarvesterGameplayControl Instance { get; private set; }
 
-    [SerializeField] private Transform prefab;
-    [SerializeField] private Transform bodyGroup;
     [SerializeField] private FloatingJoystick joystick;
 
     public float speed;  // Rotation speed in degrees per second 
+    private Transform prefab;
+    private Transform bodyGroup;
     private float accelRatePerSec;
     private float decelRatePerSec;
     private float forwardVelocity = 0.0f;
@@ -35,14 +36,23 @@ public class HarvesterGameplayControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        prefab = HarvestersStore.Instance.GetCurrentPrefab();
+        bodyGroup = prefab.GetComponent<HarvesterPrefabRefs>().BodyGroup;
         accelRatePerSec = speed / timeZeroToMax;
         decelRatePerSec = -speed / timeMaxToZero; 
     }
 
     private void Update()
     {
-        if (GameManager.Instance.IsGamePlaying())
+        if (GameManager.Instance.IsGamePlaying()) 
             MoveVehicle();
+    }
+
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    {
+        prefab = e.prefab;
+        bodyGroup = prefab.GetComponent<HarvesterPrefabRefs>().BodyGroup;
     }
 
     private void SetStartPosition()

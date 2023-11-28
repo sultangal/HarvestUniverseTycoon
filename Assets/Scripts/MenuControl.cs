@@ -1,14 +1,15 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 
 public class MenuControl : MonoBehaviour
 {
     public static MenuControl Instance { get; private set; }
 
-    [SerializeField] private Transform harvesterPrefab;
     [SerializeField] private Transform harvesterMainMenuParent;
     [SerializeField] private Transform gameplayParent;
 
+    private Transform harvesterPrefab;
     private readonly Vector3 PREFAB_DEFAULT_POS = new(0.0f, 5.381f, 0.726f);
 
     private void Awake()
@@ -27,9 +28,19 @@ public class MenuControl : MonoBehaviour
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
         MainMenuUI.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
         MainMenuUI.Instance.OnBackToMainMenuFromStore += MainMenuUI_OnBackToMainMenuFromStore;
+        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+
+        harvesterPrefab = HarvestersStore.Instance.GetCurrentPrefab();
+        harvesterPrefab.SetParent(harvesterMainMenuParent);
         HarvesterAppearence();
     }
-    
+
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender , HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    {
+        harvesterPrefab = e.prefab;
+    }
+
+
     private void MainMenuUI_OnBackToMainMenuFromStore(object sender, System.EventArgs e)
     {
         harvesterMainMenuParent.GetComponent<Rotation>().enabled = true;

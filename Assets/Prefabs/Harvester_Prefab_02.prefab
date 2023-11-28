@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 494006817523722811}
   - component: {fileID: 7603753504765218644}
   - component: {fileID: 768422518619243552}
-  - component: {fileID: 4078225896002705206}
   m_Layer: 7
-  m_Name: Harvester_Prefab
+  m_Name: Harvester_Prefab_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,23 +117,6 @@ MonoBehaviour:
   harvesterBladesHolder: {fileID: 7340591114978654800}
   harvesterBlades: {fileID: 8105229000384314546}
   unavailableMat: {fileID: 2100000, guid: c9196d5e9c1cfff418cbb34ab797c3a0, type: 2}
---- !u!114 &4078225896002705206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571233422500749854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a7e1994c1bf6274fa07639c433a7930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BodyGroup: {fileID: 7899054690692506463}
-  BladesGroup: {fileID: 4211523319502962153}
-  PartSystem: {fileID: 7672513010279168787}
-  GameOverCollider: {fileID: 3748561653870435611}
-  ShiledVisuals: {fileID: 5702454389677722923}
 --- !u!1 &3702798348453820511
 GameObject:
   m_ObjectHideFlags: 0

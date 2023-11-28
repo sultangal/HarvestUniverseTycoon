@@ -5,11 +5,11 @@ public class BladesEnhanceControl : MonoBehaviour
 {
     public static BladesEnhanceControl Instance { get; private set; }
 
-    [SerializeField] private Transform harvesterPrefab;
-    [SerializeField] private Transform harvesterBladesGroupRef;
-    [SerializeField] private ParticleSystem partSystem;
     [SerializeField] private float durationSec;
 
+    private Transform prefab;
+    private Transform bladesGroup;
+    private ParticleSystem partSystem;
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
 
@@ -35,7 +35,18 @@ public class BladesEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        prefab = HarvestersStore.Instance.GetCurrentPrefab();
+        bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
+        partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
         ResetBlades();
+    }
+
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    {
+        prefab = e.prefab;
+        bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
+        partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
@@ -48,15 +59,15 @@ public class BladesEnhanceControl : MonoBehaviour
 
     private void SetHarvesterBladesWidth(float bladesWidth)
     {
-        BoxCollider bladesCollider = harvesterPrefab.GetComponent<BoxCollider>();
+        BoxCollider bladesCollider = prefab.GetComponent<BoxCollider>();
         bladesCollider.size = new(
             BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidth,
             bladesCollider.size.y,
             bladesCollider.size.z);
-        harvesterBladesGroupRef.transform.localScale = new(
+        bladesGroup.transform.localScale = new(
             BLADES_MIN_WIDTH_CONST * bladesWidth,
-            harvesterBladesGroupRef.transform.localScale.y,
-            harvesterBladesGroupRef.transform.localScale.z);
+            bladesGroup.transform.localScale.y,
+            bladesGroup.transform.localScale.z);
         var shape = partSystem.shape;
         shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidth,
             partSystem.shape.scale.y,

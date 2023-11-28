@@ -5,10 +5,10 @@ public class ShieldEnhanceControl : MonoBehaviour
 {
     public static ShieldEnhanceControl Instance { get; private set; }
 
-    [SerializeField] private GameObject gameOverCollider;
-    [SerializeField] private GameObject shieldVisuals;
     [SerializeField] private float durationSec;
 
+    private GameObject gameOverCollider;
+    private GameObject shieldVisuals;
     private bool startCountdown;
     private float timeCountdown;
 
@@ -27,7 +27,18 @@ public class ShieldEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
+        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        var prefab = HarvestersStore.Instance.GetCurrentPrefab();
+        gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
+        shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
         ResetEnhance();
+    }
+
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    {
+        var prefab = e.prefab;
+        gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
+        shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
     }
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)

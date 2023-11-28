@@ -92,11 +92,13 @@ public class MainMenuUI : MonoBehaviour
         if (Planets.Instance.IsCurrentPlanetAvailable())
         {
             btnPlay.interactable = true;
+            btnHarvSettings.interactable = true;
             return true;
         }
         else
         {
             btnPlay.interactable = false;
+            btnHarvSettings.interactable = false;
             return false;
         }
     }
