@@ -7,7 +7,7 @@ public class TouchRotation : MonoBehaviour, IDragHandler
     [SerializeField] private Transform gameObjectToAffect;
     public void OnDrag(PointerEventData eventData)
     {
-        float delta = eventData.delta.x;
+        float delta = eventData.delta.x*0.3f;
         Vector3 eulerAngles = gameObjectToAffect.eulerAngles;
         gameObjectToAffect.Rotate(new(eulerAngles.x, -delta, eulerAngles.z));
     }

@@ -35,14 +35,14 @@ public class BladesEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
-        prefab = HarvestersStore.Instance.GetCurrentPrefab();
+        StoreManager.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        prefab = StoreManager.Instance.GetCurrentPrefab();
         bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
         partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
         ResetBlades();
     }
 
-    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, StoreManager.OnUpdateHarvesterPrefabArgs e)
     {
         prefab = e.prefab;
         bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;

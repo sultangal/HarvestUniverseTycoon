@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 494006817523722811}
   - component: {fileID: 7603753504765218644}
   - component: {fileID: 768422518619243552}
+  - component: {fileID: 4289870209933989299}
   m_Layer: 7
-  m_Name: Harvester_Prefab_02
+  m_Name: Harvester_Prefab_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1571233422500749854}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.35, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -117,6 +118,23 @@ MonoBehaviour:
   harvesterBladesHolder: {fileID: 7340591114978654800}
   harvesterBlades: {fileID: 8105229000384314546}
   unavailableMat: {fileID: 2100000, guid: c9196d5e9c1cfff418cbb34ab797c3a0, type: 2}
+--- !u!114 &4289870209933989299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571233422500749854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7e1994c1bf6274fa07639c433a7930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BodyGroup: {fileID: 7899054690692506463}
+  BladesGroup: {fileID: 4211523319502962153}
+  PartSystem: {fileID: 7672513010279168787}
+  GameOverCollider: {fileID: 3748561653870435611}
+  ShiledVisuals: {fileID: 5702454389677722923}
 --- !u!1 &3702798348453820511
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8486498881186420383
 Transform:
   m_ObjectHideFlags: 0
@@ -5284,6 +5302,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8574120244550949717, guid: 59a496b3de077ff4c8f4e7446605ea85,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 44519243498c9db4f9d086d1f4a9954d, type: 2}
     - target: {fileID: 919132149155446097, guid: 59a496b3de077ff4c8f4e7446605ea85,
         type: 3}
       propertyPath: m_Name

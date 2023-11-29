@@ -8,16 +8,14 @@ public class MainMenuUI : MonoBehaviour
 {
     public static MainMenuUI Instance { get; private set; }
 
-    [SerializeField] private GameObject group;
-    [SerializeField] private GameObject enhanceGroup;
-    [SerializeField] private GameObject swipeRaycastTarget;
-    [SerializeField] private GameObject rotationRaycastTarget;
+    [SerializeField] private GameObject mainMenuGroup;
+    [SerializeField] private GameObject storeGroup;
+    [SerializeField] private GameObject headerGroup;
+    [SerializeField] private GameObject enhancementsGroup;
+    [SerializeField] private GameObject itemsGroup;
     [SerializeField] private Button btnPlay;
-    [SerializeField] private Button btnShiftLeft;
-    [SerializeField] private Button btnShiftRight;
     [SerializeField] private Button btnHarvSettings;
     [SerializeField] private Button btnBack;
-    [SerializeField] private Transform textsGroup;
     [SerializeField] private TextMeshProUGUI level;
     [SerializeField] private TextMeshProUGUI gold;
     [SerializeField] private TextMeshProUGUI cash;
@@ -55,36 +53,28 @@ public class MainMenuUI : MonoBehaviour
 
         btnHarvSettings.onClick.AddListener(() =>
         {
-            enhanceGroup.SetActive(false);
-            btnPlay.gameObject.SetActive(false);
-            swipeRaycastTarget.SetActive(false);
-            btnBack.gameObject.SetActive(true);
-            btnHarvSettings.gameObject.SetActive(false);
-            btnShiftLeft.gameObject.SetActive(true);
-            btnShiftRight.gameObject.SetActive(true);
-            rotationRaycastTarget.SetActive(true);
+            mainMenuGroup.SetActive(false);
+            storeGroup.SetActive(true);
+            enhancementsGroup.SetActive(false);
+            itemsGroup.SetActive(false);
             OnStoreEnter?.Invoke(this, EventArgs.Empty);
         });
 
         btnBack.onClick.AddListener(() =>
         {
-            enhanceGroup.SetActive(true);
-            btnPlay.gameObject.SetActive(true);
-            swipeRaycastTarget.SetActive(true);
-            btnBack.gameObject.SetActive(false);
-            btnHarvSettings.gameObject.SetActive(true);
-            btnShiftLeft.gameObject.SetActive(false);
-            btnShiftRight.gameObject.SetActive(false);
-            rotationRaycastTarget.SetActive(false);
+            mainMenuGroup.SetActive(true);
+            storeGroup.SetActive(false);
+            enhancementsGroup.SetActive(true);
+            itemsGroup.SetActive(true);
             OnBackToMainMenuFromStore?.Invoke(this, EventArgs.Empty);
         });
 
-        UpdateVisuals();
+        UpdateHeader();
     }
 
     private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
     {
-        UpdateVisuals();
+        UpdateHeader();
     }
 
     public bool UpdatePlayButtonAvailability()
@@ -107,16 +97,18 @@ public class MainMenuUI : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            UpdateVisuals();
-            group.SetActive(true);
+            UpdateHeader();
+            mainMenuGroup.SetActive(true);
+            headerGroup.SetActive(true);
         }
         else
         {
-            group.SetActive(false);
+            mainMenuGroup.SetActive(false);
+            headerGroup.SetActive(false);
         }
     }
 
-    private void UpdateVisuals()
+    private void UpdateHeader()
     {
         level.text = (GameManager.Instance.GlobalData_.level + 1).ToString();
         gold.text = GameManager.Instance.GlobalData_.amountOfGold.ToString();

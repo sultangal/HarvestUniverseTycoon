@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a5d5f3c2b069544ab6e9d2130c639b, type: 3}
+  m_Name: Harvester_001
+  m_EditorClassIdentifier: 
+  harvesterPrefab: {fileID: 1571233422500749854, guid: 12513b2c405edde4ba635f28e68a7b2e,
+    type: 3}
+  price: 0

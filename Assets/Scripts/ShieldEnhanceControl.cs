@@ -27,14 +27,14 @@ public class ShieldEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        HarvestersStore.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
-        var prefab = HarvestersStore.Instance.GetCurrentPrefab();
+        StoreManager.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        var prefab = StoreManager.Instance.GetCurrentPrefab();
         gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
         shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
         ResetEnhance();
     }
 
-    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, HarvestersStore.OnUpdateHarvesterPrefabArgs e)
+    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, StoreManager.OnUpdateHarvesterPrefabArgs e)
     {
         var prefab = e.prefab;
         gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
