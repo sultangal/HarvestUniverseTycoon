@@ -15,5 +15,17 @@ public class StoreUI : MonoBehaviour
         {
             modalWindow.SetActive(true);
         });
+
+        left.onClick.AddListener(() =>
+        {
+            StoreManager.Instance.ShiftLeft();
+        });
+
+        right.onClick.AddListener(() =>
+        {
+            StoreManager.Instance.ShiftRight();
+        });
     }
+
+
 }

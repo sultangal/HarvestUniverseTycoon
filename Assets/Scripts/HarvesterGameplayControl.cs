@@ -36,7 +36,7 @@ public class HarvesterGameplayControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        StoreManager.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        StoreManager.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
         prefab = StoreManager.Instance.GetCurrentPrefab();
         bodyGroup = prefab.GetComponent<HarvesterPrefabRefs>().BodyGroup;
         accelRatePerSec = speed / timeZeroToMax;
@@ -49,7 +49,7 @@ public class HarvesterGameplayControl : MonoBehaviour
             MoveVehicle();
     }
 
-    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender, StoreManager.OnUpdateHarvesterPrefabArgs e)
+    private void StoreManager_OnUpdateHarvesterPrefab(object sender, StoreManager.OnUpdateHarvesterPrefabArgs e)
     {
         prefab = e.prefab;
         bodyGroup = prefab.GetComponent<HarvesterPrefabRefs>().BodyGroup;

@@ -20,9 +20,6 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gold;
     [SerializeField] private TextMeshProUGUI cash;
 
-    public event EventHandler OnStoreEnter;
-    public event EventHandler OnBackToMainMenuFromStore;
-
     private void Awake()
     {
         if (Instance != null)
@@ -57,7 +54,7 @@ public class MainMenuUI : MonoBehaviour
             storeGroup.SetActive(true);
             enhancementsGroup.SetActive(false);
             itemsGroup.SetActive(false);
-            OnStoreEnter?.Invoke(this, EventArgs.Empty);
+            StoreManager.Instance.FireOnStoreEnterEvent();   
         });
 
         btnBack.onClick.AddListener(() =>
@@ -66,7 +63,7 @@ public class MainMenuUI : MonoBehaviour
             storeGroup.SetActive(false);
             enhancementsGroup.SetActive(true);
             itemsGroup.SetActive(true);
-            OnBackToMainMenuFromStore?.Invoke(this, EventArgs.Empty);
+            StoreManager.Instance.FireOnBackToMainMenuEvent();
         });
 
         UpdateHeader();

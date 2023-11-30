@@ -6,6 +6,8 @@ public class HarvesterVisuals : MonoBehaviour
     [SerializeField] private Transform harvesterBody;
     [SerializeField] private Transform harvesterBladesHolder;
     [SerializeField] private Transform harvesterBlades;
+    [SerializeField] private Transform pivotPoint;
+
     [SerializeField] private Material unavailableMat;
 
     private List<Material> bodyMats;
@@ -17,24 +19,7 @@ public class HarvesterVisuals : MonoBehaviour
         bodyMats = new();
         bladesHolderMats = new();
         bladesMats = new();
-
         ScanHarvesterMaterials();
-    }
-
-    public void UpdateAvailabilityVisual()
-    {
-        if (Planets.Instance.IsCurrentPlanetAvailable())
-        {
-            SetMaterialToObject(harvesterBody, bodyMats);
-            SetMaterialToObject(harvesterBladesHolder, bladesHolderMats);
-            SetMaterialToObject(harvesterBlades, bladesMats);
-        }
-        else
-        {
-            SetMaterialToObject(harvesterBody, unavailableMat);
-            SetMaterialToObject(harvesterBladesHolder, unavailableMat);
-            SetMaterialToObject(harvesterBlades, unavailableMat);
-        }
     }
 
     private void ScanHarvesterMaterials()
@@ -71,6 +56,32 @@ public class HarvesterVisuals : MonoBehaviour
         for (int i = 0; i < matList.Count; i++)
             matList[i] = materials[i];
         comp.SetMaterials(matList);
+    }
+
+    public void UpdateAvailabilityVisual()
+    {
+        if (Planets.Instance.IsCurrentPlanetAvailable())
+        {
+            SetMaterialToObject(harvesterBody, bodyMats);
+            SetMaterialToObject(harvesterBladesHolder, bladesHolderMats);
+            SetMaterialToObject(harvesterBlades, bladesMats);
+        }
+        else
+        {
+            SetMaterialToObject(harvesterBody, unavailableMat);
+            SetMaterialToObject(harvesterBladesHolder, unavailableMat);
+            SetMaterialToObject(harvesterBlades, unavailableMat);
+        }
+    }
+
+    public void SetPivotToMenuMode()
+    {
+        pivotPoint.localPosition = new(0f, 0f, 0.0726f);
+    }
+
+    public void SetPivotToGameplayMode()
+    {
+        pivotPoint.localPosition = Vector3.zero;
     }
 
 }

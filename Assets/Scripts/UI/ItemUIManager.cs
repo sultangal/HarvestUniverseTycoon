@@ -17,17 +17,17 @@ public class ItemUIManager : MonoBehaviour
     {
         achieved = new(0.0f, 1.0f, 0.0f);
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        MainMenuUI.Instance.OnStoreEnter += MainMenuUI_OnHarvSettingsBtnPressed;
-        MainMenuUI.Instance.OnBackToMainMenuFromStore += MainMenuUI_OnHarvBackBtnPressed;
+        StoreManager.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
+        StoreManager.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
         ReinitializeMenuVisuals();
     }
 
-    private void MainMenuUI_OnHarvBackBtnPressed(object sender, System.EventArgs e)
+    private void MainMenuUI_OnBackToMainMenu(object sender, System.EventArgs e)
     {
         group.SetActive(true);
     }
 
-    private void MainMenuUI_OnHarvSettingsBtnPressed(object sender, System.EventArgs e)
+    private void MainMenuUI_OnStoreEnter(object sender, System.EventArgs e)
     {
         group.SetActive(false);
     }

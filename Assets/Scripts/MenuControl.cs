@@ -27,29 +27,28 @@ public class MenuControl : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
-        MainMenuUI.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
-        MainMenuUI.Instance.OnBackToMainMenuFromStore += MainMenuUI_OnBackToMainMenuFromStore;
-        StoreManager.Instance.OnUpdateHarvesterPrefab += HarvestersStore_OnUpdateHarvesterPrefab;
+        StoreManager.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
+        StoreManager.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
+        StoreManager.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
 
         harvesterPrefab = StoreManager.Instance.GetCurrentPrefab();
-        harvestersGroup.SetParent(harvesterMainMenuParent);//
+        harvestersGroup.SetParent(harvesterMainMenuParent);
         HarvesterAppearence();
     }
 
-    private void HarvestersStore_OnUpdateHarvesterPrefab(object sender , StoreManager.OnUpdateHarvesterPrefabArgs e)
+    private void StoreManager_OnUpdateHarvesterPrefab(object sender , StoreManager.OnUpdateHarvesterPrefabArgs e)
     {
         harvesterPrefab = e.prefab;
     }
 
-
-    private void MainMenuUI_OnBackToMainMenuFromStore(object sender, System.EventArgs e)
+    private void MainMenuUI_OnBackToMainMenu(object sender, System.EventArgs e)
     {
-        harvesterMainMenuParent.GetComponent<Rotation>().enabled = true;
+        harvesterPrefab.GetComponent<Rotation>().enabled = true;
     }
 
     private void MainMenuUI_OnStoreEnter(object sender, System.EventArgs e)
     {
-        harvesterMainMenuParent.GetComponent<Rotation>().enabled = false;
+        harvesterPrefab.GetComponent<Rotation>().enabled = false;
     }
 
     private void PlanetsController_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
@@ -69,8 +68,9 @@ public class MenuControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            harvestersGroup.SetParent(harvesterMainMenuParent);//
-
+            harvestersGroup.SetParent(harvesterMainMenuParent);
+            harvesterPrefab.GetComponent<Rotation>().enabled = true;
+            harvesterPrefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
             harvestersGroup.transform.localPosition = Vector3.zero;
             harvestersGroup.transform.rotation = Quaternion.identity;
             harvestersGroup.transform.localScale = Vector3.one;
@@ -81,8 +81,9 @@ public class MenuControl : MonoBehaviour
 
         if (GameManager.Instance.IsGamePlaying())
         {
-            harvestersGroup.SetParent(gameplayParent);//
-
+            harvestersGroup.SetParent(gameplayParent);
+            harvesterPrefab.GetComponent<Rotation>().enabled = false;
+            harvesterPrefab.GetComponent<HarvesterVisuals>().SetPivotToGameplayMode();
             harvestersGroup.transform.localPosition = Vector3.zero;
             harvestersGroup.transform.rotation = Quaternion.identity;
             harvestersGroup.transform.localScale = Vector3.one;

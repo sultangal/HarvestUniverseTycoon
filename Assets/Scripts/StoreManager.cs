@@ -1,21 +1,19 @@
+using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StoreManager : MonoBehaviour
 {
     public static StoreManager Instance { get; private set; }
 
-    [SerializeField] private Transform harvestersGroup;
     public HarvestersSO[] harvestersPrefabRefs;
     private bool[] harvPrefabUnlocked;
-
     private readonly float SPACE_BETWEEN_HARV = 3f;
-
-    public EventHandler<OnUpdateHarvesterPrefabArgs> OnUpdateHarvesterPrefab;
-
     private int currentPrefabIndex;
+
+    public event EventHandler<OnUpdateHarvesterPrefabArgs> OnUpdateHarvesterPrefab;
+    public event EventHandler OnStoreEnter;
+    public event EventHandler OnBackToMainMenu;
 
     public class OnUpdateHarvesterPrefabArgs : EventArgs
     {
@@ -30,21 +28,11 @@ public class StoreManager : MonoBehaviour
             return;
         }
         Instance = this;
+        currentPrefabIndex = 1;
+
         InitializeUnlockedArray();
         CheckIfIndexIsValid();
         CreateHarvesters();
-        currentPrefabIndex = 2;
-    }
-
-    private void Start()
-    {
-        
-        //CreateHarvesters();
-        //OnUpdateHarvesterPrefabArgs args = new()
-        //{
-        //    prefab = currentPrefab
-        //};
-        //OnUpdateHarvesterPrefab?.Invoke(this, args);
     }
 
     private void InitializeUnlockedArray()
@@ -69,30 +57,15 @@ public class StoreManager : MonoBehaviour
                 Vector3.zero,
                 Quaternion.identity);
             Vector3 newPos = new(SPACE_BETWEEN_HARV * i, 5.381f, 0.726f);
-            harvestersPrefabRefs[i].harvesterSceneRefPrefab.transform.SetParent(harvestersGroup);
+            harvestersPrefabRefs[i].harvesterSceneRefPrefab.transform.SetParent(this.transform);
             harvestersPrefabRefs[i].harvesterSceneRefPrefab.transform.position += newPos;
 
-            //if (i != currentPrefabIndex)
-            //    harvestersPrefabRefs[i].harvesterSceneRefPrefab.SetActive(false);
-            
-
-           // PlanetData[i] = new PlanetData
-           // {
-           //     amountOfCollectedFieldItemsOnPlanet = new int[planetsSOArr[i].fieldItemSOs.Length],
-           //     goalAchievedFlags = new bool[planetsSOArr[i].fieldItemSOs.Length]
-           // };
-           //
-           // Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
-           // planetsSOArr[i].planetPrefab.position += newPos;
-           // PlanetVisuals planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisuals>();
-           // planetVisual.planetId = i;
-           // planetVisual.SetPlanetMaterial(planetsSOArr[i].planetMaterial);
-           // planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
-           // if (i <= GameManager.Instance.GlobalData_.level)
-           //     planetVisual.SetAvalabilityVisual(true);
-           // else
-           //     planetVisual.SetAvalabilityVisual(false);
+            if (i != currentPrefabIndex)
+                harvestersPrefabRefs[i].harvesterSceneRefPrefab.SetActive(false);
+            harvestersPrefabRefs[i].harvesterSceneRefPrefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
         }
+        //position group to current harv
+        this.transform.position = new(-SPACE_BETWEEN_HARV * currentPrefabIndex, 0f, 0f);
     }
 
     private bool CheckIfIndexIsValid()
@@ -108,4 +81,60 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    private void StartDOMove()
+    {
+        var positionX = Planets.Instance.GetCurrentPlanetPosition().x - currentPrefabIndex * SPACE_BETWEEN_HARV;
+        this.transform.DOMove(new(positionX, 0f, 0f), 1f);
+    }
+
+    public void ShiftLeft()
+    {
+        if (currentPrefabIndex > 0)
+        {
+            currentPrefabIndex--;
+            var transform = harvestersPrefabRefs[currentPrefabIndex].harvesterSceneRefPrefab.transform;
+            OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
+            {
+                prefab = transform
+            });
+            StartDOMove();
+        }
+    }
+
+    public void ShiftRight()
+    {
+        if (currentPrefabIndex < harvestersPrefabRefs.Length - 1)
+        {
+            currentPrefabIndex++;
+            var transform = harvestersPrefabRefs[currentPrefabIndex].harvesterSceneRefPrefab.transform;
+            OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
+            {
+                prefab = transform
+            });
+            StartDOMove();
+        }
+    }
+
+    public void FireOnStoreEnterEvent()
+    {
+        foreach (var item in harvestersPrefabRefs)
+        {
+            var prefab = item.harvesterSceneRefPrefab;
+            prefab.SetActive(true);
+            prefab.GetComponent<Rotation>().enabled = false;
+        }
+        OnStoreEnter?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void FireOnBackToMainMenuEvent()
+    {
+        for (int i = 0; i < harvestersPrefabRefs.Length; i++)
+        {
+            var prefab = harvestersPrefabRefs[i].harvesterSceneRefPrefab;
+            prefab.GetComponent<Rotation>().enabled = false;
+            if (i!=currentPrefabIndex)
+                prefab.SetActive(false);
+        }
+        OnBackToMainMenu?.Invoke(this, EventArgs.Empty);
+    }
 }
