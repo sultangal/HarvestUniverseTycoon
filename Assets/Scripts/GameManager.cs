@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
-    private bool TryWithdraw(int amount)
+    private bool TryWithdrawCash(int amount)
     {
         if (GlobalData_.amountOfCash >= amount)
         {
@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
     public bool TryWithdrawBladesCost()
     {
         int cost = Planets.Instance.GetCurrLevelBladesEnhanceCost();
-        if (TryWithdraw(cost))
+        if (TryWithdrawCash(cost))
             return true;
         else
             return false;
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     public bool TryWithdrawSpeedCost()
     {
         int cost = Planets.Instance.GetCurrLevelSpeedEnhanceCost();
-        if (TryWithdraw(cost))
+        if (TryWithdrawCash(cost))
             return true;
         else 
             return false;
@@ -282,8 +282,20 @@ public class GameManager : MonoBehaviour
     public bool TryWithdrawShieldCost()
     {
         int cost = Planets.Instance.GetCurrLevelShieldEnhanceCost();
-        if (TryWithdraw(cost))
+        if (TryWithdrawCash(cost))
             return true;
+        else
+            return false;
+    }
+
+    public bool TryWithdrawGold(int amount)
+    {
+        if (GlobalData_.amountOfGold >= amount)
+        {
+            GlobalData_.amountOfGold -= amount;
+            OnGoldAmountChanged?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
         else
             return false;
     }

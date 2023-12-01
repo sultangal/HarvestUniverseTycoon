@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   harvesterPrefab: {fileID: 1571233422500749854, guid: be62161b26738e149b7b6e9818185dbf,
     type: 3}
-  price: 0
+  harvesterSceneRefPrefab: {fileID: 0}
+  price: 30

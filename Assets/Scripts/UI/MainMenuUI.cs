@@ -34,6 +34,7 @@ public class MainMenuUI : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         GameManager.Instance.OnCashAmountChanged += GameManager_OnCashAmountChanged;
+        GameManager.Instance.OnGoldAmountChanged += GameManager_OnGoldAmountChanged;
 
         btnPlay.onClick.AddListener(() =>
         {
@@ -66,6 +67,11 @@ public class MainMenuUI : MonoBehaviour
             StoreManager.Instance.FireOnBackToMainMenuEvent();
         });
 
+        UpdateHeader();
+    }
+
+    private void GameManager_OnGoldAmountChanged(object sender, EventArgs e)
+    {
         UpdateHeader();
     }
 

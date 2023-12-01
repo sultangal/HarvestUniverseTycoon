@@ -7,13 +7,15 @@ public class StoreManager : MonoBehaviour
     public static StoreManager Instance { get; private set; }
 
     public HarvestersSO[] harvestersPrefabRefs;
-    private bool[] harvPrefabUnlocked;
-    private readonly float SPACE_BETWEEN_HARV = 3f;
-    private int currentPrefabIndex;
+    public bool[] harvPrefabUnlocked { get; private set; }
+    private int currAvailablePrefabIndex;
+    private int currPrefabIndex;
 
     public event EventHandler<OnUpdateHarvesterPrefabArgs> OnUpdateHarvesterPrefab;
     public event EventHandler OnStoreEnter;
     public event EventHandler OnBackToMainMenu;
+    
+    private readonly float SPACE_BETWEEN_HARV = 3f;
 
     public class OnUpdateHarvesterPrefabArgs : EventArgs
     {
@@ -28,7 +30,8 @@ public class StoreManager : MonoBehaviour
             return;
         }
         Instance = this;
-        currentPrefabIndex = 1;
+        currAvailablePrefabIndex = 1;
+        currPrefabIndex = 1;
 
         InitializeUnlockedArray();
         CheckIfIndexIsValid();
@@ -40,37 +43,37 @@ public class StoreManager : MonoBehaviour
         harvPrefabUnlocked = new bool[harvestersPrefabRefs.Length];
         harvPrefabUnlocked[0] = true;
         harvPrefabUnlocked[1] = true;
-        harvPrefabUnlocked[2] = true;
-    }
-
-    public Transform GetCurrentPrefab()
-    {
-        return harvestersPrefabRefs[currentPrefabIndex].harvesterSceneRefPrefab.transform;
+        harvPrefabUnlocked[2] = false;
     }
 
     private void CreateHarvesters()
     {
         for (int i = 0; i < harvestersPrefabRefs.Length; i++)
         {
-            harvestersPrefabRefs[i].harvesterSceneRefPrefab = Instantiate(
+             GameObject prefab = Instantiate(
                 harvestersPrefabRefs[i].harvesterPrefab,
                 Vector3.zero,
                 Quaternion.identity);
             Vector3 newPos = new(SPACE_BETWEEN_HARV * i, 5.381f, 0.726f);
-            harvestersPrefabRefs[i].harvesterSceneRefPrefab.transform.SetParent(this.transform);
-            harvestersPrefabRefs[i].harvesterSceneRefPrefab.transform.position += newPos;
+            prefab.transform.SetParent(this.transform);
+            prefab.transform.position += newPos;
 
-            if (i != currentPrefabIndex)
-                harvestersPrefabRefs[i].harvesterSceneRefPrefab.SetActive(false);
-            harvestersPrefabRefs[i].harvesterSceneRefPrefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
+            if (i != currAvailablePrefabIndex)
+                prefab.SetActive(false);
+            prefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
+
+            if (harvPrefabUnlocked[i] == false)
+                prefab.GetComponent<HarvesterVisuals>().SetAvailability(false);
+
+            harvestersPrefabRefs[i].harvesterSceneRefPrefab = prefab;
         }
         //position group to current harv
-        this.transform.position = new(-SPACE_BETWEEN_HARV * currentPrefabIndex, 0f, 0f);
+        this.transform.position = new(-SPACE_BETWEEN_HARV * currAvailablePrefabIndex, 0f, 0f);
     }
 
     private bool CheckIfIndexIsValid()
     {
-        if (harvPrefabUnlocked[currentPrefabIndex] == true)
+        if (harvPrefabUnlocked[currAvailablePrefabIndex] == true)
         {
             return true;
         }
@@ -83,16 +86,36 @@ public class StoreManager : MonoBehaviour
 
     private void StartDOMove()
     {
-        var positionX = Planets.Instance.GetCurrentPlanetPosition().x - currentPrefabIndex * SPACE_BETWEEN_HARV;
-        this.transform.DOMove(new(positionX, 0f, 0f), 1f);
+        var positionX = Planets.Instance.GetCurrentPlanetPosition().x - currAvailablePrefabIndex * SPACE_BETWEEN_HARV;
+        this.transform.DOMove(new(positionX, 0f, 0f), 1f).SetId(20);
+    }
+
+    public Transform GetCurrentPrefab()
+    {
+        return harvestersPrefabRefs[currAvailablePrefabIndex].harvesterSceneRefPrefab.transform;
+    }
+
+    public bool IsCurrPrefabAvailable()
+    {
+        return harvPrefabUnlocked[currAvailablePrefabIndex] == true;
+    }
+
+    public float EvaluateCurrAvailablePrefabPosX()
+    {
+        return currAvailablePrefabIndex * SPACE_BETWEEN_HARV;
+    }
+
+    public float GetHarvPrice()
+    {
+        return harvestersPrefabRefs[currAvailablePrefabIndex].price;
     }
 
     public void ShiftLeft()
     {
-        if (currentPrefabIndex > 0)
+        if (currAvailablePrefabIndex > 0)
         {
-            currentPrefabIndex--;
-            var transform = harvestersPrefabRefs[currentPrefabIndex].harvesterSceneRefPrefab.transform;
+            currAvailablePrefabIndex--;
+            var transform = harvestersPrefabRefs[currAvailablePrefabIndex].harvesterSceneRefPrefab.transform;
             OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
             {
                 prefab = transform
@@ -103,10 +126,10 @@ public class StoreManager : MonoBehaviour
 
     public void ShiftRight()
     {
-        if (currentPrefabIndex < harvestersPrefabRefs.Length - 1)
+        if (currAvailablePrefabIndex < harvestersPrefabRefs.Length - 1)
         {
-            currentPrefabIndex++;
-            var transform = harvestersPrefabRefs[currentPrefabIndex].harvesterSceneRefPrefab.transform;
+            currAvailablePrefabIndex++;
+            var transform = harvestersPrefabRefs[currAvailablePrefabIndex].harvesterSceneRefPrefab.transform;
             OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
             {
                 prefab = transform
@@ -123,18 +146,49 @@ public class StoreManager : MonoBehaviour
             prefab.SetActive(true);
             prefab.GetComponent<Rotation>().enabled = false;
         }
+        currPrefabIndex = currAvailablePrefabIndex;
         OnStoreEnter?.Invoke(this, EventArgs.Empty);
     }
 
     public void FireOnBackToMainMenuEvent()
     {
+        DOTween.Complete(20);
+        if (!IsCurrPrefabAvailable())
+        {
+            currAvailablePrefabIndex = currPrefabIndex;
+            this.transform.localPosition = new(-currAvailablePrefabIndex * SPACE_BETWEEN_HARV, 0f, 0f);
+            //this.transform.rotation = Quaternion.identity;
+            //this.transform.localScale = Vector3.one;
+
+            OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
+            {
+                prefab = GetCurrentPrefab()
+            });
+        }
+
         for (int i = 0; i < harvestersPrefabRefs.Length; i++)
         {
             var prefab = harvestersPrefabRefs[i].harvesterSceneRefPrefab;
-            prefab.GetComponent<Rotation>().enabled = false;
-            if (i!=currentPrefabIndex)
+            prefab.GetComponent<Rotation>().enabled = true;
+            if (i != currAvailablePrefabIndex)
                 prefab.SetActive(false);
         }
+
         OnBackToMainMenu?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool BuyHarvester()
+    {
+        if (GameManager.Instance.TryWithdrawGold(harvestersPrefabRefs[currAvailablePrefabIndex].price))
+        {
+            harvPrefabUnlocked[currAvailablePrefabIndex] = true;
+            GetCurrentPrefab().GetComponent<HarvesterVisuals>().SetAvailability(true);
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough gold!");
+            return false;
+        }
     }
 }

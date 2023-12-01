@@ -10587,7 +10587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amountOfCash: 500
-  amountOfGold: 0
+  amountOfGold: 100
   level: 3
 --- !u!114 &534743016
 MonoBehaviour:
@@ -18311,11 +18311,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daff2f3825c852743a2a9b6d7b975ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  back: {fileID: 1532748484}
   left: {fileID: 859660665}
   right: {fileID: 544802526}
   buy: {fileID: 1507717597}
+  tmp_buy: {fileID: 1414176}
   modalWindow: {fileID: 2006964731}
+  mw_OK: {fileID: 939973868}
 --- !u!1 &882171027
 GameObject:
   m_ObjectHideFlags: 0
@@ -33954,7 +33955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048445d5616dd01469b39742172a4f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  harvestersGroup: {fileID: 1116922191}
+  storeManagerGroup: {fileID: 1116922191}
   harvesterMainMenuParent: {fileID: 415011918}
   gameplayParent: {fileID: 1825356968}
 --- !u!4 &1634351422

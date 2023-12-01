@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class HarvesterVisuals : MonoBehaviour
 {
@@ -61,12 +62,19 @@ public class HarvesterVisuals : MonoBehaviour
     public void UpdateAvailabilityVisual()
     {
         if (Planets.Instance.IsCurrentPlanetAvailable())
+            SetAvailability(true);
+        else
+            SetAvailability(false);
+    }
+
+    public void SetAvailability(bool isAvailable)
+    {
+        if (isAvailable)
         {
             SetMaterialToObject(harvesterBody, bodyMats);
             SetMaterialToObject(harvesterBladesHolder, bladesHolderMats);
             SetMaterialToObject(harvesterBlades, bladesMats);
-        }
-        else
+        } else
         {
             SetMaterialToObject(harvesterBody, unavailableMat);
             SetMaterialToObject(harvesterBladesHolder, unavailableMat);

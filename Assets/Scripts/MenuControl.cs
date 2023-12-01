@@ -6,12 +6,12 @@ public class MenuControl : MonoBehaviour
 {
     public static MenuControl Instance { get; private set; }
 
-    [SerializeField] private Transform harvestersGroup;
+    [SerializeField] private Transform storeManagerGroup;
     [SerializeField] private Transform harvesterMainMenuParent;
     [SerializeField] private Transform gameplayParent;
 
     private Transform harvesterPrefab;
-    private static readonly Vector3 PREFAB_DEFAULT_POS = new(0.0f, 5.381f, 0.726f);
+    private static readonly Vector3 PREFAB_START_POS = new(0.0f, 5.381f, 0.726f);
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class MenuControl : MonoBehaviour
         StoreManager.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
 
         harvesterPrefab = StoreManager.Instance.GetCurrentPrefab();
-        harvestersGroup.SetParent(harvesterMainMenuParent);
+        storeManagerGroup.SetParent(harvesterMainMenuParent);
         HarvesterAppearence();
     }
 
@@ -68,27 +68,29 @@ public class MenuControl : MonoBehaviour
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
-            harvestersGroup.SetParent(harvesterMainMenuParent);
+            storeManagerGroup.SetParent(harvesterMainMenuParent);
             harvesterPrefab.GetComponent<Rotation>().enabled = true;
             harvesterPrefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
-            harvestersGroup.transform.localPosition = Vector3.zero;
-            harvestersGroup.transform.rotation = Quaternion.identity;
-            harvestersGroup.transform.localScale = Vector3.one;
 
-            harvesterPrefab.localPosition = PREFAB_DEFAULT_POS;
+            var posX = StoreManager.Instance.EvaluateCurrAvailablePrefabPosX();
+            storeManagerGroup.transform.localPosition = new(-posX, 0f, 0f);
+            storeManagerGroup.transform.rotation = Quaternion.identity;
+            storeManagerGroup.transform.localScale = Vector3.one;
+
+            harvesterPrefab.localPosition = new(posX, 5.381f, 0.726f); 
             harvesterPrefab.localEulerAngles = Vector3.zero;
         }
 
         if (GameManager.Instance.IsGamePlaying())
         {
-            harvestersGroup.SetParent(gameplayParent);
+            storeManagerGroup.SetParent(gameplayParent);
             harvesterPrefab.GetComponent<Rotation>().enabled = false;
             harvesterPrefab.GetComponent<HarvesterVisuals>().SetPivotToGameplayMode();
-            harvestersGroup.transform.localPosition = Vector3.zero;
-            harvestersGroup.transform.rotation = Quaternion.identity;
-            harvestersGroup.transform.localScale = Vector3.one;
-
-            harvesterPrefab.localPosition = PREFAB_DEFAULT_POS;
+            storeManagerGroup.transform.localPosition = Vector3.zero;
+            storeManagerGroup.transform.rotation = Quaternion.identity;
+            storeManagerGroup.transform.localScale = Vector3.one;
+           
+            harvesterPrefab.localPosition = PREFAB_START_POS;
             harvesterPrefab.localEulerAngles = Vector3.zero;
         }
     }
