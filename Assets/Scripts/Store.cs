@@ -2,15 +2,15 @@ using DG.Tweening;
 using System;
 using UnityEngine;
 
-public class StoreManager : MonoBehaviour
+public class Store : MonoBehaviour
 {
-    public static StoreManager Instance { get; private set; }
+    public static Store Instance { get; private set; }
 
     [SerializeField] private StoreUI store_UI;
     [SerializeField] private Transform harvesterGroup;
 
     public HarvestersSO[] harvestersPrefabRefs;
-    public bool[] harvPrefabUnlocked { get; private set; }
+    public bool[] HarvPrefabUnlocked { get; private set; }
     private int currAvailablePrefabIndex;
     private int currPrefabIndex;
 
@@ -43,10 +43,10 @@ public class StoreManager : MonoBehaviour
 
     private void InitializeUnlockedArray()
     {
-        harvPrefabUnlocked = new bool[harvestersPrefabRefs.Length];
-        harvPrefabUnlocked[0] = true;
-        harvPrefabUnlocked[1] = true;
-        harvPrefabUnlocked[2] = false;
+        HarvPrefabUnlocked = new bool[harvestersPrefabRefs.Length];
+        HarvPrefabUnlocked[0] = true;
+        HarvPrefabUnlocked[1] = true;
+        HarvPrefabUnlocked[2] = false;
     }
 
     private void CreateHarvesters()
@@ -57,7 +57,8 @@ public class StoreManager : MonoBehaviour
                 harvestersPrefabRefs[i].harvesterPrefab,
                 Vector3.zero,
                 Quaternion.identity);
-            Vector3 newPos = new(SPACE_BETWEEN_HARV * i, 5.381f, 0.726f);
+            var StartPos = MenuControl.Instance.PREFAB_START_POS;
+            Vector3 newPos = new(SPACE_BETWEEN_HARV * i, StartPos.y, StartPos.z);
             prefab.transform.SetParent(harvesterGroup);
             prefab.transform.position += newPos;
 
@@ -65,7 +66,7 @@ public class StoreManager : MonoBehaviour
                 prefab.SetActive(false);
             prefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
 
-            if (harvPrefabUnlocked[i] == false)
+            if (HarvPrefabUnlocked[i] == false)
                 prefab.GetComponent<HarvesterVisuals>().SetAvailability(false);
 
             harvestersPrefabRefs[i].harvesterSceneRefPrefab = prefab;
@@ -76,7 +77,7 @@ public class StoreManager : MonoBehaviour
 
     private bool CheckIfIndexIsValid()
     {
-        if (harvPrefabUnlocked[currAvailablePrefabIndex] == true)
+        if (HarvPrefabUnlocked[currAvailablePrefabIndex] == true)
         {
             return true;
         }
@@ -100,7 +101,7 @@ public class StoreManager : MonoBehaviour
 
     public bool IsCurrPrefabAvailable()
     {
-        return harvPrefabUnlocked[currAvailablePrefabIndex] == true;
+        return HarvPrefabUnlocked[currAvailablePrefabIndex] == true;
     }
 
     public float EvaluateCurrAvailablePrefabPosX()
@@ -181,7 +182,7 @@ public class StoreManager : MonoBehaviour
     {
         if (GameManager.Instance.TryWithdrawGold(harvestersPrefabRefs[currAvailablePrefabIndex].price))
         {
-            harvPrefabUnlocked[currAvailablePrefabIndex] = true;
+            HarvPrefabUnlocked[currAvailablePrefabIndex] = true;
             GetCurrentPrefab().GetComponent<HarvesterVisuals>().SetAvailability(true);
             store_UI.SetPriceButtonAvailability(false);
         }

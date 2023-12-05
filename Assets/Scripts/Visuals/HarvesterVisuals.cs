@@ -10,6 +10,7 @@ public class HarvesterVisuals : MonoBehaviour
     [SerializeField] private Transform pivotPoint;
 
     [SerializeField] private Material unavailableMat;
+    [SerializeField] private Vector3 pivotPointPosInMenu;
 
     private List<Material> bodyMats;
     private List<Material> bladesHolderMats;
@@ -84,7 +85,7 @@ public class HarvesterVisuals : MonoBehaviour
 
     public void SetPivotToMenuMode()
     {
-        pivotPoint.localPosition = new(0f, 0f, 0.0726f);
+        pivotPoint.localPosition = pivotPointPosInMenu;
     }
 
     public void SetPivotToGameplayMode()

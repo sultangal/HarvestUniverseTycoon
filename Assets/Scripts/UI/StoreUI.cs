@@ -15,18 +15,18 @@ public class StoreUI : MonoBehaviour
     {
         price.onClick.AddListener(() =>
         {
-            MainMenuUI.Instance.GenerateModalWindow("Buy new harvester ?", StoreManager.Instance.BuyHarvester);
+            MainMenuUI.Instance.GenerateModalWindow("Buy new harvester ?", Store.Instance.BuyHarvester);
         });
 
         left.onClick.AddListener(() =>
         {
-            StoreManager.Instance.ShiftLeft();
+            Store.Instance.ShiftLeft();
             CheckPrefabAvailability();
         });
 
         right.onClick.AddListener(() =>
         {
-            StoreManager.Instance.ShiftRight();
+            Store.Instance.ShiftRight();
             CheckPrefabAvailability();
         });
     }
@@ -38,7 +38,7 @@ public class StoreUI : MonoBehaviour
 
     private void CheckPrefabAvailability()
     {
-        if (!StoreManager.Instance.IsCurrPrefabAvailable())
+        if (!Store.Instance.IsCurrPrefabAvailable())
         {
             price.gameObject.SetActive(true);
             ShowThePrice();
@@ -51,7 +51,7 @@ public class StoreUI : MonoBehaviour
 
     private void ShowThePrice()
     {
-        tmp_price.text = StoreManager.Instance.GetHarvPrice().ToString();
+        tmp_price.text = Store.Instance.GetHarvPrice().ToString();
     }
 
     public void SetPriceButtonAvailability(bool isAvailable)

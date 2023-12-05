@@ -11,7 +11,7 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private Transform gameplayParent;
 
     private Transform harvesterPrefab;
-    private static readonly Vector3 PREFAB_START_POS = new(0.0f, 5.381f, 0.726f);
+    public readonly Vector3 PREFAB_START_POS = new(0.0f, 5.381f, 0.726f);
 
     private void Awake()
     {
@@ -27,16 +27,16 @@ public class MenuControl : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
         Planets.Instance.OnPlanetShift += PlanetsController_OnPlanetShift;
-        StoreManager.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
-        StoreManager.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
-        StoreManager.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
+        Store.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
+        Store.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
+        Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
 
-        harvesterPrefab = StoreManager.Instance.GetCurrentPrefab();
+        harvesterPrefab = Store.Instance.GetCurrentPrefab();
         harvesterGroup.SetParent(mainMenuParent);
         HarvesterAppearence();
     }
 
-    private void StoreManager_OnUpdateHarvesterPrefab(object sender , StoreManager.OnUpdateHarvesterPrefabArgs e)
+    private void StoreManager_OnUpdateHarvesterPrefab(object sender , Store.OnUpdateHarvesterPrefabArgs e)
     {
         harvesterPrefab = e.prefab;
     }
@@ -72,7 +72,7 @@ public class MenuControl : MonoBehaviour
             harvesterPrefab.GetComponent<Rotation>().enabled = true;
             harvesterPrefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
 
-            var posX = StoreManager.Instance.EvaluateCurrAvailablePrefabPosX();
+            var posX = Store.Instance.EvaluateCurrAvailablePrefabPosX();
 
             ResetHarvesterGroupTransform(new(-posX, 0f, 0f));
             ResetHarvesterPrefabTransform(new(posX, PREFAB_START_POS.y, PREFAB_START_POS.z));

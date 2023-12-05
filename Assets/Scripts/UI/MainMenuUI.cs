@@ -57,7 +57,7 @@ public class MainMenuUI : MonoBehaviour
             storeGroup.SetActive(true);
             enhancementsGroup.SetActive(false);
             itemsGroup.SetActive(false);
-            StoreManager.Instance.FireOnStoreEnterEvent();   
+            Store.Instance.FireOnStoreEnterEvent();   
         });
 
         btnBack.onClick.AddListener(() =>
@@ -66,7 +66,7 @@ public class MainMenuUI : MonoBehaviour
             storeGroup.SetActive(false);
             enhancementsGroup.SetActive(true);
             itemsGroup.SetActive(true);
-            StoreManager.Instance.FireOnBackToMainMenuEvent();
+            Store.Instance.FireOnBackToMainMenuEvent();
         });
 
         UpdateHeader();

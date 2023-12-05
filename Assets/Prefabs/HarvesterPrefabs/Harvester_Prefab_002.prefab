@@ -152,6 +152,7 @@ MonoBehaviour:
   harvesterBlades: {fileID: 8105229000384314546}
   pivotPoint: {fileID: 7877474739835601195}
   unavailableMat: {fileID: 2100000, guid: c9196d5e9c1cfff418cbb34ab797c3a0, type: 2}
+  pivotPointPosInMenu: {x: 0, y: 0, z: 0.0726}
 --- !u!114 &939963478239517051
 MonoBehaviour:
   m_ObjectHideFlags: 0

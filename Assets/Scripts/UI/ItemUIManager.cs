@@ -8,6 +8,7 @@ public class ItemUIManager : MonoBehaviour
     [SerializeField] private Transform container;
     [SerializeField] private GameObject group;
     [SerializeField] private Transform itemUITemplate;
+    [SerializeField] private TextMeshProUGUI tmp_CollectToOpen;
     private bool startCountFlag = false;
     private readonly float Y_POSITION_GAMEPLAY = 757.69f;
     private readonly float Y_POSITION_MENU = 495f;
@@ -17,8 +18,8 @@ public class ItemUIManager : MonoBehaviour
     {
         achieved = new(0.0f, 1.0f, 0.0f);
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        StoreManager.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
-        StoreManager.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
+        Store.Instance.OnStoreEnter += MainMenuUI_OnStoreEnter;
+        Store.Instance.OnBackToMainMenu += MainMenuUI_OnBackToMainMenu;
         ReinitializeMenuVisuals();
     }
 
@@ -36,6 +37,7 @@ public class ItemUIManager : MonoBehaviour
     {
         if (GameManager.Instance.IsGamePlaying())
         {
+            tmp_CollectToOpen.gameObject.SetActive(false);
             ReinitializeGameplayVisuals();
             startCountFlag = true;
         }
@@ -46,6 +48,7 @@ public class ItemUIManager : MonoBehaviour
 
         if (GameManager.Instance.IsGameWaitingToStart())
         {
+            tmp_CollectToOpen.gameObject.SetActive(true);
             ReinitializeMenuVisuals();
         }
 

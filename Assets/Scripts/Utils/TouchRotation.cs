@@ -9,17 +9,17 @@ public class TouchRotation : MonoBehaviour, IDragHandler
 
     private void Start()
     {
-        StoreManager.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
+        Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
     }
 
-    private void StoreManager_OnUpdateHarvesterPrefab(object sender, StoreManager.OnUpdateHarvesterPrefabArgs e)
+    private void StoreManager_OnUpdateHarvesterPrefab(object sender, Store.OnUpdateHarvesterPrefabArgs e)
     {
         gameObjectToAffect = e.prefab;
     }
 
     private void OnEnable()
     {
-        gameObjectToAffect = StoreManager.Instance.GetCurrentPrefab();
+        gameObjectToAffect = Store.Instance.GetCurrentPrefab();
     }
 
     public void OnDrag(PointerEventData eventData)
