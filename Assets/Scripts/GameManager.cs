@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 
@@ -7,15 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-#if UNITY_EDITOR
-    public int amountOfCash;
-    public int amountOfGold;
-    public int level;
-#endif
-
     public float CountdownTime { get; private set; }
     public GameSessionData GameSessionData_ { get; private set; } = new();
-
     public event EventHandler OnCashAmountChanged;
     public event EventHandler OnGoldAmountChanged;
     public event EventHandler OnGameStateChanged;
@@ -32,21 +24,12 @@ public class GameManager : MonoBehaviour
         TimeIsUp,
         GameOver
     }
-    public GameState State { get; private set; }
-
-    public GlobalData GlobalData_ { get; private set; } = new();
-    private readonly float COUNTDOWN_TIME = 5f;
-    
-    private bool countdownRunning = false;
     public bool IsNewLevelFlag { get; private set; } = false;
-
-#if UNITY_EDITOR
-    //private readonly static string appPath = Application.dataPath;
-#else
-   // private readonly static string appPath = Application.persistentDataPath;
-#endif
-
-    //private readonly string scoreFilePath = appPath + "/score.json";
+    public GameState State { get; private set; }
+    public GlobalData GlobalData_;
+    private readonly float COUNTDOWN_TIME = 5f;
+    private bool countdownRunning = false;
+    private SavingSystem savingSystem;
 
     private void Awake()
     {
@@ -56,46 +39,28 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //ReadScoreFromFile();
+        
+        savingSystem = new SavingSystem();
 
-#if UNITY_EDITOR
-        GlobalData_.amountOfCash = amountOfCash;
-        GlobalData_.amountOfGold = amountOfGold;
-        GlobalData_.level = level;
-#endif
-
+        GlobalData_ = savingSystem.LoadGlobalDataFromFile();
+        GlobalData_ ??= new();      
     }
+
     private void Start()
     {
-        InitializeAllData();
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void WriteScoreToFile()
+    private void SaveGame()
     {
-        //File.WriteAllText(scoreFilePath, JsonUtility.ToJson(playerData));
-    }
-
-    private void ReadScoreFromFile()
-    {
-        //playerData = JsonUtility.FromJson<PlayerData>(File.ReadAllText(scoreFilePath));
+        savingSystem.SaveGlobalDataToFile(GlobalData_);
+        Planets.Instance.SavePlanetsData();
     }
 
     private void TimeIsUp()
     {
         SetGameState(GameState.TimeIsUp);       
-    }
-
-    private void InitializeAllData()
-    {
-        if (!TryGetComponent(out Field field))
-        {
-            Debug.LogError("No Fileds script attached!");
-            return;
-        }
-        //GlobalData_.pointsQuantity = field.meshForPointsSource.vertices.Length;
-        //LevelData_ = new PlanetData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
     }
 
     private void IterateCountdown()
@@ -143,7 +108,6 @@ public class GameManager : MonoBehaviour
                 return false;
             }
             GlobalData_.level++;           
-            //LevelData_ = new PlanetData(Planets.Instance.GetCurrentLevelPlanetSO().fieldItemSOs);
             OnLevelUp?.Invoke(this, new OnOnLevelUpEventArgs { level = GlobalData_.level });
             IsNewLevelFlag = true;           
         }
@@ -184,6 +148,7 @@ public class GameManager : MonoBehaviour
                 GameSessionData_.Reset();
                 StopCountdown();
                 this.State = state;
+                SaveGame();
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.GameOver:
@@ -246,13 +211,6 @@ public class GameManager : MonoBehaviour
             }
         }
         OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
-
-        //WriteScoreToFile();
-
-        //sif (IsScoreAchieved())
-        //s{
-        //s    TimeIsUp();
-        //s}
     }
 
     public void AddGold()

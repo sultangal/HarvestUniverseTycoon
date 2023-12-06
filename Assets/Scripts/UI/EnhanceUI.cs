@@ -37,7 +37,7 @@ public class EnhanceUI : MonoBehaviour
     private void Planets_OnPlanetShift(object sender, Planets.OnPlanetShiftEventArgs e)
     {
         if (Planets.Instance.IsCurrentPlanetAvailable())
-            SetAvailable(true);
+            UpdateAvailableVisibility();
         else
             SetAvailable(false);
     }

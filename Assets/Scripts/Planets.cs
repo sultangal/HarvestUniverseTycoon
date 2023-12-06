@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Planets : MonoBehaviour
 {
@@ -21,11 +17,12 @@ public class Planets : MonoBehaviour
         public bool isRight;
     }
 
-    public PlanetData[] PlanetData { get; private set; }
+    public PlanetData[] PlanetData;
 
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
-    public readonly float SPACE_BETWEEN_PLANETS  = 6f;
+    public readonly float SPACE_BETWEEN_PLANETS = 6f;
+    private SavingSystem savingSystem;
 
     private void Awake()
     {
@@ -35,6 +32,9 @@ public class Planets : MonoBehaviour
             return;
         }
         Instance = this;
+        savingSystem = new SavingSystem();
+        InitializePlanetData();
+        LoadSaves();
     }
 
     private void Start()
@@ -57,8 +57,7 @@ public class Planets : MonoBehaviour
     }
 
     private void CreatePlanets()
-    {
-        PlanetData = new PlanetData[planetsSOArr.Length];
+    { 
         LastPlanetIndex = planetsSOArr.Length-1;
         for (int i = 0; i < planetsSOArr.Length; i++)
         {
@@ -66,13 +65,6 @@ public class Planets : MonoBehaviour
                 planetMeshSO.planetMesh,
                 planetMeshSO.planetMesh.position,
                 planetMeshSO.planetMesh.rotation);
-
-            PlanetData[i] = new PlanetData
-            {
-                amountOfCollectedFieldItemsOnPlanet = new int[planetsSOArr[i].fieldItemSOs.Length],
-                goalAchievedFlags = new bool[planetsSOArr[i].fieldItemSOs.Length]
-            };
-
             Vector3 newPos = new(SPACE_BETWEEN_PLANETS * i, 0f, 0f);
             planetsSOArr[i].planetPrefab.position += newPos;
             PlanetVisuals planetVisual = planetsSOArr[i].planetPrefab.GetComponent<PlanetVisuals>();
@@ -80,9 +72,22 @@ public class Planets : MonoBehaviour
             planetVisual.SetPlanetMaterial(planetsSOArr[i].planetMaterial);
             planetVisual.SetPlanetColor(planetsSOArr[i].planetColor);
             if (i <= GameManager.Instance.GlobalData_.level)
-                planetVisual.SetAvalabilityVisual(true); 
+                planetVisual.SetAvailabilityVisual(true); 
             else 
-                planetVisual.SetAvalabilityVisual(false);    
+                planetVisual.SetAvailabilityVisual(false);    
+        }
+    }
+
+    private void InitializePlanetData()
+    {
+        PlanetData = new PlanetData[planetsSOArr.Length];
+        for (int i = 0; i < planetsSOArr.Length; i++)
+        {
+            PlanetData[i] = new PlanetData
+            {
+                amountOfCollectedFieldItemsOnPlanet = new int[planetsSOArr[i].fieldItemSOs.Length],
+                goalAchievedFlags = new bool[planetsSOArr[i].fieldItemSOs.Length]
+            };
         }
     }
 
@@ -104,6 +109,20 @@ public class Planets : MonoBehaviour
         planetsSOArr[index].planetPrefab.gameObject.SetActive(visible);
         //planetsArr[index].planetPrefab.gameObject.GetComponent<MeshRenderer>().enabled = visible;
         //planetsArr[index].planetPrefab.gameObject.GetComponent<Collider>().enabled = visible;
+    }
+
+    private void LoadSaves()
+    {
+        var result = savingSystem.LoadPlanetDataFromFile();
+        if (result != null)
+        {
+            PlanetData = result;       
+        }
+    }
+
+    public void SavePlanetsData()
+    {
+        savingSystem.SavePlanetDataToFile(PlanetData);
     }
 
     public void ShiftPlanetLeft()
@@ -149,7 +168,6 @@ public class Planets : MonoBehaviour
         if (GameManager.Instance.GlobalData_.level == CurrentPlanetIndex)
             return true;
         else return false;
-        
     }
 
     public PlanetSO GetCurrentPlanetSO()
@@ -179,13 +197,6 @@ public class Planets : MonoBehaviour
 
     public void AddCollectedAmountOfItems(int[] itemsCountArr)
     {
-        //if (!Planets.Instance.IsCurrPlanetActualLevel()) return;
-        //if (itemsCountArr.Length != AmountOfCollectedFieldItemsOnPlanet.Length)
-        //{
-        //    Debug.LogError("Array length does't the same.");
-        //    return;
-        //}
-
         var collectedItems = PlanetData[CurrentPlanetIndex].amountOfCollectedFieldItemsOnPlanet;
         
         for (var i = 0; i < collectedItems.Length; i++)
@@ -194,12 +205,9 @@ public class Planets : MonoBehaviour
 
             if (collectedItems[i] >= planetsSOArr[CurrentPlanetIndex].fieldItemAmountGoal[i])
             {
-                //collectedItems[i] = itemAmountForNextLevel;
                 PlanetData[CurrentPlanetIndex].goalAchievedFlags[i] = true;
             }
-
         }
-
     }
 
     public bool CheckIfNextLevelGoalAchieved()

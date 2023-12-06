@@ -9,8 +9,6 @@ public class GameSessionData
     public int[] CollectedFieldItems { get; private set; } = null;
     public Vector3 CurentPlanetPosition { get; private set; } = Vector3.zero;
 
-
-
     public void Reinitialize(FieldItemSO[] fieldItemSOs, Vector3 curentPlanetPosition)
     {
         collectedCash = 0;
@@ -20,10 +18,6 @@ public class GameSessionData
         if (fieldItemSOs != null)
         {
             CollectedFieldItems = new int[fieldItemSOs.Length];
-            //for (var i = 0; i < collectedItemsOnPlanet.Length; i++)
-            //{
-            //    CollectedFieldItems[i] = collectedItemsOnPlanet[i];
-            //}
         }
     }
 

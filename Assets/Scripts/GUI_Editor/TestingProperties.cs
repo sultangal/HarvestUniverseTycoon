@@ -186,7 +186,7 @@ public class TestingProperties : EditorWindow
             asteroidsList = Asteroids.Instance.AsteroidsList;
             goldsList = Asteroids.Instance.GoldsList;
             */
-            pointsQuantity = GameManager.Instance.GlobalData_.pointsQuantity;
+            //pointsQuantity = GameManager.Instance.GlobalData_.pointsQuantity;
             amountOfGold = GameManager.Instance.GlobalData_.amountOfGold;
             amountOfCash = GameManager.Instance.GlobalData_.amountOfCash;
             level = GameManager.Instance.GlobalData_.level;

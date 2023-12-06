@@ -24,7 +24,7 @@ public class PlanetVisuals : MonoBehaviour
         planetColor = color;
     }
 
-    public void SetAvalabilityVisual(bool isAvalable)
+    public void SetAvailabilityVisual(bool isAvalable)
     {
         isAvailable = isAvalable;
         if (isAvailable)
