@@ -57,7 +57,7 @@ public class BladesEnhanceControl : MonoBehaviour
         }
     }
 
-    private void SetHarvesterBladesWidth(float bladesWidth)
+    private void SetHarvesterBladesWidth(float bladesWidth, Transform prefab, Transform bladesGroup)
     {
         BoxCollider bladesCollider = prefab.GetComponent<BoxCollider>();
         bladesCollider.size = new(
@@ -74,23 +74,26 @@ public class BladesEnhanceControl : MonoBehaviour
             partSystem.shape.scale.z);
     }
 
-    private void ResetAllHarvestersBlades()
-    {
-
-    }
-
     private void ResetBlades()
     {
         startCountdown = false;
         timeCountdown = durationSec;
-        SetHarvesterBladesWidth(bladesWidthNormal);
+        foreach (var item in Store.Instance.harvestersPrefabRefs)
+        {
+            GameObject obj = item.harvesterSceneRefPrefab;
+            Transform bladesGroup = obj.GetComponent<HarvesterPrefabRefs>().BladesGroup;
+            SetHarvesterBladesWidth(bladesWidthNormal,
+                obj.transform,
+                bladesGroup); 
+        }
+        
     }
 
     public bool TryEnhanceBlades()
     {
         if (GameManager.Instance.TryWithdrawBladesCost())
         {
-            SetHarvesterBladesWidth(bladesWidthEnhanced);
+            SetHarvesterBladesWidth(bladesWidthEnhanced, prefab, bladesGroup);
             return true;
         }
         return false;
@@ -111,7 +114,7 @@ public class BladesEnhanceControl : MonoBehaviour
             if (timeCountdown <= 0)
             {
                 startCountdown = false;
-                SetHarvesterBladesWidth(bladesWidthNormal);
+                SetHarvesterBladesWidth(bladesWidthNormal, prefab, bladesGroup);
                 callbackVisuals(Time.deltaTime, durationSec, false);
             }           
         }

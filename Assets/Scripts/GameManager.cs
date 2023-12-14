@@ -27,8 +27,9 @@ public class GameManager : MonoBehaviour
     public bool IsNewLevelFlag { get; private set; } = false;
     public GameState State { get; private set; }
     public GlobalData GlobalData_;
-    private readonly float COUNTDOWN_TIME = 5f;
+    private readonly float COUNTDOWN_TIME = 15f;
     private bool countdownRunning = false;
+    private bool isLastLevel;
 
     private void Awake()
     {
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+        isLastLevel = false;
+
 
         GlobalData_ = SavingSystem.LoadGlobalDataFromFile();
         GlobalData_ ??= new(); 
@@ -96,7 +99,11 @@ public class GameManager : MonoBehaviour
         {
             if (GlobalData_.level == Planets.Instance.LastPlanetIndex)
             {
-                Debug.Log("Last level achieved! Congratulations!");
+                if (!isLastLevel)
+                {
+                    Debug.Log("Last level achieved! Congratulations!");
+                    isLastLevel = true;
+                }
                 return false;
             }
             GlobalData_.level++;           

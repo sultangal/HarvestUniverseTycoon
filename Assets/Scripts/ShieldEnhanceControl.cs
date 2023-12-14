@@ -69,8 +69,14 @@ public class ShieldEnhanceControl : MonoBehaviour
     {
         startCountdown = false;
         timeCountdown = durationSec;
-        gameOverCollider.SetActive(true);
-        shieldVisuals.SetActive(false);
+        foreach (var item in Store.Instance.harvestersPrefabRefs)
+        {
+            HarvesterPrefabRefs comp = item.harvesterSceneRefPrefab.GetComponent<HarvesterPrefabRefs>();
+            GameObject gameOverCollider = comp.GameOverCollider;
+            GameObject shieldVisuals = comp.ShiledVisuals;
+            gameOverCollider.SetActive(true);
+            shieldVisuals.SetActive(false);
+        }
     }
 
     public bool TryShiledEnhance()
