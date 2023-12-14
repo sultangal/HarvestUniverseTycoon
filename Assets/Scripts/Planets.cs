@@ -22,7 +22,6 @@ public class Planets : MonoBehaviour
     public int CurrentPlanetIndex { get; private set; } = 0;
     public int LastPlanetIndex { get; private set; } = 0;
     public readonly float SPACE_BETWEEN_PLANETS = 6f;
-    private SavingSystem savingSystem;
 
     private void Awake()
     {
@@ -32,7 +31,6 @@ public class Planets : MonoBehaviour
             return;
         }
         Instance = this;
-        savingSystem = new SavingSystem();
         InitializePlanetData();
         LoadSaves();
     }
@@ -113,16 +111,12 @@ public class Planets : MonoBehaviour
 
     private void LoadSaves()
     {
-        var result = savingSystem.LoadPlanetDataFromFile();
+        var result = SavingSystem.LoadPlanetDataFromFile();
         if (result != null)
         {
             PlanetData = result;       
         }
-    }
 
-    public void SavePlanetsData()
-    {
-        savingSystem.SavePlanetDataToFile(PlanetData);
     }
 
     public void ShiftPlanetLeft()

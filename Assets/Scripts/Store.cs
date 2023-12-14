@@ -10,9 +10,9 @@ public class Store : MonoBehaviour
     [SerializeField] private Transform harvesterGroup;
 
     public HarvestersSO[] harvestersPrefabRefs;
-    public bool[] HarvPrefabUnlocked { get; private set; }
-    private int currAvailablePrefabIndex;
-    private int currPrefabIndex;
+    public bool[] HarvestersBought { get; private set; }
+    public int currAvailablePrefabIndex;
+    private int prefabIndexInStore;
 
     public event EventHandler<OnUpdateHarvesterPrefabArgs> OnUpdateHarvesterPrefab;
     public event EventHandler OnStoreEnter;
@@ -33,9 +33,8 @@ public class Store : MonoBehaviour
             return;
         }
         Instance = this;
-        currAvailablePrefabIndex = 1;
-        currPrefabIndex = 1;
 
+        prefabIndexInStore = 0;
         InitializeUnlockedArray();
         CheckIfIndexIsValid();
         CreateHarvesters();
@@ -43,10 +42,13 @@ public class Store : MonoBehaviour
 
     private void InitializeUnlockedArray()
     {
-        HarvPrefabUnlocked = new bool[harvestersPrefabRefs.Length];
-        HarvPrefabUnlocked[0] = true;
-        HarvPrefabUnlocked[1] = true;
-        HarvPrefabUnlocked[2] = false;
+        HarvestersBought = SavingSystem.LoadHarvesterStoreData(ref currAvailablePrefabIndex);
+        if (HarvestersBought == null)
+        {
+            HarvestersBought = new bool[harvestersPrefabRefs.Length];
+            HarvestersBought[0] = true;
+            currAvailablePrefabIndex = 0;
+        }
     }
 
     private void CreateHarvesters()
@@ -57,7 +59,8 @@ public class Store : MonoBehaviour
                 harvestersPrefabRefs[i].harvesterPrefab,
                 Vector3.zero,
                 Quaternion.identity);
-            var StartPos = MenuControl.Instance.PREFAB_START_POS;
+            var StartPos = MenuControl.PREFAB_START_POS;
+
             Vector3 newPos = new(SPACE_BETWEEN_HARV * i, StartPos.y, StartPos.z);
             prefab.transform.SetParent(harvesterGroup);
             prefab.transform.position += newPos;
@@ -66,18 +69,18 @@ public class Store : MonoBehaviour
                 prefab.SetActive(false);
             prefab.GetComponent<HarvesterVisuals>().SetPivotToMenuMode();
 
-            if (HarvPrefabUnlocked[i] == false)
+            if (HarvestersBought[i] == false)
                 prefab.GetComponent<HarvesterVisuals>().SetAvailability(false);
-
             harvestersPrefabRefs[i].harvesterSceneRefPrefab = prefab;
         }
         //position group to current harv
         harvesterGroup.position = new(-SPACE_BETWEEN_HARV * currAvailablePrefabIndex, 0f, 0f);
+
     }
 
     private bool CheckIfIndexIsValid()
     {
-        if (HarvPrefabUnlocked[currAvailablePrefabIndex] == true)
+        if (HarvestersBought[currAvailablePrefabIndex] == true)
         {
             return true;
         }
@@ -101,7 +104,7 @@ public class Store : MonoBehaviour
 
     public bool IsCurrPrefabAvailable()
     {
-        return HarvPrefabUnlocked[currAvailablePrefabIndex] == true;
+        return HarvestersBought[currAvailablePrefabIndex] == true;
     }
 
     public float EvaluateCurrAvailablePrefabPosX()
@@ -150,7 +153,7 @@ public class Store : MonoBehaviour
             prefab.SetActive(true);
             prefab.GetComponent<Rotation>().enabled = false;
         }
-        currPrefabIndex = currAvailablePrefabIndex;
+        prefabIndexInStore = currAvailablePrefabIndex;
         OnStoreEnter?.Invoke(this, EventArgs.Empty);
     }
 
@@ -159,7 +162,7 @@ public class Store : MonoBehaviour
         DOTween.Complete(20);
         if (!IsCurrPrefabAvailable())
         {
-            currAvailablePrefabIndex = currPrefabIndex;
+            currAvailablePrefabIndex = prefabIndexInStore;
             harvesterGroup.localPosition = new(-currAvailablePrefabIndex * SPACE_BETWEEN_HARV, 0f, 0f);
             OnUpdateHarvesterPrefab?.Invoke(this, new OnUpdateHarvesterPrefabArgs
             {
@@ -174,7 +177,7 @@ public class Store : MonoBehaviour
             if (i != currAvailablePrefabIndex)
                 prefab.SetActive(false);
         }
-
+        SavingSystem.SaveGame();
         OnBackToMainMenu?.Invoke(this, EventArgs.Empty);
     }
 
@@ -182,7 +185,8 @@ public class Store : MonoBehaviour
     {
         if (GameManager.Instance.TryWithdrawGold(harvestersPrefabRefs[currAvailablePrefabIndex].price))
         {
-            HarvPrefabUnlocked[currAvailablePrefabIndex] = true;
+            HarvestersBought[currAvailablePrefabIndex] = true;
+            SavingSystem.SaveGame();
             GetCurrentPrefab().GetComponent<HarvesterVisuals>().SetAvailability(true);
             store_UI.SetPriceButtonAvailability(false);
         }

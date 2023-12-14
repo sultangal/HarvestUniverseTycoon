@@ -11,7 +11,7 @@ public class MenuControl : MonoBehaviour
     [SerializeField] private Transform gameplayParent;
 
     private Transform harvesterPrefab;
-    public readonly Vector3 PREFAB_START_POS = new(0.0f, 5.381f, 0.726f);
+    public static readonly Vector3 PREFAB_START_POS = new(0.0f, 5.381f, 0.726f);
 
     private void Awake()
     {

@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     public GlobalData GlobalData_;
     private readonly float COUNTDOWN_TIME = 5f;
     private bool countdownRunning = false;
-    private SavingSystem savingSystem;
 
     private void Awake()
     {
@@ -39,23 +38,16 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        
-        savingSystem = new SavingSystem();
 
-        GlobalData_ = savingSystem.LoadGlobalDataFromFile();
-        GlobalData_ ??= new();      
+        GlobalData_ = SavingSystem.LoadGlobalDataFromFile();
+        GlobalData_ ??= new(); 
+
     }
 
     private void Start()
     {
         SetGameState(GameState.WaitingToStart);
         OnGameStateChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void SaveGame()
-    {
-        savingSystem.SaveGlobalDataToFile(GlobalData_);
-        Planets.Instance.SavePlanetsData();
     }
 
     private void TimeIsUp()
@@ -148,7 +140,7 @@ public class GameManager : MonoBehaviour
                 GameSessionData_.Reset();
                 StopCountdown();
                 this.State = state;
-                SaveGame();
+                SavingSystem.SaveGame();
                 OnGameStateChanged?.Invoke(this, EventArgs.Empty);
                 return;
             case GameState.GameOver:

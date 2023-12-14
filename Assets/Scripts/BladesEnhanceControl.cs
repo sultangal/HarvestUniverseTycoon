@@ -74,6 +74,11 @@ public class BladesEnhanceControl : MonoBehaviour
             partSystem.shape.scale.z);
     }
 
+    private void ResetAllHarvestersBlades()
+    {
+
+    }
+
     private void ResetBlades()
     {
         startCountdown = false;

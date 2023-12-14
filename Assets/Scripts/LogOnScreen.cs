@@ -4,8 +4,8 @@ using System.Collections;
 public class MyLog : MonoBehaviour
 {
     private string myLog;
-    private Queue myLogQueue = new Queue();
-    private float avgFrameRate;
+    private readonly Queue myLogQueue = new();
+    //private float avgFrameRate;
 
 
     private void OnEnable()
