@@ -7,9 +7,9 @@ public class BladesEnhanceControl : MonoBehaviour
 
     [SerializeField] private float durationSec;
 
-    private Transform prefab;
-    private Transform bladesGroup;
-    private ParticleSystem partSystem;
+    //private Transform prefab;
+    //private Transform bladesGroup;
+    //private ParticleSystem partSystem;
     private readonly float BLADES_MIN_WIDTH_CONST = 0.5f;
     private readonly float BLADES_COLLIDER_MIN_WIDTH_CONST = 0.075f;
 
@@ -19,6 +19,7 @@ public class BladesEnhanceControl : MonoBehaviour
 
     private bool startCountdown;
     private float timeCountdown;
+    private HarvestersSO[] harvestersPrefabRefs;
 
     public Action<float, float, bool> callbackVisuals;
 
@@ -35,19 +36,20 @@ public class BladesEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
-        prefab = Store.Instance.GetCurrentPrefab();
-        bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
-        partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
+        //Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
+        harvestersPrefabRefs = Store.Instance.harvestersPrefabRefs;
+        //prefab = Store.Instance.GetCurrentPrefab();
+        //bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
+        //partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
         ResetBlades();
     }
-
+    /*
     private void StoreManager_OnUpdateHarvesterPrefab(object sender, Store.OnUpdateHarvesterPrefabArgs e)
     {
         prefab = e.prefab;
         bladesGroup = prefab.GetComponent<HarvesterPrefabRefs>().BladesGroup;
         partSystem = prefab.GetComponent<HarvesterPrefabRefs>().PartSystem;
-    }
+    }*/
 
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
@@ -57,43 +59,43 @@ public class BladesEnhanceControl : MonoBehaviour
         }
     }
 
-    private void SetHarvesterBladesWidth(float bladesWidth, Transform prefab, Transform bladesGroup)
+    private void SetHarvesterBladesWidth(float bladesWidth)
     {
-        BoxCollider bladesCollider = prefab.GetComponent<BoxCollider>();
-        bladesCollider.size = new(
-            BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidth,
-            bladesCollider.size.y,
-            bladesCollider.size.z);
-        bladesGroup.transform.localScale = new(
-            BLADES_MIN_WIDTH_CONST * bladesWidth,
-            bladesGroup.transform.localScale.y,
-            bladesGroup.transform.localScale.z);
-        var shape = partSystem.shape;
-        shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidth,
-            partSystem.shape.scale.y,
-            partSystem.shape.scale.z);
+        foreach (var item in harvestersPrefabRefs)
+        {
+            GameObject prefab = item.harvesterSceneRefPrefab;
+            HarvesterPrefabRefs component = prefab.GetComponent<HarvesterPrefabRefs>();
+            Transform bladesGroup = component.BladesGroup;
+            ParticleSystem partSystem = component.PartSystem;
+            BoxCollider bladesCollider = prefab.GetComponent<BoxCollider>();
+            bladesCollider.size = new(
+                BLADES_COLLIDER_MIN_WIDTH_CONST * bladesWidth,
+                bladesCollider.size.y,
+                bladesCollider.size.z);
+            bladesGroup.transform.localScale = new(
+                BLADES_MIN_WIDTH_CONST * bladesWidth,
+                bladesGroup.transform.localScale.y,
+                bladesGroup.transform.localScale.z);
+            var shape = partSystem.shape;
+            shape.scale = new(PARTICLE_MIN_EMITTER_WIDTH * bladesWidth,
+                partSystem.shape.scale.y,
+                partSystem.shape.scale.z);
+        }
+
     }
 
     private void ResetBlades()
     {
         startCountdown = false;
         timeCountdown = durationSec;
-        foreach (var item in Store.Instance.harvestersPrefabRefs)
-        {
-            GameObject obj = item.harvesterSceneRefPrefab;
-            Transform bladesGroup = obj.GetComponent<HarvesterPrefabRefs>().BladesGroup;
-            SetHarvesterBladesWidth(bladesWidthNormal,
-                obj.transform,
-                bladesGroup); 
-        }
-        
+        SetHarvesterBladesWidth(bladesWidthNormal); 
     }
 
     public bool TryEnhanceBlades()
     {
         if (GameManager.Instance.TryWithdrawBladesCost())
         {
-            SetHarvesterBladesWidth(bladesWidthEnhanced, prefab, bladesGroup);
+            SetHarvesterBladesWidth(bladesWidthEnhanced);
             return true;
         }
         return false;
@@ -114,7 +116,7 @@ public class BladesEnhanceControl : MonoBehaviour
             if (timeCountdown <= 0)
             {
                 startCountdown = false;
-                SetHarvesterBladesWidth(bladesWidthNormal, prefab, bladesGroup);
+                SetHarvesterBladesWidth(bladesWidthNormal);
                 callbackVisuals(Time.deltaTime, durationSec, false);
             }           
         }

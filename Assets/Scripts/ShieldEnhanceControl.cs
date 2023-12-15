@@ -7,10 +7,11 @@ public class ShieldEnhanceControl : MonoBehaviour
 
     [SerializeField] private float durationSec;
 
-    private GameObject gameOverCollider;
-    private GameObject shieldVisuals;
+    //private GameObject gameOverCollider;
+    //private GameObject shieldVisuals;
     private bool startCountdown;
     private float timeCountdown;
+    private HarvestersSO[] harvestersPrefabRefs;
 
     public Action<float, float, bool> callbackVisuals;
 
@@ -27,20 +28,21 @@ public class ShieldEnhanceControl : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
-        Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
-        var prefab = Store.Instance.GetCurrentPrefab();
-        gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
-        shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
+        //Store.Instance.OnUpdateHarvesterPrefab += StoreManager_OnUpdateHarvesterPrefab;
+        harvestersPrefabRefs = Store.Instance.harvestersPrefabRefs;
+        //var prefab = Store.Instance.GetCurrentPrefab();
+        //gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
+        //shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
         ResetEnhance();
     }
-
+    /*
     private void StoreManager_OnUpdateHarvesterPrefab(object sender, Store.OnUpdateHarvesterPrefabArgs e)
     {
         var prefab = e.prefab;
         gameOverCollider = prefab.GetComponent<HarvesterPrefabRefs>().GameOverCollider;
         shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
     }
-
+    */
     private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
     {
         if (GameManager.Instance.IsGameWaitingToStart())
@@ -69,14 +71,7 @@ public class ShieldEnhanceControl : MonoBehaviour
     {
         startCountdown = false;
         timeCountdown = durationSec;
-        foreach (var item in Store.Instance.harvestersPrefabRefs)
-        {
-            HarvesterPrefabRefs comp = item.harvesterSceneRefPrefab.GetComponent<HarvesterPrefabRefs>();
-            GameObject gameOverCollider = comp.GameOverCollider;
-            GameObject shieldVisuals = comp.ShiledVisuals;
-            gameOverCollider.SetActive(true);
-            shieldVisuals.SetActive(false);
-        }
+        DeactivateShield();
     }
 
     public bool TryShiledEnhance()
@@ -96,13 +91,29 @@ public class ShieldEnhanceControl : MonoBehaviour
 
     public void ActivateShield()
     {
-        gameOverCollider.SetActive(false);
-        shieldVisuals.SetActive(true);
+        foreach (var item in harvestersPrefabRefs)
+        {
+            HarvesterPrefabRefs component = 
+                item.harvesterSceneRefPrefab.GetComponent<HarvesterPrefabRefs>();
+            GameObject gameOverCollider = component.GameOverCollider;
+            GameObject shieldVisuals = component.ShiledVisuals;
+            gameOverCollider.SetActive(false);
+            shieldVisuals.SetActive(true);
+        }
     }
 
     public void DeactivateShield()
     {
-        gameOverCollider.SetActive(true);
-        shieldVisuals.SetActive(false);
+        foreach (var item in harvestersPrefabRefs)
+        {
+            HarvesterPrefabRefs component =
+                item.harvesterSceneRefPrefab.GetComponent<HarvesterPrefabRefs>();
+            GameObject gameOverCollider = component.GameOverCollider;
+            GameObject shieldVisuals = component.ShiledVisuals;
+            gameOverCollider.SetActive(true);
+            shieldVisuals.SetActive(false);
+        }
     }
+
+
 }
