@@ -1,4 +1,3 @@
-using DG.Tweening.Plugins.Core.PathCore;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -6,9 +5,20 @@ using UnityEngine;
 
 public static class SavingSystem
 {
-    private static readonly string globalDataPath = Application.persistentDataPath + "/globalData.bin";
-    private static readonly string planetDataPath = Application.persistentDataPath + "/planetData.bin";
-    private static readonly string harvesterDataPath = Application.persistentDataPath + "/harvesterData.bin";
+    private static readonly string globalDataPath = Application.persistentDataPath + "/globalData";
+    private static readonly string planetDataPath = Application.persistentDataPath + "/planetData";
+    private static readonly string harvesterDataPath = Application.persistentDataPath + "/harvesterData";
+    private static readonly int numberOfReserveSaves = 5;
+    private static int globalDataVersion = 0;
+    private static int planetDataVersion = 0;
+    private static int harvesterDataVersion = 0;
+
+    static SavingSystem()
+    {
+        Directory.CreateDirectory(globalDataPath);
+        Directory.CreateDirectory(planetDataPath);
+        Directory.CreateDirectory(harvesterDataPath);
+    }
 
     [Serializable]
     private class PlanetsDataObjectWrapperForSaving
@@ -33,7 +43,7 @@ public static class SavingSystem
 
     private static void SaveGlobalDataToFile(GlobalData data)
     {
-        WriteDataToFile(globalDataPath, data);
+        WriteDataToFile(globalDataPath, "globalDataPath.bin", data, ref globalDataVersion);
     }
 
     private static void SavePlanetDataToFile(PlanetData[] data)
@@ -42,7 +52,7 @@ public static class SavingSystem
         {
             PlanetsData = data
         };
-        WriteDataToFile(planetDataPath, save);
+        WriteDataToFile(planetDataPath, "planetDataPath.bin", save, ref planetDataVersion);
     }
 
     private static void SaveHarvesterData(bool[] data, int currAvailablePrefabIndex)
@@ -52,16 +62,27 @@ public static class SavingSystem
             HarvesterData = data,
             CurrAvailablePrefabIndex = currAvailablePrefabIndex
         };
-        WriteDataToFile(harvesterDataPath, save);
+        WriteDataToFile(harvesterDataPath, "harvesterDataPath.bin", save, ref harvesterDataVersion);
     }
 
-    private static void WriteDataToFile(string path, object data)
+
+    //read about packing and unpacking
+    private static void WriteDataToFile(string path, string filename, object data, ref int version)
     {
         BinaryFormatter formatter = new();
-        FileStream stream = new(path, FileMode.Create);
+        FileStream stream = new(path + "/" + filename + "_" + version, FileMode.Create);
         formatter.Serialize(stream, data);
         stream.Close();
+        if (version < numberOfReserveSaves-1)
+            version++;
+        else
+            version = 0;
     }
+
+    /*var myFile = directory.GetFiles()
+             .OrderByDescending(f => f.LastWriteTime)
+             .First();
+    */
 
     public static GlobalData LoadGlobalDataFromFile()
     {
@@ -104,11 +125,19 @@ public static class SavingSystem
         {
             BinaryFormatter formatter = new();
             using FileStream stream = new(harvesterDataPath, FileMode.Open);
-            HarvesterDataObjectWrapperForSaving data =
-                formatter.Deserialize(stream) as HarvesterDataObjectWrapperForSaving;
+            HarvesterDataObjectWrapperForSaving data;
+            //try
+            //{
+                data = formatter.Deserialize(stream) as HarvesterDataObjectWrapperForSaving;
+                currAvailablePrefabIndex = data.CurrAvailablePrefabIndex;
+                
+            //}
+            //catch (Exception)
+            //{
+            //    
+            //}
+
             stream.Close();
-            //data = JsonUtility.FromJson<T>(File.ReadAllText(dataPath));
-            currAvailablePrefabIndex = data.CurrAvailablePrefabIndex;
             return data.HarvesterData;
         }
         else
@@ -116,6 +145,8 @@ public static class SavingSystem
             return null;
         }
     }
+
+
 
 
 }
