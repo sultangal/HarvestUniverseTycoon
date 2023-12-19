@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -12,12 +13,15 @@ public static class SavingSystem
     private static int globalDataVersion = 0;
     private static int planetDataVersion = 0;
     private static int harvesterDataVersion = 0;
+    private static readonly DirectoryInfo globalDataDir;
+    private static readonly DirectoryInfo planetDataDir;
+    private static readonly DirectoryInfo harvesterDataDir;
 
     static SavingSystem()
     {
-        Directory.CreateDirectory(globalDataPath);
-        Directory.CreateDirectory(planetDataPath);
-        Directory.CreateDirectory(harvesterDataPath);
+        globalDataDir = Directory.CreateDirectory(globalDataPath);
+        planetDataDir = Directory.CreateDirectory(planetDataPath);
+        harvesterDataDir = Directory.CreateDirectory(harvesterDataPath);
     }
 
     [Serializable]
@@ -43,7 +47,7 @@ public static class SavingSystem
 
     private static void SaveGlobalDataToFile(GlobalData data)
     {
-        WriteDataToFile(globalDataPath, "globalDataPath.bin", data, ref globalDataVersion);
+        WriteDataToFile(globalDataPath, "globalDataPath", data, ref globalDataVersion);
     }
 
     private static void SavePlanetDataToFile(PlanetData[] data)
@@ -52,7 +56,7 @@ public static class SavingSystem
         {
             PlanetsData = data
         };
-        WriteDataToFile(planetDataPath, "planetDataPath.bin", save, ref planetDataVersion);
+        WriteDataToFile(planetDataPath, "planetDataPath", save, ref planetDataVersion);
     }
 
     private static void SaveHarvesterData(bool[] data, int currAvailablePrefabIndex)
@@ -62,91 +66,76 @@ public static class SavingSystem
             HarvesterData = data,
             CurrAvailablePrefabIndex = currAvailablePrefabIndex
         };
-        WriteDataToFile(harvesterDataPath, "harvesterDataPath.bin", save, ref harvesterDataVersion);
+        WriteDataToFile(harvesterDataPath, "harvesterDataPath", save, ref harvesterDataVersion);
     }
 
-
-    //read about packing and unpacking
     private static void WriteDataToFile(string path, string filename, object data, ref int version)
     {
         BinaryFormatter formatter = new();
-        FileStream stream = new(path + "/" + filename + "_" + version, FileMode.Create);
+        FileStream stream = new(path + "/" + filename + "_" + version + ".harv", FileMode.Create);
         formatter.Serialize(stream, data);
         stream.Close();
+        
+        
         if (version < numberOfReserveSaves-1)
             version++;
         else
             version = 0;
     }
 
-    /*var myFile = directory.GetFiles()
-             .OrderByDescending(f => f.LastWriteTime)
-             .First();
-    */
-
-    public static GlobalData LoadGlobalDataFromFile()
+    public static T LoadDataFromFile<T>()
     {
-        if (File.Exists(globalDataPath))
+        FileInfo[] dirFiles = null;
+
+        if (typeof(T) == typeof(GlobalData))
         {
-            BinaryFormatter formatter = new();
-            using FileStream stream = new(globalDataPath, FileMode.Open);
-            GlobalData data = formatter.Deserialize(stream) as GlobalData;
-            stream.Close();            
-            return data;
-            //data = JsonUtility.FromJson<T>(File.ReadAllText(dataPath));
+            dirFiles = globalDataDir.GetFiles();
         }
         else
+        if (typeof(T) == typeof(PlanetData[]))
         {
-            return null;
-        }
-    }
-
-    public static PlanetData[] LoadPlanetDataFromFile()
-    {
-        if (File.Exists(planetDataPath))
-        {
-            BinaryFormatter formatter = new();
-            using FileStream stream = new(planetDataPath, FileMode.Open);
-            PlanetsDataObjectWrapperForSaving data = 
-                formatter.Deserialize(stream) as PlanetsDataObjectWrapperForSaving;
-            stream.Close();
-            //data = JsonUtility.FromJson<T>(File.ReadAllText(dataPath));
-            return data.PlanetsData;
+            dirFiles = planetDataDir.GetFiles();
         }
         else
+        if (typeof(T) == typeof(HarvesterDataObjectWrapperForSaving))
         {
-            return null;
+            dirFiles = harvesterDataDir.GetFiles();
         }
+        else
+            return default;
+
+        if (dirFiles.Length == 0) return default;
+
+        BinaryFormatter formatter = new();
+        foreach (var item in dirFiles.OrderByDescending(f => f.LastAccessTime))
+        {
+            if (item.Extension != ".harv") break;
+            FileStream stream = new(item.FullName, FileMode.Open);         
+
+            try
+            {
+                T data = (T)formatter.Deserialize(stream);
+                stream.Close();
+                return data;
+            }
+            catch (Exception)
+            {
+                break;
+            }
+            finally
+            {
+                stream.Close();
+            }
+        }
+        return default;
     }
 
     public static bool[] LoadHarvesterStoreData(ref int currAvailablePrefabIndex)
     {
-        if (File.Exists(harvesterDataPath))
-        {
-            BinaryFormatter formatter = new();
-            using FileStream stream = new(harvesterDataPath, FileMode.Open);
-            HarvesterDataObjectWrapperForSaving data;
-            //try
-            //{
-                data = formatter.Deserialize(stream) as HarvesterDataObjectWrapperForSaving;
-                currAvailablePrefabIndex = data.CurrAvailablePrefabIndex;
-                
-            //}
-            //catch (Exception)
-            //{
-            //    
-            //}
-
-            stream.Close();
-            return data.HarvesterData;
-        }
-        else
-        {
-            return null;
-        }
+        HarvesterDataObjectWrapperForSaving data;
+        data = LoadDataFromFile<HarvesterDataObjectWrapperForSaving>();
+        if (data == null) return null;
+        currAvailablePrefabIndex = data.CurrAvailablePrefabIndex;
+        return data.HarvesterData;
     }
-
-
-
-
 }

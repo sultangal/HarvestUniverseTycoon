@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static SavingSystem;
 
 
 public class GameManager : MonoBehaviour
@@ -42,9 +43,8 @@ public class GameManager : MonoBehaviour
         isLastLevel = false;
 
 
-        GlobalData_ = SavingSystem.LoadGlobalDataFromFile();
+        GlobalData_ = LoadDataFromFile<GlobalData>();
         GlobalData_ ??= new(); 
-
     }
 
     private void Start()

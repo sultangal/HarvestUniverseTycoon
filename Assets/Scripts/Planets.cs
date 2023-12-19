@@ -111,7 +111,7 @@ public class Planets : MonoBehaviour
 
     private void LoadSaves()
     {
-        var result = SavingSystem.LoadPlanetDataFromFile();
+        PlanetData[] result = SavingSystem.LoadDataFromFile<PlanetData[]>();
         if (result != null)
         {
             PlanetData = result;       
