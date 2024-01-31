@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
 
     public float CountdownTime { get; private set; }
     public GameSessionData GameSessionData_ { get; private set; } = new();
-    public event EventHandler OnCashAmountChanged;
-    public event EventHandler OnGoldAmountChanged;
-    public event EventHandler OnGameStateChanged;
+    public event Action OnCashAmountChanged;
+    public event Action OnGoldAmountChanged;
+    public event Action OnGameStateChanged;
     public event EventHandler<OnOnLevelUpEventArgs> OnLevelUp;
     public class OnOnLevelUpEventArgs : EventArgs
     {
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameState(GameState.WaitingToStart);
-        OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+        OnGameStateChanged?.Invoke();
     }
 
     private void TimeIsUp()
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         if (GlobalData_.amountOfCash >= amount)
         {
             GlobalData_.amountOfCash -= amount;
-            OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+            OnCashAmountChanged?.Invoke();
             return true;
         }
         else
@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
                     Planets.Instance.GetCurrentPlanetSO().planetPrefab.position);
                 StartCountdown();
                 this.State = state;
-                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                OnGameStateChanged?.Invoke();
                 return;
             case GameState.TimeIsUp:
                 UpdateData();
@@ -148,19 +148,19 @@ public class GameManager : MonoBehaviour
                 StopCountdown();
                 this.State = state;
                 SavingSystem.SaveGame();
-                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                OnGameStateChanged?.Invoke();
                 return;
             case GameState.GameOver:
                 GameSessionData_.Reset();
                 StopCountdown();
                 this.State = state;
-                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                OnGameStateChanged?.Invoke();
                 return;
             case GameState.WaitingToStart:             
                 GameSessionData_.Reset();
                 StopCountdown();
                 this.State = state;
-                OnGameStateChanged?.Invoke(this, EventArgs.Empty);
+                OnGameStateChanged?.Invoke();
                 return;
         }
 
@@ -209,13 +209,13 @@ public class GameManager : MonoBehaviour
                 GameSessionData_.CollectedFieldItems[i]++;
             }
         }
-        OnCashAmountChanged?.Invoke(this, EventArgs.Empty);
+        OnCashAmountChanged?.Invoke();
     }
 
     public void AddGold()
     {
         GameSessionData_.collectedGold++;
-        OnGoldAmountChanged?.Invoke(this, EventArgs.Empty);
+        OnGoldAmountChanged?.Invoke();
     }
 
     public bool TryWithdrawBladesCost()
@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
         if (GlobalData_.amountOfGold >= amount)
         {
             GlobalData_.amountOfGold -= amount;
-            OnGoldAmountChanged?.Invoke(this, EventArgs.Empty);
+            OnGoldAmountChanged?.Invoke();
             return true;
         }
         else

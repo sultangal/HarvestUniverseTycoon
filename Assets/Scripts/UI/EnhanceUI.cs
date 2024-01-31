@@ -42,13 +42,13 @@ public class EnhanceUI : MonoBehaviour
             SetAvailable(false);
     }
 
-    private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
+    private void GameManager_OnCashAmountChanged()
     {
         if (!isUnlockedflag)
             UpdateAvailableVisibility();
     }
 
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {

@@ -15,12 +15,12 @@ public class PlayingUI : MonoBehaviour
         GameManager.Instance.OnGameStateChanged += GameManager_OnGameStateChanged;
     }
 
-    private void GameManager_OnGoldAmountChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGoldAmountChanged()
     {
         gold_UI.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.GetGoldAmount().ToString();
     }
 
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGamePlaying())
         {

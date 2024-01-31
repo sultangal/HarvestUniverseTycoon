@@ -33,7 +33,7 @@ public class ItemUIManager : MonoBehaviour
         group.SetActive(false);
     }
 
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGamePlaying())
         {

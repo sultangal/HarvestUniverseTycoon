@@ -43,7 +43,7 @@ public class ShieldEnhanceControl : MonoBehaviour
         shieldVisuals = prefab.GetComponent<HarvesterPrefabRefs>().ShiledVisuals;
     }
     */
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {

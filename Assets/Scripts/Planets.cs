@@ -42,7 +42,7 @@ public class Planets : MonoBehaviour
         CreatePlanets();
     }
 
-    private void GameManager_OnGameStateChanged(object sender, EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGamePlaying())
         {

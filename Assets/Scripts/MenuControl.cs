@@ -64,7 +64,7 @@ public class MenuControl : MonoBehaviour
         mainMenuParent.transform.DOMoveY(0.0f, 0.5f);
     }
 
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {

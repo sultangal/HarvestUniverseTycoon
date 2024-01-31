@@ -72,17 +72,17 @@ public class MainMenuUI : MonoBehaviour
         UpdateHeader();
     }
 
-    private void GameManager_OnGoldAmountChanged(object sender, EventArgs e)
+    private void GameManager_OnGoldAmountChanged()
     {
         UpdateHeader();
     }
 
-    private void GameManager_OnCashAmountChanged(object sender, System.EventArgs e)
+    private void GameManager_OnCashAmountChanged()
     {
         UpdateHeader();
     }
 
-    private void GameManager_OnGameStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnGameStateChanged()
     {
         if (GameManager.Instance.IsGameWaitingToStart())
         {
