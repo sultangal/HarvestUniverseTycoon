@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: Venus
   fieldItemSOs:
-  - {fileID: 11400000, guid: 0047cee174362f84c951dd051e15f564, type: 2}
-  - {fileID: 11400000, guid: 07666804496b4c54496fdd6b59eb1847, type: 2}
+  - {fileID: 11400000, guid: 524c971352fbea5448e185f8fbee43d1, type: 2}
+  - {fileID: 11400000, guid: bdfd672047987a148b112a523baf0e67, type: 2}
   fieldItemAmountGoal: 0000000000000000
   speedEnhanceCost: 10
   bladesEnhanceCost: 120

@@ -69,7 +69,7 @@ public static class SavingSystem
         WriteDataToFile(harvesterDataPath, "harvesterDataPath", save, ref harvesterDataVersion);
     }
 
-    private static void WriteDataToFile(string path, string filename, object data, ref int version)
+    private static void WriteDataToFile<T>(string path, string filename, T data, ref int version)
     {
         BinaryFormatter formatter = new();
         FileStream stream = new(path + "/" + filename + "_" + version + ".harv", FileMode.Create);
